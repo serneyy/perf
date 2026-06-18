@@ -1,1 +1,550 @@
+<!doctype html>
+<html lang="sk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Teenwear Performance Dashboard</title>
+  <style>
+    :root {
+      --bg: #05060a;
+      --panel: #0b111c;
+      --panel-2: #101827;
+      --ink: #f8fafc;
+      --muted: #94a3b8;
+      --line: rgba(148, 163, 184, .2);
+      --line-strong: rgba(148, 163, 184, .36);
+      --blue: #60a5fa;
+      --cyan: #22d3ee;
+      --green: #34d399;
+      --red: #fb7185;
+      --amber: #fbbf24;
+      --pink: #f472b6;
+      --shadow: 0 28px 80px rgba(0, 0, 0, .44);
+    }
 
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      background:
+        radial-gradient(circle at 12% 0%, rgba(96, 165, 250, .20), transparent 27%),
+        radial-gradient(circle at 86% 8%, rgba(244, 114, 182, .12), transparent 26%),
+        radial-gradient(circle at 50% 100%, rgba(34, 211, 238, .08), transparent 34%),
+        var(--bg);
+    }
+
+    body:before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: .12;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, .055) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, .055) 1px, transparent 1px);
+      background-size: 46px 46px;
+      mask-image: linear-gradient(to bottom, black, transparent 78%);
+    }
+
+    .shell { max-width: 1500px; margin: 0 auto; padding: 0 28px; position: relative; }
+
+    header {
+      border-bottom: 1px solid var(--line);
+      padding: 34px 0 24px;
+    }
+
+    .topline {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      border: 1px solid rgba(96, 165, 250, .42);
+      background: rgba(96, 165, 250, .10);
+      color: #bfdbfe;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .stamp {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+      text-align: right;
+    }
+
+    h1 {
+      margin: 18px 0 12px;
+      max-width: 1080px;
+      font-size: clamp(38px, 6vw, 86px);
+      line-height: .94;
+      letter-spacing: -.055em;
+    }
+
+    .subtitle {
+      max-width: 980px;
+      color: #cbd5e1;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    nav {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 22px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #e2e8f0;
+      background: rgba(15, 23, 42, .72);
+      border: 1px solid var(--line);
+      padding: 10px 13px;
+      border-radius: 999px;
+      font-size: 13px;
+      transition: .16s ease;
+    }
+
+    nav a:hover { transform: translateY(-1px); border-color: rgba(96, 165, 250, .58); }
+
+    main { padding: 28px 0 76px; }
+
+    section {
+      margin: 24px 0;
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: linear-gradient(180deg, rgba(17, 24, 39, .90), rgba(6, 10, 18, .92));
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+    }
+
+    h2 { margin: 0 0 8px; font-size: 26px; letter-spacing: -.035em; }
+    h3 { margin: 0 0 10px; font-size: 17px; letter-spacing: -.015em; }
+    p { margin: 0; color: #cbd5e1; line-height: 1.6; }
+    .note { color: var(--muted); font-size: 12px; line-height: 1.55; }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      align-items: flex-start;
+      margin-bottom: 18px;
+    }
+
+    .kpis {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .kpi {
+      min-height: 146px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(15, 23, 42, .85), rgba(2, 6, 23, .72));
+      position: relative;
+      overflow: hidden;
+    }
+
+    .kpi:after {
+      content: "";
+      position: absolute;
+      right: -44px;
+      top: -52px;
+      width: 136px;
+      height: 136px;
+      background: radial-gradient(circle, rgba(96, 165, 250, .24), transparent 64%);
+    }
+
+    .label {
+      color: #93c5fd;
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .08em;
+      line-height: 1.35;
+      text-transform: uppercase;
+    }
+
+    .value {
+      margin-top: 9px;
+      font-size: 32px;
+      font-weight: 950;
+      letter-spacing: -.045em;
+      line-height: 1.05;
+      position: relative;
+      z-index: 1;
+    }
+
+    .meta { margin-top: 8px; color: var(--muted); font-size: 13px; line-height: 1.45; position: relative; z-index: 1; }
+    .positive { color: #86efac; font-weight: 850; }
+    .negative { color: #fda4af; font-weight: 850; }
+    .neutral { color: #fde68a; font-weight: 850; }
+
+    .grid-2 { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); gap: 18px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 18px;
+      background: rgba(15, 23, 42, .62);
+    }
+
+    .insight {
+      border-left: 4px solid var(--blue);
+      background: rgba(15, 23, 42, .58);
+    }
+
+    .insight.good { border-left-color: var(--green); }
+    .insight.warn { border-left-color: var(--amber); }
+    .insight.bad { border-left-color: var(--red); }
+
+    .chart {
+      height: 360px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background:
+        linear-gradient(rgba(148, 163, 184, .05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(148, 163, 184, .05) 1px, transparent 1px),
+        rgba(2, 6, 23, .48);
+      background-size: 42px 42px;
+      padding: 12px;
+    }
+
+    svg { display: block; width: 100%; height: 100%; }
+
+    .legend {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 10px;
+    }
+
+    .dot { width: 10px; height: 10px; border-radius: 999px; display: inline-block; margin-right: 6px; }
+    .dot.sales { background: var(--blue); }
+    .dot.spend { background: var(--pink); }
+
+    .barlist { display: flex; flex-direction: column; gap: 11px; }
+    .baritem { display: grid; grid-template-columns: 92px 1fr 72px; gap: 10px; align-items: center; color: #e5e7eb; font-size: 13px; }
+    .track { height: 9px; background: rgba(148, 163, 184, .16); border-radius: 999px; overflow: hidden; }
+    .fill { height: 100%; background: linear-gradient(90deg, var(--blue), var(--cyan)); border-radius: 999px; }
+    .fill.pink { background: linear-gradient(90deg, var(--amber), var(--pink)); }
+
+    .tablewrap { overflow: auto; border: 1px solid var(--line); border-radius: 18px; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; background: rgba(2, 6, 23, .38); }
+    th, td { padding: 12px 13px; border-bottom: 1px solid var(--line); text-align: right; white-space: nowrap; }
+    th:first-child, td:first-child { text-align: left; }
+    th {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      background: rgba(15, 23, 42, .96);
+      color: #c4d4e8;
+      font-size: 11px;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+    tr:hover td { background: rgba(96, 165, 250, .055); }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 8px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 900;
+    }
+    .tag.good { background: rgba(52, 211, 153, .13); color: #86efac; }
+    .tag.warn { background: rgba(251, 191, 36, .13); color: #fde68a; }
+    .tag.bad { background: rgba(251, 113, 133, .13); color: #fda4af; }
+    .tag.neutral { background: rgba(96, 165, 250, .13); color: #bfdbfe; }
+
+    .footer { margin-top: 18px; color: var(--muted); font-size: 12px; line-height: 1.55; }
+
+    @media (max-width: 1100px) {
+      .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 760px) {
+      .shell { padding: 0 12px; }
+      header { padding: 25px 0 18px; }
+      .topline { align-items: flex-start; }
+      .stamp { text-align: left; }
+      h1 { font-size: clamp(34px, 13vw, 52px); letter-spacing: -.05em; }
+      .subtitle { font-size: 14px; }
+      nav { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
+      nav::-webkit-scrollbar { display: none; }
+      nav a { flex: 0 0 auto; font-size: 12px; padding: 8px 10px; }
+      main { padding: 14px 0 44px; }
+      section { margin: 14px 0; padding: 14px; border-radius: 18px; }
+      .section-head { display: block; }
+      h2 { font-size: 21px; }
+      .kpis { grid-template-columns: 1fr; gap: 10px; }
+      .kpi, .panel { border-radius: 15px; padding: 14px; }
+      .value { font-size: 28px; }
+      .chart { height: 286px; padding: 8px; margin: 0 -2px; }
+      table { min-width: 760px; font-size: 12px; }
+      th, td { padding: 9px; }
+      th:first-child, td:first-child {
+        position: sticky;
+        left: 0;
+        max-width: 190px;
+        white-space: normal;
+        background: #0b111c;
+        box-shadow: 1px 0 0 var(--line);
+      }
+      th:first-child { background: #101827; z-index: 2; }
+      .baritem { grid-template-columns: 78px 1fr 58px; font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="shell">
+      <div class="topline">
+        <span class="badge">Teenwear.eu performance</span>
+        <div class="stamp">Aktualizované 18. 6. 2026, 14:27 CEST<br>Shopify: EUR / CEST, Meta: ENORDA s.r.o. - Admin</div>
+      </div>
+      <h1>Dashboard pre Shopify a Meta Ads</h1>
+      <p class="subtitle">Publish-ready prehľad výkonu za posledný dostupný týždeň. Shopify časť obsahuje 12. až 18. jún 2026 vrátane dnešného čiastočného dňa; Meta API vrátilo posledných 7 dní ako 11. až 17. jún 2026.</p>
+      <nav aria-label="Sekcie dashboardu">
+        <a href="#kpis">KPI</a>
+        <a href="#trend">Trend</a>
+        <a href="#campaigns">Meta kampane</a>
+        <a href="#products">Top produkty</a>
+        <a href="#quality">Kvalita dát</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section id="kpis">
+      <div class="section-head">
+        <div>
+          <h2>Executive KPI</h2>
+          <p>Shopify výkon je porovnaný s predchádzajúcim 7-dňovým obdobím 5. až 11. jún 2026.</p>
+        </div>
+        <p class="note">PNO je počítané transparentne ako Meta spend / Shopify total sales. Pre rozdielny dátumový rozsah je označené ako orientačné.</p>
+      </div>
+      <div class="kpis">
+        <article class="kpi">
+          <div class="label">Shopify total sales</div>
+          <div class="value">€6 206,69</div>
+          <div class="meta"><span class="negative">-18,8 %</span> vs. predchádzajúcich 7 dní</div>
+        </article>
+        <article class="kpi">
+          <div class="label">Objednávky</div>
+          <div class="value">70</div>
+          <div class="meta"><span class="negative">-13,6 %</span> vs. 81 objednávok predtým</div>
+        </article>
+        <article class="kpi">
+          <div class="label">AOV podľa total sales</div>
+          <div class="value">€88,67</div>
+          <div class="meta"><span class="negative">-6,0 %</span> vs. €94,33 predtým</div>
+        </article>
+        <article class="kpi">
+          <div class="label">Meta spend</div>
+          <div class="value">€2 244,65</div>
+          <div class="meta">11. až 17. jún 2026</div>
+        </article>
+        <article class="kpi">
+          <div class="label">Orientačné PNO</div>
+          <div class="value">36,2 %</div>
+          <div class="meta">Meta spend / Shopify total sales, dátumy nie sú identické</div>
+        </article>
+        <article class="kpi">
+          <div class="label">Blended MER</div>
+          <div class="value">2,76×</div>
+          <div class="meta">Shopify total sales / Meta spend, orientačne</div>
+        </article>
+        <article class="kpi">
+          <div class="label">Meta purchase ROAS</div>
+          <div class="value">2,26×</div>
+          <div class="meta">vážené cez denný spend a Meta ROAS</div>
+        </article>
+        <article class="kpi">
+          <div class="label">Meta nákupy</div>
+          <div class="value">54</div>
+          <div class="meta">Meta omni_purchase, 11. až 17. jún</div>
+        </article>
+      </div>
+    </section>
+
+    <section id="trend">
+      <div class="section-head">
+        <div>
+          <h2>Revenue vs. spend trend</h2>
+          <p>Denný pohľad na Shopify total sales a dostupný Meta spend. Najsilnejší Shopify deň bol 15. jún, najslabší aktuálny deň je 18. jún ako čiastočný deň.</p>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div>
+          <div class="chart" role="img" aria-label="Denný trend Shopify tržieb a Meta spendu">
+            <svg viewBox="0 0 760 300" preserveAspectRatio="none">
+              <polyline fill="none" stroke="rgba(148,163,184,.16)" stroke-width="1" points="42,30 730,30 730,248 42,248 42,30"/>
+              <polyline fill="none" stroke="rgba(148,163,184,.15)" stroke-width="1" points="42,84 730,84"/>
+              <polyline fill="none" stroke="rgba(148,163,184,.15)" stroke-width="1" points="42,139 730,139"/>
+              <polyline fill="none" stroke="rgba(148,163,184,.15)" stroke-width="1" points="42,193 730,193"/>
+              <polyline fill="none" stroke="#60a5fa" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" points="42,201 157,137 272,128 386,40 501,187 616,165 730,193"/>
+              <polyline fill="none" stroke="#f472b6" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" points="42,170 157,169 272,121 386,133 501,99 616,82 730,248"/>
+              <g fill="#60a5fa">
+                <circle cx="42" cy="201" r="5"/><circle cx="157" cy="137" r="5"/><circle cx="272" cy="128" r="5"/><circle cx="386" cy="40" r="5"/><circle cx="501" cy="187" r="5"/><circle cx="616" cy="165" r="5"/><circle cx="730" cy="193" r="5"/>
+              </g>
+              <g fill="#f472b6">
+                <circle cx="42" cy="170" r="5"/><circle cx="157" cy="169" r="5"/><circle cx="272" cy="121" r="5"/><circle cx="386" cy="133" r="5"/><circle cx="501" cy="99" r="5"/><circle cx="616" cy="82" r="5"/><circle cx="730" cy="248" r="5"/>
+              </g>
+              <g fill="#94a3b8" font-size="12">
+                <text x="42" y="282" text-anchor="middle">12.6.</text>
+                <text x="157" y="282" text-anchor="middle">13.6.</text>
+                <text x="272" y="282" text-anchor="middle">14.6.</text>
+                <text x="386" y="282" text-anchor="middle">15.6.</text>
+                <text x="501" y="282" text-anchor="middle">16.6.</text>
+                <text x="616" y="282" text-anchor="middle">17.6.</text>
+                <text x="730" y="282" text-anchor="middle">18.6.</text>
+              </g>
+            </svg>
+          </div>
+          <div class="legend">
+            <span><i class="dot sales"></i>Shopify total sales</span>
+            <span><i class="dot spend"></i>Meta spend, dostupné dáta posunuté podľa API rozsahu</span>
+          </div>
+        </div>
+        <div class="panel">
+          <h3>Rýchle čítanie trendu</h3>
+          <div class="barlist">
+            <div class="baritem"><span>15.6.</span><div class="track"><div class="fill" style="width:100%"></div></div><strong>€1 562</strong></div>
+            <div class="baritem"><span>14.6.</span><div class="track"><div class="fill" style="width:73%"></div></div><strong>€1 140</strong></div>
+            <div class="baritem"><span>13.6.</span><div class="track"><div class="fill" style="width:67%"></div></div><strong>€1 052</strong></div>
+            <div class="baritem"><span>17.6.</span><div class="track"><div class="fill" style="width:51%"></div></div><strong>€792</strong></div>
+            <div class="baritem"><span>16.6.</span><div class="track"><div class="fill" style="width:40%"></div></div><strong>€631</strong></div>
+            <div class="baritem"><span>18.6.</span><div class="track"><div class="fill" style="width:37%"></div></div><strong>€572</strong></div>
+            <div class="baritem"><span>12.6.</span><div class="track"><div class="fill" style="width:32%"></div></div><strong>€498</strong></div>
+          </div>
+          <p class="footer">18. jún je čiastočný deň k 14:27 CEST, preto ho treba čítať opatrne.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="campaigns">
+      <div class="section-head">
+        <div>
+          <h2>Meta Ads kampane</h2>
+          <p>Top kampane podľa spendu za 11. až 17. jún 2026 na účte ENORDA s.r.o. - Admin.</p>
+        </div>
+      </div>
+      <div class="tablewrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Kampaň</th><th>Status</th><th>Spend</th><th>ROAS</th><th>Nákupy</th><th>CTR</th><th>CPC</th><th>CPM</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>[IT] - DABA - A+</td><td><span class="tag good">active</span></td><td>€612,07</td><td>2,21×</td><td>15</td><td>1,65 %</td><td>€0,17</td><td>€2,87</td></tr>
+            <tr><td>[DE] - DABA - A+</td><td><span class="tag good">active</span></td><td>€596,11</td><td>3,73×</td><td>22</td><td>1,85 %</td><td>€0,34</td><td>€6,30</td></tr>
+            <tr><td>ASC+ | EU</td><td><span class="tag good">active</span></td><td>€351,29</td><td>0,50×</td><td>2</td><td>2,18 %</td><td>€0,17</td><td>€3,62</td></tr>
+            <tr><td>[DE] - VIDEO - A+ - ai v1</td><td><span class="tag good">active</span></td><td>€143,86</td><td>2,28×</td><td>5</td><td>1,50 %</td><td>€0,65</td><td>€9,74</td></tr>
+            <tr><td>[IT] - STATIC - A+</td><td><span class="tag warn">off</span></td><td>€137,58</td><td>1,23×</td><td>2</td><td>1,86 %</td><td>€0,38</td><td>€7,07</td></tr>
+            <tr><td>[IT] - VIDEO - A+ - ai v1</td><td><span class="tag good">active</span></td><td>€104,85</td><td>1,38×</td><td>2</td><td>1,72 %</td><td>€0,26</td><td>€4,38</td></tr>
+            <tr><td>[IT] - VIDEO - A+ - brand style</td><td><span class="tag warn">off</span></td><td>€64,14</td><td>1,77×</td><td>1</td><td>1,47 %</td><td>€0,16</td><td>€2,39</td></tr>
+            <tr><td>[DE] - STATIC 3 - A+</td><td><span class="tag good">active</span></td><td>€50,19</td><td>1,76×</td><td>1</td><td>2,19 %</td><td>€0,74</td><td>€16,14</td></tr>
+            <tr><td>[T2] - DABA - A+</td><td><span class="tag good">active</span></td><td>€47,59</td><td>4,24×</td><td>2</td><td>2,11 %</td><td>€0,11</td><td>€2,36</td></tr>
+            <tr><td>[T2] - VIDEO - A+ - ai v1</td><td><span class="tag neutral">active</span></td><td>€38,18</td><td>N/A</td><td>N/A</td><td>1,91 %</td><td>€0,21</td><td>€3,97</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="products">
+      <div class="section-head">
+        <div>
+          <h2>Top produkty zo Shopify</h2>
+          <p>Produkty sú zoradené podľa gross sales za 12. až 18. jún 2026.</p>
+        </div>
+      </div>
+      <div class="tablewrap">
+        <table>
+          <thead>
+            <tr><th>Produkt</th><th>Gross sales</th><th>Net sales</th><th>Objednávky</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>TORNZ - Baggy Denim Embroidered Jorts</td><td>€644,50</td><td>€357,78</td><td>10</td></tr>
+            <tr><td>WINGY - Graphic Polo Shirt</td><td>€495,19</td><td>€281,90</td><td>8</td></tr>
+            <tr><td>WINGLY - Baggy Cotton Graphic Shorts</td><td>€467,23</td><td>€275,21</td><td>7</td></tr>
+            <tr><td>SKICEN - Oversized Graphic Jersey T-Shirt</td><td>€411,88</td><td>€263,65</td><td>10</td></tr>
+            <tr><td>STRIPASO - Baggy Graphic Jeans</td><td>€263,70</td><td>€163,77</td><td>4</td></tr>
+            <tr><td>SPIDER - Baggy Graphic Shorts</td><td>€248,06</td><td>€148,84</td><td>4</td></tr>
+            <tr><td>SPINNER - Oversized Embroidered T-Shirt</td><td>€245,73</td><td>€143,51</td><td>6</td></tr>
+            <tr><td>DORSY - Oversized Graphic T-Shirt</td><td>€198,21</td><td>€118,94</td><td>4</td></tr>
+            <tr><td>SPACER - Oversized Print Long Sleeved T-Shirt</td><td>€188,83</td><td>€118,55</td><td>3</td></tr>
+            <tr><td>GREYO - Baggy Basic Embroidered Jeans</td><td>€186,29</td><td>€78,93</td><td>3</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <div>
+          <h2>Marketingové signály</h2>
+          <p>Krátky komentár k tomu, čo je v dátach viditeľné bez domýšľania atribúcie.</p>
+        </div>
+      </div>
+      <div class="grid-3">
+        <div class="panel insight good">
+          <h3>15. jún bol najsilnejší deň</h3>
+          <p>Shopify total sales dosiahli €1 561,54 pri 17 objednávkach. Meta v ten istý dostupný deň ukazuje ROAS 4,72× a 14 nákupov.</p>
+        </div>
+        <div class="panel insight bad">
+          <h3>ASC+ | EU treba skontrolovať</h3>
+          <p>Kampaň minula €351,29 s ROAS 0,50× a iba 2 Meta nákupmi. CTR je dobré, problém preto môže byť kvalita trafficu, ponuka alebo atribúcia.</p>
+        </div>
+        <div class="panel insight warn">
+          <h3>DE DABA nesie efektívny objem</h3>
+          <p>[DE] - DABA - A+ má spend €596,11, ROAS 3,73× a 22 nákupov. Je to najčistejší kandidát na ďalšiu kontrolu budgetu.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="quality">
+      <div class="section-head">
+        <div>
+          <h2>Kvalita dát a blockery</h2>
+          <p>Dashboard je pripravený na Netlify deploy, ale tieto veci treba brať do úvahy pri interpretácii.</p>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="panel">
+          <h3>Čo je napojené</h3>
+          <p>Shopify store Teenwear.eu, mena EUR, timezone CEST. Meta Ads účet ENORDA s.r.o. - Admin, aktívny a queryable. GitHub repo cieľ: serneyy/teenwear-performance-dashboard.</p>
+        </div>
+        <div class="panel">
+          <h3>Čo zostáva nejasné</h3>
+          <p>Meta API nevrátilo dnešný deň 18. 6. 2026 v rovnakom rozsahu ako Shopify. PNO/MER preto používajú dostupné dáta a sú označené ako orientačné, nie ako presná finančná atribúcia.</p>
+        </div>
+      </div>
+      <p class="footer">PNO báza v tejto verzii: Meta spend / Shopify total sales. Ak sa má používať net sales, treba to potvrdiť a dashboard prepočítať.</p>
+    </section>
+  </main>
+</body>
+</html>

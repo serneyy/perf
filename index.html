@@ -24,14 +24,14 @@
       <div>
         <h1>Teenwear.eu Performance Dashboard</h1>
         <div class="meta-line">
-          <span class="pill"><span class="dot"></span>Aktualizované 18. 6. 2026, 23:09 CEST</span>
+          <span class="pill"><span class="dot"></span>Aktualizované 19. 6. 2026, 00:01 CEST</span>
           <span class="pill">Shopify: Teenwear.eu, EUR, CEST</span>
           <span class="pill">Meta účet: ENORDA s.r.o. - Admin</span>
           <span class="pill">Netlify target: teenwear-performance.netlify.app</span>
         </div>
       </div>
       <div class="controls" aria-label="Výber obdobia">
-        <button data-preset="today">Dnes</button>
+        <button data-preset="today">Najnovší deň</button>
         <button data-preset="7d" class="active">7 dní</button>
         <button data-preset="3d">3 dni</button>
         <input type="date" id="fromDate" value="2026-06-12" min="2026-06-12" max="2026-06-18">
@@ -42,22 +42,22 @@
       <section class="today" aria-labelledby="today-title">
         <div class="section-head">
           <div>
-            <h2 id="today-title">Dnešný deň: 18. 6. 2026</h2>
-            <p class="subtle">Horný blok je fixne dnešok. Meta dáta sú priebežné k 23:09 CEST, preto ich ber ako intraday pohľad, nie finálny denný výsledok.</p>
+            <h2 id="today-title">Dnešný blok: najnovší dostupný deň 18. 6. 2026</h2>
+            <p class="subtle">Dashboard bol obnovený 19. 6. 2026 o 00:01 CEST. Shopify pre 19. 6. zatiaľ vracia nulové hodnoty, preto horný KPI blok používa posledný nenulový dostupný deň. Meta dáta za 18. 6. sú account-level report.</p>
           </div>
           <span class="pill">Top summary</span>
         </div>
         <div class="grid kpis">
           <article class="card"><div class="metric-label">Dnešné tržby</div><div class="metric-value">987,28 €</div><div class="metric-note">Shopify total sales, 9 objednávok.</div></article>
-          <article class="card"><div class="metric-label">Dnešný Meta spend</div><div class="metric-value">322,38 €</div><div class="metric-note">Meta account-level spend, priebežné.</div></article>
-          <article class="card"><div class="metric-label">Dnešné PNO</div><div class="metric-value">32,65 %</div><span class="status bad">Rizikovejší stav</span><div class="metric-note">Spend / Shopify total sales. Orientačný cieľ je 12 až 13,5 %.</div></article>
-          <article class="card"><div class="metric-label">Blended ROAS</div><div class="metric-value">3,06</div><span class="status bad">Pod odporúčaným rozsahom</span><div class="metric-note">Shopify tržby / Meta spend.</div></article>
-          <article class="card"><div class="metric-label">Meta ROAS</div><div class="metric-value">2,52</div><span class="status bad">Slabší výsledok</span><div class="metric-note">Meta purchase ROAS, account-level.</div></article>
-          <article class="card"><div class="metric-label">Dnešné CPA</div><div class="metric-value">35,82 €</div><span class="status bad">Výrazne slabší stav</span><div class="metric-note">Meta spend / Shopify objednávky.</div></article>
-          <article class="card"><div class="metric-label">Dnešné CR</div><div class="metric-value">0,95 %</div><div class="metric-note">Shopify sessions conversion rate.</div></article>
-          <article class="card"><div class="metric-label">Business Efficiency Index</div><div class="metric-value">56</div><span class="status bad">Pod 80</span><div class="metric-note">Čiastočný index, bez presnej COGS/marže.</div></article>
+          <article class="card"><div class="metric-label">Dnešný Meta spend</div><div class="metric-value">329,26 €</div><div class="metric-note">Meta account-level spend za 18. 6.</div></article>
+          <article class="card"><div class="metric-label">Dnešné PNO</div><div class="metric-value">33,35 %</div><span class="status bad">Rizikovejší stav</span><div class="metric-note">Spend / Shopify total sales. Orientačný cieľ je 12 až 13,5 %.</div></article>
+          <article class="card"><div class="metric-label">Blended ROAS</div><div class="metric-value">3,00</div><span class="status bad">Pod odporúčaným rozsahom</span><div class="metric-note">Shopify tržby / Meta spend.</div></article>
+          <article class="card"><div class="metric-label">Meta ROAS</div><div class="metric-value">2,46</div><span class="status bad">Slabší výsledok</span><div class="metric-note">Meta purchase ROAS, account-level.</div></article>
+          <article class="card"><div class="metric-label">Dnešné CPA</div><div class="metric-value">36,58 €</div><span class="status bad">Výrazne slabší stav</span><div class="metric-note">Meta spend / Shopify objednávky.</div></article>
+          <article class="card"><div class="metric-label">Dnešné CR</div><div class="metric-value">0,92 %</div><div class="metric-note">Shopify sessions conversion rate.</div></article>
+          <article class="card"><div class="metric-label">Business Efficiency Index</div><div class="metric-value">55</div><span class="status bad">Pod 80</span><div class="metric-note">Čiastočný index, bez presnej COGS/marže.</div></article>
           <article class="card"><div class="metric-label">AOV</div><div class="metric-value">88,85 €</div><div class="metric-note">Shopify average_order_value.</div></article>
-          <article class="card"><div class="metric-label">Objednávky</div><div class="metric-value">9</div><div class="metric-note">Shopify orders dnes.</div></article>
+          <article class="card"><div class="metric-label">Objednávky</div><div class="metric-value">9</div><div class="metric-note">Shopify orders za najnovší dostupný deň.</div></article>
         </div>
       </section>
 
@@ -86,7 +86,7 @@
 
       <section aria-labelledby="trend-title">
         <div class="section-head">
-          <div><h2 id="trend-title">Trend tržieb a spendu</h2><p class="subtle">Globálny default mimo horného bloku je posledných 7 dostupných dní. Graf aj tabuľka reagujú na vybraný dátumový rozsah.</p></div>
+          <div><h2 id="trend-title">Trend tržieb a spendu</h2><p class="subtle">Globálny default mimo horného bloku je posledných 7 dostupných nenulových dní. Graf aj tabuľka reagujú na vybraný dátumový rozsah.</p></div>
           <div class="controls"><button data-metric="revenue" class="active">Tržby</button><button data-metric="spend">Spend</button><button data-metric="pno">PNO</button><button data-metric="blendedRoas">Blended ROAS</button></div>
         </div>
         <div class="grid two-col">
@@ -101,16 +101,16 @@
       </section>
 
       <section aria-labelledby="campaign-title">
-        <div class="section-head"><div><h2 id="campaign-title">Dnešné top Meta kampane podľa spendu</h2><p class="subtle">Kampaňový pohľad je dnešný top 12 podľa spendu. Niektoré kampane nemajú dostupný purchase ROAS pri dnešnom intraday reporte.</p></div><span class="pill">18. 6. 2026</span></div>
+        <div class="section-head"><div><h2 id="campaign-title">Top Meta kampane podľa spendu</h2><p class="subtle">Kampaňový pohľad je najnovší dostupný deň 18. 6. 2026, top 12 podľa spendu. Niektoré kampane nemajú dostupný purchase ROAS pri dennom reporte.</p></div><span class="pill">18. 6. 2026</span></div>
         <div class="grid two-col"><div class="card"><div class="chart-wrap small"><canvas id="campaignChart"></canvas></div></div><div class="card"><div class="table-wrap"><table><thead><tr><th>Kampaň</th><th>Spend</th><th>ROAS</th><th>CTR</th><th>CPM</th></tr></thead><tbody id="campaignRows"></tbody></table></div></div></div>
       </section>
 
       <section aria-labelledby="product-title">
-        <div class="section-head"><div><h2 id="product-title">Top produkty za posledných 7 dní</h2><p class="subtle">Shopify pohľad podľa gross sales za 12. 6. - 18. 6. 2026.</p></div><span class="pill">Shopify products</span></div>
+        <div class="section-head"><div><h2 id="product-title">Top produkty za posledných 7 dostupných dní</h2><p class="subtle">Shopify pohľad podľa gross sales za 12. 6. - 18. 6. 2026. Riadok 19. 6. bol vynechaný, pretože zatiaľ obsahoval nulové hodnoty.</p></div><span class="pill">Shopify products</span></div>
         <div class="table-wrap"><table><thead><tr><th>Produkt</th><th>Gross sales</th><th>Net sales</th><th>Objednávky</th></tr></thead><tbody id="productRows"></tbody></table></div>
       </section>
     </main>
-    <p class="footer">Dátové zdroje: Shopify Admin pre objednávky, tržby, sessions a produkty; Meta MCP pre account-level a campaign-level paid media metriky. Blockery: Business Efficiency Index je zatiaľ čiastočný bez presnej marže a COGS; Meta dnešné dáta sú intraday a môžu sa ešte zmeniť. Netlify zdroj je GitHub repo serneyy/teenwear-performance-dashboard.</p>
+    <p class="footer">Dátové zdroje: Shopify Admin pre objednávky, tržby, sessions a produkty; Meta MCP pre account-level a campaign-level paid media metriky. Blockery: Business Efficiency Index je zatiaľ čiastočný bez presnej marže a COGS; 19. 6. 2026 zatiaľ nemal použiteľné Shopify hodnoty v čase obnovy. Netlify zdroj je GitHub repo serneyy/teenwear-performance-dashboard.</p>
   </div>
 
   <script>
@@ -121,33 +121,33 @@
       {date:'2026-06-15',label:'15. 6.',revenue:1561.54,netSales:1261.46,orders:17,aov:79.575,spend:315.60,metaRoas:4.72,ctr:1.75,cpm:3.83,cpc:0.22,clicks:1442,impressions:82312,metaPurchases:14,cr:1.5463917525773196,bei:99},
       {date:'2026-06-16',label:'16. 6.',revenue:630.66,netSales:545.25,orders:7,aov:81.851,spend:379.21,metaRoas:0.75,ctr:1.80,cpm:4.23,cpc:0.24,clicks:1611,impressions:89591,metaPurchases:3,cr:0.5793742757821553,bei:30},
       {date:'2026-06-17',label:'17. 6.',revenue:792.25,netSales:618.79,orders:10,aov:61.879,spend:412.08,metaRoas:1.96,ctr:1.73,cpm:4.62,cpc:0.27,clicks:1546,impressions:89256,metaPurchases:11,cr:0.9142857142857144,bei:44},
-      {date:'2026-06-18',label:'18. 6.',revenue:987.28,netSales:799.66,orders:9,aov:88.851,spend:322.38,metaRoas:2.52,ctr:1.55,cpm:4.95,cpc:0.32,clicks:1011,impressions:65078,metaPurchases:8,cr:0.949367088607595,bei:56}
+      {date:'2026-06-18',label:'18. 6.',revenue:987.28,netSales:806.16,orders:9,aov:88.851,spend:329.26,metaRoas:2.46,ctr:1.55,cpm:4.95,cpc:0.32,clicks:1033,impressions:66494,metaPurchases:8,cr:0.9244992295839753,bei:55}
     ];
     const campaigns=[
-      {name:'[DE] - DABA - A+',spend:115.19,roas:1.12,ctr:1.33,cpm:6.16},
-      {name:'[IT] - DABA - A+',spend:53.42,roas:6.87,ctr:1.58,cpm:3.03},
-      {name:'[DE] - VIDEO - A+ - ai v1',spend:35.19,roas:4.13,ctr:1.67,cpm:10.13},
-      {name:'[DE] - VIDEO - A+ - perf',spend:18.84,roas:null,ctr:1.22,cpm:9.18},
-      {name:'[T2] - DABA - A+',spend:17.61,roas:null,ctr:1.63,cpm:2.45},
-      {name:'[T2] - VIDEO - A+ - ai v1',spend:17.58,roas:7.36,ctr:1.55,cpm:3.02},
+      {name:'[DE] - DABA - A+',spend:118.49,roas:1.09,ctr:1.35,cpm:6.13},
+      {name:'[IT] - DABA - A+',spend:53.43,roas:6.87,ctr:1.58,cpm:3.03},
+      {name:'[DE] - VIDEO - A+ - ai v1',spend:36.67,roas:3.97,ctr:1.62,cpm:10.09},
+      {name:'[DE] - VIDEO - A+ - perf',spend:19.17,roas:null,ctr:1.19,cpm:9.14},
+      {name:'[T2] - DABA - A+',spend:18.21,roas:null,ctr:1.64,cpm:2.45},
+      {name:'[T2] - VIDEO - A+ - ai v1',spend:18.16,roas:7.12,ctr:1.54,cpm:3.01},
+      {name:'[DE] - VIDEO - A+ - organic',spend:15.56,roas:null,ctr:2.22,cpm:6.64},
       {name:'[DE] - STATIC 3 - A+',spend:15.35,roas:null,ctr:1.55,cpm:14.92},
-      {name:'[DE] - VIDEO - A+ - organic',spend:15.21,roas:null,ctr:2.19,cpm:6.65},
       {name:'ASC+ | EU',spend:15.11,roas:null,ctr:2.18,cpm:4.84},
       {name:'[IT] - VIDEO - A+ - ai v1',spend:8.58,roas:null,ctr:1.04,cpm:4.95},
-      {name:'[IT] - DABA - A+ - RMK',spend:7.59,roas:5.27,ctr:1.92,cpm:4.30},
+      {name:'[IT] - DABA - A+ - RMK',spend:7.82,roas:5.12,ctr:1.86,cpm:4.27},
       {name:'[DE] - DABA - A+ - RMK',spend:2.71,roas:null,ctr:2.78,cpm:9.41}
     ];
     const products=[
-      {name:'TORNZ - Baggy Denim Embroidered Jorts',gross:748.62,net:389.02,orders:11},
-      {name:'WINGLY - Baggy Cotton Graphic Shorts',gross:566.29,net:334.65,orders:8},
-      {name:'SKICEN - Oversized Graphic Jersey T-Shirt',gross:529.26,net:334.08,orders:12},
+      {name:'TORNZ - Baggy Denim Embroidered Jorts',gross:644.50,net:357.78,orders:10},
       {name:'WINGY - Graphic Polo Shirt',gross:495.19,net:281.90,orders:8},
-      {name:'SPINNER - Oversized Embroidered T-Shirt',gross:438.65,net:262.88,orders:11},
-      {name:'SPIDY - Oversized Embroidered T-Shirt',gross:345.59,net:211.15,orders:7},
-      {name:'STRIPASO - Baggy Graphic Jeans',gross:325.13,net:200.63,orders:5},
-      {name:'SPACER - Oversized Print Long Sleeved T-Shirt',gross:309.75,net:191.11,orders:4},
-      {name:'SPIDER - Baggy Graphic Shorts',gross:305.04,net:183.03,orders:5},
-      {name:'DORSY - Oversized Graphic T-Shirt',gross:292.74,net:175.66,orders:6}
+      {name:'WINGLY - Baggy Cotton Graphic Shorts',gross:467.23,net:275.21,orders:7},
+      {name:'SKICEN - Oversized Graphic Jersey T-Shirt',gross:411.88,net:263.65,orders:10},
+      {name:'SPINNER - Oversized Embroidered T-Shirt',gross:281.82,net:168.78,orders:7},
+      {name:'STRIPASO - Baggy Graphic Jeans',gross:263.70,net:163.77,orders:4},
+      {name:'SPIDER - Baggy Graphic Shorts',gross:248.06,net:148.84,orders:4},
+      {name:'DORSY - Oversized Graphic T-Shirt',gross:198.21,net:118.94,orders:4},
+      {name:'SPACER - Oversized Print Long Sleeved T-Shirt',gross:188.83,net:118.55,orders:3},
+      {name:'GREYO - Baggy Basic Embroidered Jeans',gross:186.29,net:78.93,orders:3}
     ];
     const eur=new Intl.NumberFormat('sk-SK',{style:'currency',currency:'EUR',maximumFractionDigits:2});
     const num=new Intl.NumberFormat('sk-SK',{maximumFractionDigits:2});
@@ -193,7 +193,7 @@
       mainChart=new Chart(document.getElementById('mainChart'),{data:{labels,datasets},options:baseOptions()});
       if(efficiencyChart)efficiencyChart.destroy();
       efficiencyChart=new Chart(document.getElementById('efficiencyChart'),{type:'line',data:{labels,datasets:[{label:'Business Efficiency Index',data:list.map(row=>row.bei),borderColor:'#c4b5fd',backgroundColor:'rgba(196,181,253,.14)',tension:.35,pointRadius:4,fill:true},{label:'Cieľ 100',data:list.map(()=>100),borderColor:'rgba(54,211,153,.8)',borderDash:[6,6],pointRadius:0},{label:'Slabší scale stav 80',data:list.map(()=>80),borderColor:'rgba(246,196,83,.8)',borderDash:[4,6],pointRadius:0}]},options:baseOptions()});
-      if(!campaignChart)campaignChart=new Chart(document.getElementById('campaignChart'),{type:'bar',data:{labels:campaigns.map(c=>c.name),datasets:[{label:'Spend dnes',data:campaigns.map(c=>c.spend),backgroundColor:'rgba(125,211,252,.42)',borderColor:'#7dd3fc',borderWidth:1,borderRadius:5}]},options:{...baseOptions(),indexAxis:'y'}});
+      if(!campaignChart)campaignChart=new Chart(document.getElementById('campaignChart'),{type:'bar',data:{labels:campaigns.map(c=>c.name),datasets:[{label:'Spend',data:campaigns.map(c=>c.spend),backgroundColor:'rgba(125,211,252,.42)',borderColor:'#7dd3fc',borderWidth:1,borderRadius:5}]},options:{...baseOptions(),indexAxis:'y'}});
     }
     function renderTables(list){
       document.getElementById('dailyRows').innerHTML=list.map(row=>{const pno=row.spend/row.revenue*100,blended=row.revenue/row.spend;return `<tr><td>${row.label}</td><td>${money(row.revenue)}</td><td>${row.orders}</td><td>${money(row.aov)}</td><td>${money(row.spend)}</td><td class="${pno>18?'bad-text':''}">${pct(pno)}</td><td class="${blended<5.5?'bad-text':''}">${num.format(blended)}</td><td class="${row.metaRoas<3?'bad-text':''}">${num.format(row.metaRoas)}</td><td class="${row.ctr<1.8?'bad-text':''}">${pct(row.ctr)}</td><td>${money(row.cpm)}</td><td>${pct(row.cr)}</td><td class="${row.bei<80?'bad-text':''}">${num.format(row.bei)}</td></tr>`}).join('');
@@ -202,7 +202,7 @@
     }
     function renderInsights(agg,list){
       const best=[...list].sort((a,b)=>b.revenue-a.revenue)[0],highestPno=[...list].sort((a,b)=>(b.spend/b.revenue)-(a.spend/a.revenue))[0];
-      document.getElementById('insights').innerHTML=[`<div class="insight bad">PNO za vybrané obdobie je ${pct(agg.pno)}. Stabilnejší režim je približne do 15 %, takže ekonomika spendu je teraz rizikovejšia.</div>`,`<div class="insight bad">Blended ROAS je ${num.format(agg.blendedRoas)} oproti orientačnému cieľu 7,5 až 8,5. Pod 5,5 je slabší stav na škálovanie.</div>`,`<div class="insight warn">Najsilnejší revenue deň v zvolenom okne: ${best.label} s tržbami ${money(best.revenue)} a ${best.orders} objednávkami.</div>`,`<div class="insight bad">Najťažší PNO deň: ${highestPno.label}, PNO ${pct(highestPno.spend/highestPno.revenue*100)}.</div>`,`<div class="insight">CTR Meta za obdobie je ${pct(agg.ctr)}. Je pod cieľovým pásmom 2,2 až 2,8 %, čo skôr ukazuje priestor v kreatívach alebo audience.</div>`].join('');
+      document.getElementById('insights').innerHTML=[`<div class="insight bad">PNO za vybrané obdobie je ${pct(agg.pno)}. Stabilnejší režim je približne do 15 %, takže ekonomika spendu je teraz rizikovejšia.</div>`,`<div class="insight bad">Blended ROAS je ${num.format(agg.blendedRoas)} oproti orientačnému cieľu 7,5 až 8,5. Pod 5,5 je slabší stav na škálovanie.</div>`,`<div class="insight warn">Najsilnejší revenue deň v zvolenom okne: ${best.label} s tržbami ${money(best.revenue)} a ${best.orders} objednávkami.</div>`,`<div class="insight bad">Najťažší PNO deň: ${highestPno.label}, PNO ${pct(highestPno.spend/highestPno.revenue*100)}.</div>`,`<div class="insight">CTR Meta za obdobie je ${pct(agg.ctr)}. Je tesne pod minimom 1,8 % a pod cieľovým pásmom 2,2 až 2,8 %, čo skôr ukazuje priestor v kreatívach alebo audience.</div>`].join('');
     }
     function update(){
       const list=rows(),agg=aggregate(list),rangeText=`${list[0]?.label||''} - ${list[list.length-1]?.label||''}`;

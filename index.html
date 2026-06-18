@@ -3,548 +3,844 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Teenwear Performance Dashboard</title>
+  <title>Teenwear.eu Performance Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
   <style>
     :root {
-      --bg: #05060a;
-      --panel: #0b111c;
-      --panel-2: #101827;
-      --ink: #f8fafc;
-      --muted: #94a3b8;
-      --line: rgba(148, 163, 184, .2);
-      --line-strong: rgba(148, 163, 184, .36);
-      --blue: #60a5fa;
-      --cyan: #22d3ee;
-      --green: #34d399;
-      --red: #fb7185;
-      --amber: #fbbf24;
-      --pink: #f472b6;
-      --shadow: 0 28px 80px rgba(0, 0, 0, .44);
+      --bg: #07090d;
+      --surface: #0d1118;
+      --surface-2: #121821;
+      --surface-3: #171f2b;
+      --text: #f7f8fb;
+      --muted: #a7b0bf;
+      --line: rgba(255, 255, 255, .12);
+      --good: #36d399;
+      --warn: #f6c453;
+      --bad: #ff5f73;
+      --accent: #7dd3fc;
+      --accent-2: #c4b5fd;
+      --shadow: 0 24px 80px rgba(0, 0, 0, .42);
     }
 
     * { box-sizing: border-box; }
 
-    html { scroll-behavior: smooth; }
-
     body {
       margin: 0;
-      color: var(--ink);
+      background: var(--bg);
+      color: var(--text);
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
-      background:
-        radial-gradient(circle at 12% 0%, rgba(96, 165, 250, .20), transparent 27%),
-        radial-gradient(circle at 86% 8%, rgba(244, 114, 182, .12), transparent 26%),
-        radial-gradient(circle at 50% 100%, rgba(34, 211, 238, .08), transparent 34%),
-        var(--bg);
     }
 
-    body:before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      opacity: .12;
-      background-image:
-        linear-gradient(rgba(255, 255, 255, .055) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, .055) 1px, transparent 1px);
-      background-size: 46px 46px;
-      mask-image: linear-gradient(to bottom, black, transparent 78%);
+    .shell {
+      width: min(1440px, calc(100% - 28px));
+      margin: 0 auto;
+      padding: 22px 0 56px;
     }
-
-    .shell { max-width: 1500px; margin: 0 auto; padding: 0 28px; position: relative; }
 
     header {
-      border-bottom: 1px solid var(--line);
-      padding: 34px 0 24px;
-    }
-
-    .topline {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: end;
       gap: 18px;
-      flex-wrap: wrap;
+      padding: 14px 0 20px;
+      border-bottom: 1px solid var(--line);
     }
 
-    .badge {
-      display: inline-flex;
-      gap: 8px;
-      align-items: center;
-      border: 1px solid rgba(96, 165, 250, .42);
-      background: rgba(96, 165, 250, .10);
-      color: #bfdbfe;
-      padding: 8px 12px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 900;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-    }
-
-    .stamp {
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.45;
-      text-align: right;
-    }
+    h1, h2, h3, p { margin: 0; }
 
     h1 {
-      margin: 18px 0 12px;
-      max-width: 1080px;
-      font-size: clamp(38px, 6vw, 86px);
-      line-height: .94;
-      letter-spacing: -.055em;
+      font-size: clamp(28px, 4vw, 48px);
+      line-height: 1;
+      letter-spacing: 0;
     }
 
-    .subtitle {
-      max-width: 980px;
-      color: #cbd5e1;
-      font-size: 16px;
-      line-height: 1.6;
+    h2 {
+      font-size: clamp(22px, 2.6vw, 32px);
+      letter-spacing: 0;
+      margin-bottom: 10px;
     }
 
-    nav {
+    h3 {
+      font-size: 15px;
+      letter-spacing: .02em;
+    }
+
+    .subtle {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .meta-line {
       display: flex;
-      gap: 10px;
       flex-wrap: wrap;
-      margin-top: 22px;
+      gap: 10px;
+      margin-top: 12px;
     }
 
-    nav a {
-      text-decoration: none;
-      color: #e2e8f0;
-      background: rgba(15, 23, 42, .72);
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 11px;
       border: 1px solid var(--line);
-      padding: 10px 13px;
       border-radius: 999px;
-      font-size: 13px;
-      transition: .16s ease;
+      background: rgba(255, 255, 255, .04);
+      color: #dfe5ef;
+      font-size: 12px;
+      font-weight: 750;
+      white-space: nowrap;
     }
 
-    nav a:hover { transform: translateY(-1px); border-color: rgba(96, 165, 250, .58); }
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 22px var(--accent);
+    }
 
-    main { padding: 28px 0 76px; }
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    button, input {
+      color: var(--text);
+      background: var(--surface-2);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      min-height: 38px;
+      padding: 0 12px;
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 760;
+      transition: border-color .18s ease, transform .18s ease, background .18s ease;
+    }
+
+    button:hover, button.active {
+      border-color: rgba(125, 211, 252, .75);
+      background: rgba(125, 211, 252, .12);
+      transform: translateY(-1px);
+    }
+
+    input {
+      color-scheme: dark;
+      font-size: 13px;
+      width: 146px;
+    }
 
     section {
-      margin: 24px 0;
+      margin-top: 24px;
       padding: 24px;
       border: 1px solid var(--line);
-      border-radius: 24px;
-      background: linear-gradient(180deg, rgba(17, 24, 39, .90), rgba(6, 10, 18, .92));
+      border-radius: 8px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, .045), rgba(255, 255, 255, .025));
       box-shadow: var(--shadow);
-      backdrop-filter: blur(16px);
     }
 
-    h2 { margin: 0 0 8px; font-size: 26px; letter-spacing: -.035em; }
-    h3 { margin: 0 0 10px; font-size: 17px; letter-spacing: -.015em; }
-    p { margin: 0; color: #cbd5e1; line-height: 1.6; }
-    .note { color: var(--muted); font-size: 12px; line-height: 1.55; }
+    .today {
+      border-color: rgba(125, 211, 252, .35);
+      background:
+        linear-gradient(135deg, rgba(125, 211, 252, .12), transparent 38%),
+        linear-gradient(180deg, rgba(255, 255, 255, .06), rgba(255, 255, 255, .025));
+    }
 
     .section-head {
       display: flex;
+      align-items: start;
       justify-content: space-between;
       gap: 18px;
-      align-items: flex-start;
       margin-bottom: 18px;
     }
 
-    .kpis {
+    .grid {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 14px;
     }
 
-    .kpi {
-      min-height: 146px;
-      padding: 18px;
+    .kpis {
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+    }
+
+    .two-col {
+      grid-template-columns: minmax(0, 1.35fr) minmax(320px, .65fr);
+    }
+
+    .card {
       border: 1px solid var(--line);
-      border-radius: 18px;
-      background: linear-gradient(180deg, rgba(15, 23, 42, .85), rgba(2, 6, 23, .72));
-      position: relative;
-      overflow: hidden;
+      border-radius: 8px;
+      background: rgba(7, 9, 13, .54);
+      padding: 16px;
+      min-width: 0;
     }
 
-    .kpi:after {
-      content: "";
-      position: absolute;
-      right: -44px;
-      top: -52px;
-      width: 136px;
-      height: 136px;
-      background: radial-gradient(circle, rgba(96, 165, 250, .24), transparent 64%);
-    }
-
-    .label {
-      color: #93c5fd;
+    .metric-label {
+      color: var(--muted);
       font-size: 11px;
-      font-weight: 900;
+      font-weight: 850;
       letter-spacing: .08em;
-      line-height: 1.35;
       text-transform: uppercase;
     }
 
-    .value {
-      margin-top: 9px;
-      font-size: 32px;
-      font-weight: 950;
-      letter-spacing: -.045em;
-      line-height: 1.05;
-      position: relative;
-      z-index: 1;
+    .metric-value {
+      margin-top: 8px;
+      font-size: clamp(23px, 2.6vw, 36px);
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: 0;
+      overflow-wrap: anywhere;
     }
 
-    .meta { margin-top: 8px; color: var(--muted); font-size: 13px; line-height: 1.45; position: relative; z-index: 1; }
-    .positive { color: #86efac; font-weight: 850; }
-    .negative { color: #fda4af; font-weight: 850; }
-    .neutral { color: #fde68a; font-weight: 850; }
+    .metric-note {
+      margin-top: 9px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.4;
+    }
 
-    .grid-2 { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); gap: 18px; }
-    .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
-
-    .panel {
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      margin-top: 10px;
+      padding: 6px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 850;
       border: 1px solid var(--line);
-      border-radius: 18px;
-      padding: 18px;
-      background: rgba(15, 23, 42, .62);
+    }
+
+    .status.good { color: #c8f8df; background: rgba(54, 211, 153, .12); border-color: rgba(54, 211, 153, .28); }
+    .status.warn { color: #ffe6a6; background: rgba(246, 196, 83, .12); border-color: rgba(246, 196, 83, .28); }
+    .status.bad { color: #ffd2d8; background: rgba(255, 95, 115, .13); border-color: rgba(255, 95, 115, .34); }
+
+    .guardrail-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .guardrail {
+      position: relative;
+      overflow: hidden;
+      min-height: 178px;
+    }
+
+    .guardrail.bad {
+      border-color: rgba(255, 95, 115, .58);
+      background: linear-gradient(150deg, rgba(255, 95, 115, .16), rgba(7, 9, 13, .62) 58%);
+    }
+
+    .guardrail.good {
+      border-color: rgba(54, 211, 153, .32);
+      background: linear-gradient(150deg, rgba(54, 211, 153, .11), rgba(7, 9, 13, .62) 58%);
+    }
+
+    .guardrail.warn {
+      border-color: rgba(246, 196, 83, .38);
+      background: linear-gradient(150deg, rgba(246, 196, 83, .12), rgba(7, 9, 13, .62) 58%);
+    }
+
+    .target {
+      margin-top: 8px;
+      font-size: 24px;
+      line-height: 1.05;
+      font-weight: 930;
+      letter-spacing: 0;
+    }
+
+    .actual {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .actual strong {
+      color: var(--text);
+      font-size: 20px;
+    }
+
+    .rule {
+      margin-top: 10px;
+      color: #d7deea;
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .bad-text { color: #ff9daa; font-weight: 850; }
+
+    .chart-wrap {
+      height: 340px;
+      min-height: 260px;
+    }
+
+    .chart-wrap.small {
+      height: 260px;
+    }
+
+    canvas {
+      width: 100% !important;
+      height: 100% !important;
+    }
+
+    .table-wrap { overflow-x: auto; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 720px;
+    }
+
+    th, td {
+      padding: 12px 10px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    th {
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    .insight-list {
+      display: grid;
+      gap: 12px;
     }
 
     .insight {
-      border-left: 4px solid var(--blue);
-      background: rgba(15, 23, 42, .58);
+      border-left: 3px solid var(--accent);
+      padding: 4px 0 4px 12px;
+      color: #dce3ee;
+      font-size: 13px;
+      line-height: 1.45;
     }
 
-    .insight.good { border-left-color: var(--green); }
-    .insight.warn { border-left-color: var(--amber); }
-    .insight.bad { border-left-color: var(--red); }
+    .insight.bad { border-left-color: var(--bad); }
+    .insight.warn { border-left-color: var(--warn); }
 
-    .chart {
-      height: 360px;
+    .note-box {
+      margin-top: 16px;
+      padding: 14px;
+      border: 1px solid rgba(246, 196, 83, .28);
+      border-radius: 8px;
+      background: rgba(246, 196, 83, .08);
+      color: #ffe6a6;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    details {
+      margin-top: 14px;
       border: 1px solid var(--line);
-      border-radius: 18px;
-      background:
-        linear-gradient(rgba(148, 163, 184, .05) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(148, 163, 184, .05) 1px, transparent 1px),
-        rgba(2, 6, 23, .48);
-      background-size: 42px 42px;
-      padding: 12px;
+      border-radius: 8px;
+      padding: 12px 14px;
+      background: rgba(255, 255, 255, .035);
     }
 
-    svg { display: block; width: 100%; height: 100%; }
+    summary {
+      cursor: pointer;
+      font-weight: 850;
+      color: #dfe5ef;
+    }
 
-    .legend {
-      display: flex;
-      gap: 16px;
-      flex-wrap: wrap;
+    .footer {
       color: var(--muted);
       font-size: 12px;
-      margin-top: 10px;
+      line-height: 1.5;
+      padding: 22px 4px 0;
     }
 
-    .dot { width: 10px; height: 10px; border-radius: 999px; display: inline-block; margin-right: 6px; }
-    .dot.sales { background: var(--blue); }
-    .dot.spend { background: var(--pink); }
-
-    .barlist { display: flex; flex-direction: column; gap: 11px; }
-    .baritem { display: grid; grid-template-columns: 92px 1fr 72px; gap: 10px; align-items: center; color: #e5e7eb; font-size: 13px; }
-    .track { height: 9px; background: rgba(148, 163, 184, .16); border-radius: 999px; overflow: hidden; }
-    .fill { height: 100%; background: linear-gradient(90deg, var(--blue), var(--cyan)); border-radius: 999px; }
-    .fill.pink { background: linear-gradient(90deg, var(--amber), var(--pink)); }
-
-    .tablewrap { overflow: auto; border: 1px solid var(--line); border-radius: 18px; }
-    table { width: 100%; border-collapse: collapse; font-size: 13px; background: rgba(2, 6, 23, .38); }
-    th, td { padding: 12px 13px; border-bottom: 1px solid var(--line); text-align: right; white-space: nowrap; }
-    th:first-child, td:first-child { text-align: left; }
-    th {
-      position: sticky;
-      top: 0;
-      z-index: 1;
-      background: rgba(15, 23, 42, .96);
-      color: #c4d4e8;
-      font-size: 11px;
-      letter-spacing: .06em;
-      text-transform: uppercase;
-    }
-    tr:hover td { background: rgba(96, 165, 250, .055); }
-
-    .tag {
-      display: inline-flex;
-      align-items: center;
-      padding: 4px 8px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 900;
-    }
-    .tag.good { background: rgba(52, 211, 153, .13); color: #86efac; }
-    .tag.warn { background: rgba(251, 191, 36, .13); color: #fde68a; }
-    .tag.bad { background: rgba(251, 113, 133, .13); color: #fda4af; }
-    .tag.neutral { background: rgba(96, 165, 250, .13); color: #bfdbfe; }
-
-    .footer { margin-top: 18px; color: var(--muted); font-size: 12px; line-height: 1.55; }
-
-    @media (max-width: 1100px) {
-      .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    @media (max-width: 1180px) {
+      .kpis { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .guardrail-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .two-col { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 760px) {
-      .shell { padding: 0 12px; }
-      header { padding: 25px 0 18px; }
-      .topline { align-items: flex-start; }
-      .stamp { text-align: left; }
-      h1 { font-size: clamp(34px, 13vw, 52px); letter-spacing: -.05em; }
-      .subtitle { font-size: 14px; }
-      nav { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
-      nav::-webkit-scrollbar { display: none; }
-      nav a { flex: 0 0 auto; font-size: 12px; padding: 8px 10px; }
-      main { padding: 14px 0 44px; }
-      section { margin: 14px 0; padding: 14px; border-radius: 18px; }
-      .section-head { display: block; }
-      h2 { font-size: 21px; }
-      .kpis { grid-template-columns: 1fr; gap: 10px; }
-      .kpi, .panel { border-radius: 15px; padding: 14px; }
-      .value { font-size: 28px; }
-      .chart { height: 286px; padding: 8px; margin: 0 -2px; }
-      table { min-width: 760px; font-size: 12px; }
-      th, td { padding: 9px; }
-      th:first-child, td:first-child {
-        position: sticky;
-        left: 0;
-        max-width: 190px;
-        white-space: normal;
-        background: #0b111c;
-        box-shadow: 1px 0 0 var(--line);
-      }
-      th:first-child { background: #101827; z-index: 2; }
-      .baritem { grid-template-columns: 78px 1fr 58px; font-size: 12px; }
+      .shell { width: min(100% - 18px, 1440px); padding-top: 10px; }
+      header { grid-template-columns: 1fr; align-items: start; }
+      .controls { justify-content: start; }
+      input { width: calc(50% - 5px); min-width: 138px; }
+      section { padding: 16px; margin-top: 16px; }
+      .section-head { display: grid; }
+      .kpis, .guardrail-grid { grid-template-columns: 1fr; }
+      .chart-wrap { height: 300px; }
+      .metric-value { font-size: 30px; }
     }
   </style>
 </head>
 <body>
-  <header>
-    <div class="shell">
-      <div class="topline">
-        <span class="badge">Teenwear.eu performance</span>
-        <div class="stamp">Aktualizované 18. 6. 2026, 14:27 CEST<br>Shopify: EUR / CEST, Meta: ENORDA s.r.o. - Admin</div>
-      </div>
-      <h1>Dashboard pre Shopify a Meta Ads</h1>
-      <p class="subtitle">Publish-ready prehľad výkonu za posledný dostupný týždeň. Shopify časť obsahuje 12. až 18. jún 2026 vrátane dnešného čiastočného dňa; Meta API vrátilo posledných 7 dní ako 11. až 17. jún 2026.</p>
-      <nav aria-label="Sekcie dashboardu">
-        <a href="#kpis">KPI</a>
-        <a href="#trend">Trend</a>
-        <a href="#campaigns">Meta kampane</a>
-        <a href="#products">Top produkty</a>
-        <a href="#quality">Kvalita dát</a>
-      </nav>
-    </div>
-  </header>
-
-  <main class="shell">
-    <section id="kpis">
-      <div class="section-head">
-        <div>
-          <h2>Executive KPI</h2>
-          <p>Shopify výkon je porovnaný s predchádzajúcim 7-dňovým obdobím 5. až 11. jún 2026.</p>
-        </div>
-        <p class="note">PNO je počítané transparentne ako Meta spend / Shopify total sales. Pre rozdielny dátumový rozsah je označené ako orientačné.</p>
-      </div>
-      <div class="kpis">
-        <article class="kpi">
-          <div class="label">Shopify total sales</div>
-          <div class="value">€6 206,69</div>
-          <div class="meta"><span class="negative">-18,8 %</span> vs. predchádzajúcich 7 dní</div>
-        </article>
-        <article class="kpi">
-          <div class="label">Objednávky</div>
-          <div class="value">70</div>
-          <div class="meta"><span class="negative">-13,6 %</span> vs. 81 objednávok predtým</div>
-        </article>
-        <article class="kpi">
-          <div class="label">AOV podľa total sales</div>
-          <div class="value">€88,67</div>
-          <div class="meta"><span class="negative">-6,0 %</span> vs. €94,33 predtým</div>
-        </article>
-        <article class="kpi">
-          <div class="label">Meta spend</div>
-          <div class="value">€2 244,65</div>
-          <div class="meta">11. až 17. jún 2026</div>
-        </article>
-        <article class="kpi">
-          <div class="label">Orientačné PNO</div>
-          <div class="value">36,2 %</div>
-          <div class="meta">Meta spend / Shopify total sales, dátumy nie sú identické</div>
-        </article>
-        <article class="kpi">
-          <div class="label">Blended MER</div>
-          <div class="value">2,76×</div>
-          <div class="meta">Shopify total sales / Meta spend, orientačne</div>
-        </article>
-        <article class="kpi">
-          <div class="label">Meta purchase ROAS</div>
-          <div class="value">2,26×</div>
-          <div class="meta">vážené cez denný spend a Meta ROAS</div>
-        </article>
-        <article class="kpi">
-          <div class="label">Meta nákupy</div>
-          <div class="value">54</div>
-          <div class="meta">Meta omni_purchase, 11. až 17. jún</div>
-        </article>
-      </div>
-    </section>
-
-    <section id="trend">
-      <div class="section-head">
-        <div>
-          <h2>Revenue vs. spend trend</h2>
-          <p>Denný pohľad na Shopify total sales a dostupný Meta spend. Najsilnejší Shopify deň bol 15. jún, najslabší aktuálny deň je 18. jún ako čiastočný deň.</p>
+  <div class="shell">
+    <header>
+      <div>
+        <h1>Teenwear.eu Performance Dashboard</h1>
+        <div class="meta-line">
+          <span class="pill"><span class="dot"></span>Aktualizované 18. 6. 2026, 15:04 CEST</span>
+          <span class="pill">Shopify: Teenwear.eu, EUR, CEST</span>
+          <span class="pill">Meta účet: ENORDA s.r.o. - Admin</span>
+          <span class="pill">Netlify target: teenwear-performance.netlify.app</span>
         </div>
       </div>
-      <div class="grid-2">
-        <div>
-          <div class="chart" role="img" aria-label="Denný trend Shopify tržieb a Meta spendu">
-            <svg viewBox="0 0 760 300" preserveAspectRatio="none">
-              <polyline fill="none" stroke="rgba(148,163,184,.16)" stroke-width="1" points="42,30 730,30 730,248 42,248 42,30"/>
-              <polyline fill="none" stroke="rgba(148,163,184,.15)" stroke-width="1" points="42,84 730,84"/>
-              <polyline fill="none" stroke="rgba(148,163,184,.15)" stroke-width="1" points="42,139 730,139"/>
-              <polyline fill="none" stroke="rgba(148,163,184,.15)" stroke-width="1" points="42,193 730,193"/>
-              <polyline fill="none" stroke="#60a5fa" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" points="42,201 157,137 272,128 386,40 501,187 616,165 730,193"/>
-              <polyline fill="none" stroke="#f472b6" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" points="42,170 157,169 272,121 386,133 501,99 616,82 730,248"/>
-              <g fill="#60a5fa">
-                <circle cx="42" cy="201" r="5"/><circle cx="157" cy="137" r="5"/><circle cx="272" cy="128" r="5"/><circle cx="386" cy="40" r="5"/><circle cx="501" cy="187" r="5"/><circle cx="616" cy="165" r="5"/><circle cx="730" cy="193" r="5"/>
-              </g>
-              <g fill="#f472b6">
-                <circle cx="42" cy="170" r="5"/><circle cx="157" cy="169" r="5"/><circle cx="272" cy="121" r="5"/><circle cx="386" cy="133" r="5"/><circle cx="501" cy="99" r="5"/><circle cx="616" cy="82" r="5"/><circle cx="730" cy="248" r="5"/>
-              </g>
-              <g fill="#94a3b8" font-size="12">
-                <text x="42" y="282" text-anchor="middle">12.6.</text>
-                <text x="157" y="282" text-anchor="middle">13.6.</text>
-                <text x="272" y="282" text-anchor="middle">14.6.</text>
-                <text x="386" y="282" text-anchor="middle">15.6.</text>
-                <text x="501" y="282" text-anchor="middle">16.6.</text>
-                <text x="616" y="282" text-anchor="middle">17.6.</text>
-                <text x="730" y="282" text-anchor="middle">18.6.</text>
-              </g>
-            </svg>
+      <div class="controls" aria-label="Výber obdobia">
+        <button data-preset="today">Dnes</button>
+        <button data-preset="7d" class="active">7 dní</button>
+        <button data-preset="3d">3 dni</button>
+        <input type="date" id="fromDate" value="2026-06-12" min="2026-06-12" max="2026-06-18">
+        <input type="date" id="toDate" value="2026-06-18" min="2026-06-12" max="2026-06-18">
+      </div>
+    </header>
+
+    <main>
+      <section class="today" aria-labelledby="today-title">
+        <div class="section-head">
+          <div>
+            <h2 id="today-title">Dnešný deň: 18. 6. 2026</h2>
+            <p class="subtle">Horný blok je fixne dnešok. Meta dáta sú priebežné k 15:04 CEST, preto ich ber ako intra-day pohľad, nie finálny denný výsledok.</p>
           </div>
-          <div class="legend">
-            <span><i class="dot sales"></i>Shopify total sales</span>
-            <span><i class="dot spend"></i>Meta spend, dostupné dáta posunuté podľa API rozsahu</span>
+          <span class="pill">Top summary</span>
+        </div>
+        <div class="grid kpis">
+          <article class="card">
+            <div class="metric-label">Dnešné tržby</div>
+            <div class="metric-value">571,53 €</div>
+            <div class="metric-note">Shopify gross total price, 5 objednávok.</div>
+          </article>
+          <article class="card">
+            <div class="metric-label">Dnešný Meta spend</div>
+            <div class="metric-value">212,27 €</div>
+            <div class="metric-note">Meta account-level spend, priebežné.</div>
+          </article>
+          <article class="card">
+            <div class="metric-label">Dnešné PNO</div>
+            <div class="metric-value">37,1 %</div>
+            <span class="status bad">Mimo normy</span>
+            <div class="metric-note">Spend / Shopify tržby. Cieľ 12 až 13,5 %.</div>
+          </article>
+          <article class="card">
+            <div class="metric-label">Blended ROAS</div>
+            <div class="metric-value">2,69</div>
+            <span class="status bad">Pod minimom</span>
+            <div class="metric-note">Shopify tržby / Meta spend.</div>
+          </article>
+          <article class="card">
+            <div class="metric-label">Meta ROAS</div>
+            <div class="metric-value">2,60</div>
+            <span class="status bad">Stop/reduce zóna</span>
+            <div class="metric-note">Meta purchase ROAS, account-level.</div>
+          </article>
+          <article class="card">
+            <div class="metric-label">Objednávky / AOV</div>
+            <div class="metric-value">5 / 114,31 €</div>
+            <div class="metric-note">CPA podľa Shopify objednávok: 42,45 €.</div>
+          </article>
+        </div>
+      </section>
+
+      <section aria-labelledby="guardrails-title">
+        <div class="section-head">
+          <div>
+            <h2 id="guardrails-title">1. KPI guardrails, ktoré musíme držať</h2>
+            <p class="subtle">Toto sú hlavné hranice pre riadenie Meta spendu. Kým tieto čísla nie sú pod kontrolou, cieľ nie je agresívny rast, ale stabilizácia efektivity.</p>
+          </div>
+          <span class="pill" id="guardrailRangeLabel">Vybrané obdobie: 12. 6. - 18. 6.</span>
+        </div>
+        <div class="grid guardrail-grid" id="guardrails"></div>
+      </section>
+
+      <section aria-labelledby="eff-title">
+        <div class="section-head">
+          <div>
+            <h2 id="eff-title">2. Celková efektivita biznisu</h2>
+            <p class="subtle">Toto je zjednodušený index celkového zdravia biznisu. Základ 100 je priemer Jan-May 2025. Skladá sa z Blended ROAS, PNO, ceny nákupu voči hrubému zisku, efektivity reklám a efektivity stránky.</p>
+          </div>
+          <span class="pill" id="beiPill">Business Efficiency Index: 57</span>
+        </div>
+        <div class="grid two-col">
+          <div class="card">
+            <h3>Business Efficiency Index, základ Jan-May 2025 = 100</h3>
+            <div class="chart-wrap">
+              <canvas id="efficiencyChart"></canvas>
+            </div>
+          </div>
+          <div class="card">
+            <div class="metric-label">Aktuálny index pre zvolené obdobie</div>
+            <div class="metric-value" id="beiValue">57</div>
+            <span class="status bad" id="beiStatus">Pod 80: stabilizácia, nie scale</span>
+            <div class="metric-note" id="beiNote">Index je orientačný: chýba presná hrubá marža a cena nákupu voči hrubému zisku, preto je táto časť vypočítaná z dostupných proxy metrík.</div>
+            <details>
+              <summary>Metodika orientačného indexu</summary>
+              <p class="subtle" style="margin-top:10px">V HTML je zapísaná hodnota aj trend. Aktuálna verzia používa Blended ROAS, PNO, CPA ako proxy ceny nákupu voči hrubému zisku, Meta ROAS + CTR ako efektivitu reklám a počet objednávok ako proxy efektivity stránky. Po napojení marže a sessions/conversion rate treba index prepočítať na finálnu Jan-May 2025 bázu.</p>
+            </details>
           </div>
         </div>
-        <div class="panel">
-          <h3>Rýchle čítanie trendu</h3>
-          <div class="barlist">
-            <div class="baritem"><span>15.6.</span><div class="track"><div class="fill" style="width:100%"></div></div><strong>€1 562</strong></div>
-            <div class="baritem"><span>14.6.</span><div class="track"><div class="fill" style="width:73%"></div></div><strong>€1 140</strong></div>
-            <div class="baritem"><span>13.6.</span><div class="track"><div class="fill" style="width:67%"></div></div><strong>€1 052</strong></div>
-            <div class="baritem"><span>17.6.</span><div class="track"><div class="fill" style="width:51%"></div></div><strong>€792</strong></div>
-            <div class="baritem"><span>16.6.</span><div class="track"><div class="fill" style="width:40%"></div></div><strong>€631</strong></div>
-            <div class="baritem"><span>18.6.</span><div class="track"><div class="fill" style="width:37%"></div></div><strong>€572</strong></div>
-            <div class="baritem"><span>12.6.</span><div class="track"><div class="fill" style="width:32%"></div></div><strong>€498</strong></div>
+      </section>
+
+      <section aria-labelledby="trend-title">
+        <div class="section-head">
+          <div>
+            <h2 id="trend-title">Trend tržieb a spendu</h2>
+            <p class="subtle">Globálny default mimo horného bloku je posledných 7 dostupných dní. Graf aj tabuľka reagujú na vybraný dátumový rozsah.</p>
           </div>
-          <p class="footer">18. jún je čiastočný deň k 14:27 CEST, preto ho treba čítať opatrne.</p>
+          <div class="controls">
+            <button data-metric="revenue" class="active">Tržby</button>
+            <button data-metric="spend">Spend</button>
+            <button data-metric="pno">PNO</button>
+            <button data-metric="blendedRoas">Blended ROAS</button>
+          </div>
         </div>
-      </div>
-    </section>
+        <div class="grid two-col">
+          <div class="card">
+            <h3 id="mainChartTitle">Revenue vs spend</h3>
+            <div class="chart-wrap">
+              <canvas id="mainChart"></canvas>
+            </div>
+          </div>
+          <div class="card">
+            <h3>Krátke insighty</h3>
+            <div class="insight-list" id="insights"></div>
+            <div class="note-box">PNO je počítané transparentne ako Meta spend / Shopify gross tržby. Ak má byť reporting na net revenue alebo po refundoch, treba doplniť presnú bázu do dátového flow.</div>
+          </div>
+        </div>
+      </section>
 
-    <section id="campaigns">
-      <div class="section-head">
-        <div>
-          <h2>Meta Ads kampane</h2>
-          <p>Top kampane podľa spendu za 11. až 17. jún 2026 na účte ENORDA s.r.o. - Admin.</p>
+      <section aria-labelledby="table-title">
+        <div class="section-head">
+          <div>
+            <h2 id="table-title">Denný výkon</h2>
+            <p class="subtle">Shopify objednávky sú rozdelené po dňoch, aby nebol použitý useknutý 50-order limit z jedného dotazu.</p>
+          </div>
+          <span class="pill" id="rowCount">7 dní</span>
         </div>
-      </div>
-      <div class="tablewrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Kampaň</th><th>Status</th><th>Spend</th><th>ROAS</th><th>Nákupy</th><th>CTR</th><th>CPC</th><th>CPM</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>[IT] - DABA - A+</td><td><span class="tag good">active</span></td><td>€612,07</td><td>2,21×</td><td>15</td><td>1,65 %</td><td>€0,17</td><td>€2,87</td></tr>
-            <tr><td>[DE] - DABA - A+</td><td><span class="tag good">active</span></td><td>€596,11</td><td>3,73×</td><td>22</td><td>1,85 %</td><td>€0,34</td><td>€6,30</td></tr>
-            <tr><td>ASC+ | EU</td><td><span class="tag good">active</span></td><td>€351,29</td><td>0,50×</td><td>2</td><td>2,18 %</td><td>€0,17</td><td>€3,62</td></tr>
-            <tr><td>[DE] - VIDEO - A+ - ai v1</td><td><span class="tag good">active</span></td><td>€143,86</td><td>2,28×</td><td>5</td><td>1,50 %</td><td>€0,65</td><td>€9,74</td></tr>
-            <tr><td>[IT] - STATIC - A+</td><td><span class="tag warn">off</span></td><td>€137,58</td><td>1,23×</td><td>2</td><td>1,86 %</td><td>€0,38</td><td>€7,07</td></tr>
-            <tr><td>[IT] - VIDEO - A+ - ai v1</td><td><span class="tag good">active</span></td><td>€104,85</td><td>1,38×</td><td>2</td><td>1,72 %</td><td>€0,26</td><td>€4,38</td></tr>
-            <tr><td>[IT] - VIDEO - A+ - brand style</td><td><span class="tag warn">off</span></td><td>€64,14</td><td>1,77×</td><td>1</td><td>1,47 %</td><td>€0,16</td><td>€2,39</td></tr>
-            <tr><td>[DE] - STATIC 3 - A+</td><td><span class="tag good">active</span></td><td>€50,19</td><td>1,76×</td><td>1</td><td>2,19 %</td><td>€0,74</td><td>€16,14</td></tr>
-            <tr><td>[T2] - DABA - A+</td><td><span class="tag good">active</span></td><td>€47,59</td><td>4,24×</td><td>2</td><td>2,11 %</td><td>€0,11</td><td>€2,36</td></tr>
-            <tr><td>[T2] - VIDEO - A+ - ai v1</td><td><span class="tag neutral">active</span></td><td>€38,18</td><td>N/A</td><td>N/A</td><td>1,91 %</td><td>€0,21</td><td>€3,97</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Dátum</th>
+                <th>Tržby</th>
+                <th>Objednávky</th>
+                <th>AOV</th>
+                <th>Meta spend</th>
+                <th>PNO</th>
+                <th>Blended ROAS</th>
+                <th>Meta ROAS</th>
+                <th>CTR</th>
+                <th>CPM</th>
+                <th>BE Index</th>
+              </tr>
+            </thead>
+            <tbody id="dailyRows"></tbody>
+          </table>
+        </div>
+      </section>
 
-    <section id="products">
-      <div class="section-head">
-        <div>
-          <h2>Top produkty zo Shopify</h2>
-          <p>Produkty sú zoradené podľa gross sales za 12. až 18. jún 2026.</p>
+      <section aria-labelledby="campaign-title">
+        <div class="section-head">
+          <div>
+            <h2 id="campaign-title">Dnešné top Meta kampane podľa spendu</h2>
+            <p class="subtle">Kampaňový pohľad je dnešný top 10 podľa spendu. Account-level spend je 212,27 €, top 10 pokrýva väčšinu spendu, ale nie všetky malé kampane.</p>
+          </div>
+          <span class="pill">18. 6. 2026</span>
         </div>
-      </div>
-      <div class="tablewrap">
-        <table>
-          <thead>
-            <tr><th>Produkt</th><th>Gross sales</th><th>Net sales</th><th>Objednávky</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>TORNZ - Baggy Denim Embroidered Jorts</td><td>€644,50</td><td>€357,78</td><td>10</td></tr>
-            <tr><td>WINGY - Graphic Polo Shirt</td><td>€495,19</td><td>€281,90</td><td>8</td></tr>
-            <tr><td>WINGLY - Baggy Cotton Graphic Shorts</td><td>€467,23</td><td>€275,21</td><td>7</td></tr>
-            <tr><td>SKICEN - Oversized Graphic Jersey T-Shirt</td><td>€411,88</td><td>€263,65</td><td>10</td></tr>
-            <tr><td>STRIPASO - Baggy Graphic Jeans</td><td>€263,70</td><td>€163,77</td><td>4</td></tr>
-            <tr><td>SPIDER - Baggy Graphic Shorts</td><td>€248,06</td><td>€148,84</td><td>4</td></tr>
-            <tr><td>SPINNER - Oversized Embroidered T-Shirt</td><td>€245,73</td><td>€143,51</td><td>6</td></tr>
-            <tr><td>DORSY - Oversized Graphic T-Shirt</td><td>€198,21</td><td>€118,94</td><td>4</td></tr>
-            <tr><td>SPACER - Oversized Print Long Sleeved T-Shirt</td><td>€188,83</td><td>€118,55</td><td>3</td></tr>
-            <tr><td>GREYO - Baggy Basic Embroidered Jeans</td><td>€186,29</td><td>€78,93</td><td>3</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
+        <div class="grid two-col">
+          <div class="card">
+            <div class="chart-wrap small">
+              <canvas id="campaignChart"></canvas>
+            </div>
+          </div>
+          <div class="card">
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr><th>Kampaň</th><th>Spend</th><th>ROAS</th><th>CTR</th><th>CPM</th></tr>
+                </thead>
+                <tbody id="campaignRows"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
 
-    <section>
-      <div class="section-head">
-        <div>
-          <h2>Marketingové signály</h2>
-          <p>Krátky komentár k tomu, čo je v dátach viditeľné bez domýšľania atribúcie.</p>
-        </div>
-      </div>
-      <div class="grid-3">
-        <div class="panel insight good">
-          <h3>15. jún bol najsilnejší deň</h3>
-          <p>Shopify total sales dosiahli €1 561,54 pri 17 objednávkach. Meta v ten istý dostupný deň ukazuje ROAS 4,72× a 14 nákupov.</p>
-        </div>
-        <div class="panel insight bad">
-          <h3>ASC+ | EU treba skontrolovať</h3>
-          <p>Kampaň minula €351,29 s ROAS 0,50× a iba 2 Meta nákupmi. CTR je dobré, problém preto môže byť kvalita trafficu, ponuka alebo atribúcia.</p>
-        </div>
-        <div class="panel insight warn">
-          <h3>DE DABA nesie efektívny objem</h3>
-          <p>[DE] - DABA - A+ má spend €596,11, ROAS 3,73× a 22 nákupov. Je to najčistejší kandidát na ďalšiu kontrolu budgetu.</p>
-        </div>
-      </div>
-    </section>
+    <p class="footer">Dátové zdroje: Shopify Admin pre objednávky a tržby; Meta MCP pre account-level a campaign-level paid media metriky. Blockery: Business Efficiency Index je zatiaľ orientačný bez presnej marže, COGS a sessions/conversion rate; Meta dnešné dáta sú intra-day a môžu sa ešte zmeniť.</p>
+  </div>
 
-    <section id="quality">
-      <div class="section-head">
-        <div>
-          <h2>Kvalita dát a blockery</h2>
-          <p>Dashboard je pripravený na Netlify deploy, ale tieto veci treba brať do úvahy pri interpretácii.</p>
-        </div>
-      </div>
-      <div class="grid-2">
-        <div class="panel">
-          <h3>Čo je napojené</h3>
-          <p>Shopify store Teenwear.eu, mena EUR, timezone CEST. Meta Ads účet ENORDA s.r.o. - Admin, aktívny a queryable. GitHub repo cieľ: serneyy/teenwear-performance-dashboard.</p>
-        </div>
-        <div class="panel">
-          <h3>Čo zostáva nejasné</h3>
-          <p>Meta API nevrátilo dnešný deň 18. 6. 2026 v rovnakom rozsahu ako Shopify. PNO/MER preto používajú dostupné dáta a sú označené ako orientačné, nie ako presná finančná atribúcia.</p>
-        </div>
-      </div>
-      <p class="footer">PNO báza v tejto verzii: Meta spend / Shopify total sales. Ak sa má používať net sales, treba to potvrdiť a dashboard prepočítať.</p>
-    </section>
-  </main>
+  <script>
+    const rawDays = [
+      { date: '2026-06-12', label: '12. 6.', revenue: 497.96, orders: 7, spend: 247.64, metaRoas: 1.61, ctr: 1.83, cpm: 4.13, cpc: 0.23, clicks: 1096, impressions: 60000, metaPurchases: 5, bei: 44 },
+      { date: '2026-06-13', label: '13. 6.', revenue: 1052.38, orders: 9, spend: 250.75, metaRoas: 0.97, ctr: 2.00, cpm: 4.07, cpc: 0.20, clicks: 1232, impressions: 61681, metaPurchases: 1, bei: 63 },
+      { date: '2026-06-14', label: '14. 6.', revenue: 1140.37, orders: 15, spend: 338.73, metaRoas: 1.97, ctr: 1.76, cpm: 4.01, cpc: 0.23, clicks: 1481, impressions: 84380, metaPurchases: 9, bei: 70 },
+      { date: '2026-06-15', label: '15. 6.', revenue: 1673.30, orders: 17, spend: 315.60, metaRoas: 4.72, ctr: 1.75, cpm: 3.83, cpc: 0.22, clicks: 1442, impressions: 82312, metaPurchases: 14, bei: 92 },
+      { date: '2026-06-16', label: '16. 6.', revenue: 739.17, orders: 7, spend: 379.21, metaRoas: 0.75, ctr: 1.80, cpm: 4.23, cpc: 0.24, clicks: 1611, impressions: 89591, metaPurchases: 3, bei: 38 },
+      { date: '2026-06-17', label: '17. 6.', revenue: 792.25, orders: 10, spend: 412.03, metaRoas: 1.96, ctr: 1.73, cpm: 4.62, cpc: 0.27, clicks: 1546, impressions: 89249, metaPurchases: 11, bei: 47 },
+      { date: '2026-06-18', label: '18. 6.', revenue: 571.53, orders: 5, spend: 212.27, metaRoas: 2.60, ctr: 1.52, cpm: 4.84, cpc: 0.32, clicks: 665, impressions: 43821, metaPurchases: 6, bei: 45 }
+    ];
+
+    const campaigns = [
+      { name: '[DE] - DABA - A+', spend: 58.77, roas: null, ctr: 1.15, cpm: 6.40 },
+      { name: '[IT] - DABA - A+', spend: 50.66, roas: 7.25, ctr: 1.58, cpm: 3.05 },
+      { name: '[DE] - VIDEO - A+ - ai v1', spend: 19.72, roas: 7.38, ctr: 1.31, cpm: 9.55 },
+      { name: '[DE] - STATIC 3 - A+', spend: 14.92, roas: null, ctr: 1.61, cpm: 15.03 },
+      { name: 'ASC+ | EU', spend: 14.18, roas: null, ctr: 2.15, cpm: 4.83 },
+      { name: '[DE] - VIDEO - A+ - organic', spend: 10.32, roas: null, ctr: 2.14, cpm: 7.14 },
+      { name: '[T2] - VIDEO - A+ - ai v1', spend: 10.21, roas: null, ctr: 1.64, cpm: 3.41 },
+      { name: '[T2] - DABA - A+', spend: 9.81, roas: null, ctr: 1.43, cpm: 2.55 },
+      { name: '[DE] - VIDEO - A+ - perf', spend: 9.01, roas: null, ctr: 1.45, cpm: 10.03 },
+      { name: '[IT] - VIDEO - A+ - ai v1', spend: 8.21, roas: null, ctr: 1.02, cpm: 4.93 }
+    ];
+
+    const eur = new Intl.NumberFormat('sk-SK', { style: 'currency', currency: 'EUR', maximumFractionDigits: 2 });
+    const num = new Intl.NumberFormat('sk-SK', { maximumFractionDigits: 2 });
+    const pct = value => `${num.format(value)} %`;
+    const money = value => eur.format(value);
+
+    let selectedMetric = 'revenue';
+    let mainChart;
+    let efficiencyChart;
+    let campaignChart;
+
+    const rangeEls = {
+      from: document.getElementById('fromDate'),
+      to: document.getElementById('toDate')
+    };
+
+    function inRange(row) {
+      return row.date >= rangeEls.from.value && row.date <= rangeEls.to.value;
+    }
+
+    function rows() {
+      return rawDays.filter(inRange);
+    }
+
+    function aggregate(list) {
+      const sum = key => list.reduce((acc, row) => acc + row[key], 0);
+      const revenue = sum('revenue');
+      const spend = sum('spend');
+      const orders = sum('orders');
+      const clicks = sum('clicks');
+      const impressions = sum('impressions');
+      const metaPurchases = sum('metaPurchases');
+      const metaRevenue = list.reduce((acc, row) => acc + row.spend * row.metaRoas, 0);
+      return {
+        revenue,
+        spend,
+        orders,
+        clicks,
+        impressions,
+        metaPurchases,
+        aov: orders ? revenue / orders : 0,
+        pno: revenue ? spend / revenue * 100 : 0,
+        blendedRoas: spend ? revenue / spend : 0,
+        metaRoas: spend ? metaRevenue / spend : 0,
+        ctr: impressions ? clicks / impressions * 100 : 0,
+        cpm: impressions ? spend / impressions * 1000 : 0,
+        cpa: orders ? spend / orders : 0,
+        metaCpa: metaPurchases ? spend / metaPurchases : 0,
+        bei: list.length ? list.reduce((acc, row) => acc + row.bei, 0) / list.length : 0
+      };
+    }
+
+    function kpiStatus(key, value) {
+      if (key === 'metaRoas') return value >= 3.5 ? (value >= 4 ? 'good' : 'warn') : 'bad';
+      if (key === 'blendedRoas') return value >= 6.7 ? (value >= 7.5 ? 'good' : 'warn') : 'bad';
+      if (key === 'pno') return value <= 15 ? (value <= 13.5 ? 'good' : 'warn') : 'bad';
+      if (key === 'cpa') return value <= 26 ? (value <= 24 ? 'good' : 'warn') : 'bad';
+      if (key === 'ctr') return value >= 1.8 ? (value >= 2.2 ? 'good' : 'warn') : 'bad';
+      if (key === 'cpm') return 'warn';
+      if (key === 'bei') return value >= 100 ? 'good' : (value >= 80 ? 'warn' : 'bad');
+      return 'warn';
+    }
+
+    function statusText(key, value) {
+      const status = kpiStatus(key, value);
+      if (key === 'cpm') return 'Sledovať podľa krajiny';
+      if (key === 'bei' && value < 80) return 'Pod 80: stabilizácia, nie scale';
+      return status === 'good' ? 'V norme' : status === 'warn' ? 'Hraničné pásmo' : 'Mimo normy';
+    }
+
+    function renderGuardrails(agg) {
+      const items = [
+        { key: 'metaRoas', title: 'Meta ROAS', target: '4.0 až 4.5', raw: agg.metaRoas, actual: num.format(agg.metaRoas), rule: 'Minimum 3.5+. Scale až pri približne 5.0+. Pod 3.0 stop alebo výrazne reduce.' },
+        { key: 'blendedRoas', title: 'Blended ROAS', target: '7.5 až 8.5', raw: agg.blendedRoas, actual: num.format(agg.blendedRoas), rule: 'Realita celého biznisu: Shopify sales / Meta spend. Minimum je 6.7+. Pod 5.5 neškálovať.' },
+        { key: 'pno', title: 'PNO / Marketing %', target: '12 až 13.5 %', raw: agg.pno, actual: pct(agg.pno), rule: 'Zdravý cieľ. Maximum pre stabilný režim je približne 15 %. Nad 18 %: nebezpečná ekonomika.' },
+        { key: 'cpa', title: 'CPA', target: '20 až 24 €', raw: agg.cpa, actual: money(agg.cpa), rule: 'Cena za nákup musí byť pod hrubým ziskom objednávky. Max približne 26 €. Nad 30 € reduce, nad 35 € stop.' },
+        { key: 'ctr', title: 'CTR Meta', target: '2.2 až 2.8 %', raw: agg.ctr, actual: pct(agg.ctr), rule: 'Ukazuje silu kreatív a relevanciu. Minimum približne 1.8 %. Pod 1.5 % sú kreatívy alebo audience slabé.' },
+        { key: 'cpm', title: 'CPM', target: 'sledovať podľa krajiny', raw: agg.cpm, actual: money(agg.cpm), rule: 'Nie je hlavný cieľ. Vysoké CPM spolu so slabým ROAS znamená stop alebo reduce.' },
+        { key: 'bei', title: 'Business Efficiency Index', target: '100+', raw: agg.bei, actual: num.format(agg.bei), rule: 'Interný health index. Cieľ je dostať sa späť k zdravšiemu obdobiu. Pod 80: stabilizácia, nie scale.' }
+      ];
+      document.getElementById('guardrails').innerHTML = items.map(item => {
+        const state = kpiStatus(item.key, item.raw);
+        const redRule = state === 'bad' ? 'bad-text' : '';
+        return `<article class="card guardrail ${state}">
+          <div class="metric-label">${item.title}</div>
+          <div class="target">${item.target}</div>
+          <div class="actual">Aktuálne <strong>${item.actual}</strong></div>
+          <span class="status ${state}">${statusText(item.key, item.raw)}</span>
+          <p class="rule ${redRule}">${item.rule}</p>
+        </article>`;
+      }).join('');
+    }
+
+    function renderCharts(list, agg) {
+      const labels = list.map(row => row.label);
+      const baseOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: { mode: 'index', intersect: false },
+        plugins: {
+          legend: { labels: { color: '#dfe5ef', boxWidth: 10, usePointStyle: true } },
+          tooltip: { backgroundColor: '#0d1118', borderColor: 'rgba(255,255,255,.14)', borderWidth: 1 }
+        },
+        scales: {
+          x: { ticks: { color: '#a7b0bf' }, grid: { color: 'rgba(255,255,255,.06)' } },
+          y: { ticks: { color: '#a7b0bf' }, grid: { color: 'rgba(255,255,255,.08)' } }
+        }
+      };
+
+      if (mainChart) mainChart.destroy();
+      const datasets = selectedMetric === 'revenue' ? [
+        { type: 'bar', label: 'Tržby', data: list.map(row => row.revenue), backgroundColor: 'rgba(125, 211, 252, .42)', borderColor: '#7dd3fc', borderWidth: 1, borderRadius: 5 },
+        { type: 'line', label: 'Spend', data: list.map(row => row.spend), borderColor: '#ff5f73', backgroundColor: 'rgba(255, 95, 115, .16)', tension: .35, pointRadius: 4 }
+      ] : [
+        { type: 'line', label: selectedMetric === 'pno' ? 'PNO %' : selectedMetric === 'spend' ? 'Spend' : 'Blended ROAS', data: list.map(row => selectedMetric === 'pno' ? row.spend / row.revenue * 100 : selectedMetric === 'spend' ? row.spend : row.revenue / row.spend), borderColor: '#36d399', backgroundColor: 'rgba(54, 211, 153, .12)', tension: .35, pointRadius: 4, fill: true }
+      ];
+      document.getElementById('mainChartTitle').textContent = selectedMetric === 'revenue' ? 'Revenue vs spend' : selectedMetric === 'spend' ? 'Meta spend trend' : selectedMetric === 'pno' ? 'PNO trend' : 'Blended ROAS trend';
+      mainChart = new Chart(document.getElementById('mainChart'), { data: { labels, datasets }, options: baseOptions });
+
+      if (efficiencyChart) efficiencyChart.destroy();
+      efficiencyChart = new Chart(document.getElementById('efficiencyChart'), {
+        type: 'line',
+        data: {
+          labels,
+          datasets: [
+            { label: 'Business Efficiency Index', data: list.map(row => row.bei), borderColor: '#c4b5fd', backgroundColor: 'rgba(196, 181, 253, .14)', tension: .35, pointRadius: 4, fill: true },
+            { label: 'Cieľ 100', data: list.map(() => 100), borderColor: 'rgba(54, 211, 153, .8)', borderDash: [6, 6], pointRadius: 0 },
+            { label: 'Stabilizácia 80', data: list.map(() => 80), borderColor: 'rgba(246, 196, 83, .8)', borderDash: [4, 6], pointRadius: 0 }
+          ]
+        },
+        options: baseOptions
+      });
+
+      if (!campaignChart) {
+        campaignChart = new Chart(document.getElementById('campaignChart'), {
+          type: 'bar',
+          data: {
+            labels: campaigns.map(c => c.name),
+            datasets: [{ label: 'Spend dnes', data: campaigns.map(c => c.spend), backgroundColor: 'rgba(125, 211, 252, .42)', borderColor: '#7dd3fc', borderWidth: 1, borderRadius: 5 }]
+          },
+          options: { ...baseOptions, indexAxis: 'y' }
+        });
+      }
+    }
+
+    function renderTables(list) {
+      document.getElementById('dailyRows').innerHTML = list.map(row => {
+        const pno = row.spend / row.revenue * 100;
+        const blended = row.revenue / row.spend;
+        const state = row.bei < 80 ? 'bad-text' : '';
+        return `<tr>
+          <td>${row.label}</td>
+          <td>${money(row.revenue)}</td>
+          <td>${row.orders}</td>
+          <td>${money(row.revenue / row.orders)}</td>
+          <td>${money(row.spend)}</td>
+          <td class="${pno > 18 ? 'bad-text' : ''}">${pct(pno)}</td>
+          <td class="${blended < 5.5 ? 'bad-text' : ''}">${num.format(blended)}</td>
+          <td class="${row.metaRoas < 3 ? 'bad-text' : ''}">${num.format(row.metaRoas)}</td>
+          <td class="${row.ctr < 1.8 ? 'bad-text' : ''}">${pct(row.ctr)}</td>
+          <td>${money(row.cpm)}</td>
+          <td class="${state}">${num.format(row.bei)}</td>
+        </tr>`;
+      }).join('');
+
+      document.getElementById('campaignRows').innerHTML = campaigns.map(campaign => {
+        const roas = campaign.roas == null ? 'Nedostupné' : num.format(campaign.roas);
+        return `<tr>
+          <td>${campaign.name}</td>
+          <td>${money(campaign.spend)}</td>
+          <td>${roas}</td>
+          <td class="${campaign.ctr < 1.8 ? 'bad-text' : ''}">${pct(campaign.ctr)}</td>
+          <td>${money(campaign.cpm)}</td>
+        </tr>`;
+      }).join('');
+    }
+
+    function renderInsights(agg, list) {
+      const best = [...list].sort((a, b) => b.revenue - a.revenue)[0];
+      const worstPno = [...list].sort((a, b) => (b.spend / b.revenue) - (a.spend / a.revenue))[0];
+      document.getElementById('insights').innerHTML = [
+        `<div class="insight bad">PNO za vybrané obdobie je ${pct(agg.pno)}. Stabilný režim je približne do 15 %, takže spend ekonomika je mimo normy.</div>`,
+        `<div class="insight bad">Blended ROAS je ${num.format(agg.blendedRoas)} oproti cieľu 7,5 až 8,5. Pod 5,5 podľa guardrails neškálovať.</div>`,
+        `<div class="insight warn">Najsilnejší revenue deň v zvolenom okne: ${best.label} s tržbami ${money(best.revenue)} a ${best.orders} objednávkami.</div>`,
+        `<div class="insight bad">Najťažší PNO deň: ${worstPno.label}, PNO ${pct(worstPno.spend / worstPno.revenue * 100)}.</div>`,
+        `<div class="insight">CTR Meta za obdobie je ${pct(agg.ctr)}. Je tesne okolo minima 1,8 %, nie v cieľovom pásme 2,2 až 2,8 %.</div>`
+      ].join('');
+    }
+
+    function update() {
+      const list = rows();
+      const agg = aggregate(list);
+      const rangeText = `${list[0]?.label || ''} - ${list[list.length - 1]?.label || ''}`;
+      document.getElementById('guardrailRangeLabel').textContent = `Vybrané obdobie: ${rangeText}`;
+      document.getElementById('rowCount').textContent = `${list.length} dní`;
+      document.getElementById('beiValue').textContent = num.format(agg.bei);
+      document.getElementById('beiPill').textContent = `Business Efficiency Index: ${num.format(agg.bei)}`;
+      document.getElementById('beiStatus').className = `status ${kpiStatus('bei', agg.bei)}`;
+      document.getElementById('beiStatus').textContent = statusText('bei', agg.bei);
+      renderGuardrails(agg);
+      renderCharts(list, agg);
+      renderTables(list);
+      renderInsights(agg, list);
+    }
+
+    document.querySelectorAll('[data-preset]').forEach(button => {
+      button.addEventListener('click', () => {
+        document.querySelectorAll('[data-preset]').forEach(b => b.classList.remove('active'));
+        button.classList.add('active');
+        if (button.dataset.preset === 'today') {
+          rangeEls.from.value = '2026-06-18';
+          rangeEls.to.value = '2026-06-18';
+        }
+        if (button.dataset.preset === '3d') {
+          rangeEls.from.value = '2026-06-16';
+          rangeEls.to.value = '2026-06-18';
+        }
+        if (button.dataset.preset === '7d') {
+          rangeEls.from.value = '2026-06-12';
+          rangeEls.to.value = '2026-06-18';
+        }
+        update();
+      });
+    });
+
+    document.querySelectorAll('[data-metric]').forEach(button => {
+      button.addEventListener('click', () => {
+        document.querySelectorAll('[data-metric]').forEach(b => b.classList.remove('active'));
+        button.classList.add('active');
+        selectedMetric = button.dataset.metric;
+        update();
+      });
+    });
+
+    [rangeEls.from, rangeEls.to].forEach(input => input.addEventListener('change', () => {
+      if (rangeEls.from.value > rangeEls.to.value) rangeEls.to.value = rangeEls.from.value;
+      document.querySelectorAll('[data-preset]').forEach(b => b.classList.remove('active'));
+      update();
+    }));
+
+    update();
+  </script>
 </body>
 </html>

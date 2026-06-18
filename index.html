@@ -13,7 +13,7 @@
     .controls{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:10px}button,input{color:var(--text);background:var(--surface-2);border:1px solid var(--line);border-radius:8px;min-height:38px;padding:0 12px;font:inherit}button{cursor:pointer;font-size:13px;font-weight:760;transition:border-color .18s ease,transform .18s ease,background .18s ease}button:hover,button.active{border-color:rgba(125,211,252,.75);background:rgba(125,211,252,.12);transform:translateY(-1px)}input{color-scheme:dark;font-size:13px;width:146px}
     section{margin-top:24px;padding:24px;border:1px solid var(--line);border-radius:8px;background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.025));box-shadow:var(--shadow)}.today{border-color:rgba(125,211,252,.35);background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.025))}.section-head{display:flex;align-items:start;justify-content:space-between;gap:18px;margin-bottom:18px}.grid{display:grid;gap:14px}.kpis{grid-template-columns:repeat(5,minmax(0,1fr))}.two-col{grid-template-columns:minmax(0,1.35fr) minmax(320px,.65fr)}.card{border:1px solid var(--line);border-radius:8px;background:rgba(7,9,13,.54);padding:16px;min-width:0}
     .metric-label{color:var(--muted);font-size:11px;font-weight:850;letter-spacing:.08em;text-transform:uppercase}.metric-value{margin-top:8px;font-size:clamp(23px,2.6vw,36px);line-height:1;font-weight:900;letter-spacing:0;overflow-wrap:anywhere}.metric-note{margin-top:9px;color:var(--muted);font-size:12px;line-height:1.4}.status{display:inline-flex;align-items:center;gap:7px;margin-top:10px;padding:6px 8px;border-radius:999px;font-size:11px;font-weight:850;border:1px solid var(--line)}.status.good{color:#c8f8df;background:rgba(54,211,153,.12);border-color:rgba(54,211,153,.28)}.status.warn{color:#ffe6a6;background:rgba(246,196,83,.12);border-color:rgba(246,196,83,.28)}.status.bad{color:#ffd2d8;background:rgba(255,95,115,.13);border-color:rgba(255,95,115,.34)}
-    .guardrail-grid{grid-template-columns:repeat(4,minmax(0,1fr))}.guardrail{position:relative;overflow:hidden;min-height:178px}.guardrail.bad{border-color:rgba(255,95,115,.58);background:linear-gradient(150deg,rgba(255,95,115,.16),rgba(7,9,13,.62) 58%)}.guardrail.good{border-color:rgba(54,211,153,.32);background:linear-gradient(150deg,rgba(54,211,153,.11),rgba(7,9,13,.62) 58%)}.guardrail.warn{border-color:rgba(246,196,83,.38);background:linear-gradient(150deg,rgba(246,196,83,.12),rgba(7,9,13,.62) 58%)}.target{margin-top:8px;font-size:24px;line-height:1.05;font-weight:930;letter-spacing:0}.actual{display:flex;align-items:baseline;gap:8px;margin-top:14px;color:var(--muted);font-size:13px}.actual strong{color:var(--text);font-size:20px}.rule{margin-top:10px;color:#d7deea;font-size:12px;line-height:1.45}.bad-text{color:#ff9daa;font-weight:850}
+    .guardrail-grid{grid-template-columns:repeat(4,minmax(0,1fr))}.guardrail{position:relative;overflow:hidden;min-height:178px}.guardrail.bad{border-color:rgba(255,95,115,.58);background:linear-gradient(150deg,rgba(255,95,115,.16),rgba(7,9,13,.62) 58%)}.guardrail.good{border-color:rgba(54,211,153,.32);background:linear-gradient(150deg,rgba(54,211,153,.11),rgba(7,9,13,.62) 58%)}.guardrail.warn{border-color:rgba(246,196,83,.38);background:linear-gradient(150deg,rgba(246,196,83,.12),rgba(7,9,13,.62) 58%)}.target{margin-top:8px;font-size:24px;line-height:1.05;font-weight:930;letter-spacing:0}.actual{display:flex;align-items:baseline;gap:8px;margin-top:14px;color:var(--muted);font-size:13px}.actual strong{color:var(--text);font-size:20px}.rule{margin-top:10px;color:#d7deea;font-size:12px;line-height:1.45}.bad-text{color:#ff9daa;font-weight:850}.muted-text{color:var(--muted)}
     .chart-wrap{height:340px;min-height:260px}.chart-wrap.small{height:260px}canvas{width:100%!important;height:100%!important}.table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;min-width:720px}th,td{padding:12px 10px;border-bottom:1px solid var(--line);text-align:left;font-size:13px;white-space:nowrap}th{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.08em}.insight-list{display:grid;gap:12px}.insight{border-left:3px solid var(--accent);padding:4px 0 4px 12px;color:#dce3ee;font-size:13px;line-height:1.45}.insight.bad{border-left-color:var(--bad)}.insight.warn{border-left-color:var(--warn)}.note-box{margin-top:16px;padding:14px;border:1px solid rgba(246,196,83,.28);border-radius:8px;background:rgba(246,196,83,.08);color:#ffe6a6;font-size:13px;line-height:1.5}details{margin-top:14px;border:1px solid var(--line);border-radius:8px;padding:12px 14px;background:rgba(255,255,255,.035)}summary{cursor:pointer;font-weight:850;color:#dfe5ef}.footer{color:var(--muted);font-size:12px;line-height:1.5;padding:22px 4px 0}
     @media(max-width:1180px){.kpis{grid-template-columns:repeat(3,minmax(0,1fr))}.guardrail-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.two-col{grid-template-columns:1fr}}@media(max-width:760px){.shell{width:min(100% - 18px,1440px);padding-top:10px}header{grid-template-columns:1fr;align-items:start}.controls{justify-content:start}input{width:calc(50% - 5px);min-width:138px}section{padding:16px;margin-top:16px}.section-head{display:grid}.kpis,.guardrail-grid{grid-template-columns:1fr}.chart-wrap{height:300px}.metric-value{font-size:30px}table{min-width:920px}}
   </style>
@@ -24,14 +24,14 @@
       <div>
         <h1>Teenwear.eu Performance Dashboard</h1>
         <div class="meta-line">
-          <span class="pill"><span class="dot"></span>Aktualizované 19. 6. 2026, 00:01 CEST</span>
+          <span class="pill"><span class="dot"></span>Aktualizované 19. 6. 2026, 01:01 CEST</span>
           <span class="pill">Shopify: Teenwear.eu, EUR, CEST</span>
           <span class="pill">Meta účet: ENORDA s.r.o. - Admin</span>
           <span class="pill">Netlify target: teenwear-performance.netlify.app</span>
         </div>
       </div>
       <div class="controls" aria-label="Výber obdobia">
-        <button data-preset="today">Najnovší deň</button>
+        <button data-preset="today">Dnes</button>
         <button data-preset="7d" class="active">7 dní</button>
         <button data-preset="3d">3 dni</button>
         <input type="date" id="fromDate" value="2026-06-12" min="2026-06-12" max="2026-06-18">
@@ -42,22 +42,22 @@
       <section class="today" aria-labelledby="today-title">
         <div class="section-head">
           <div>
-            <h2 id="today-title">Dnešný blok: najnovší dostupný deň 18. 6. 2026</h2>
-            <p class="subtle">Dashboard bol obnovený 19. 6. 2026 o 00:01 CEST. Shopify pre 19. 6. zatiaľ vracia nulové hodnoty, preto horný KPI blok používa posledný nenulový dostupný deň. Meta dáta za 18. 6. sú account-level report.</p>
+            <h2 id="today-title">Dnešný blok: 19. 6. 2026</h2>
+            <p class="subtle">Priebežný intra-day pohľad k 01:01 CEST. Shopify už vracia prvú objednávku, Meta dnes zatiaľ vracia iba skorý spend a traffic metriky; dnešný Meta ROAS a Meta nákupy ešte nie sú dostupné.</p>
           </div>
           <span class="pill">Top summary</span>
         </div>
         <div class="grid kpis">
-          <article class="card"><div class="metric-label">Dnešné tržby</div><div class="metric-value">987,28 €</div><div class="metric-note">Shopify total sales, 9 objednávok.</div></article>
-          <article class="card"><div class="metric-label">Dnešný Meta spend</div><div class="metric-value">329,26 €</div><div class="metric-note">Meta account-level spend za 18. 6.</div></article>
-          <article class="card"><div class="metric-label">Dnešné PNO</div><div class="metric-value">33,35 %</div><span class="status bad">Rizikovejší stav</span><div class="metric-note">Spend / Shopify total sales. Orientačný cieľ je 12 až 13,5 %.</div></article>
-          <article class="card"><div class="metric-label">Blended ROAS</div><div class="metric-value">3,00</div><span class="status bad">Pod odporúčaným rozsahom</span><div class="metric-note">Shopify tržby / Meta spend.</div></article>
-          <article class="card"><div class="metric-label">Meta ROAS</div><div class="metric-value">2,46</div><span class="status bad">Slabší výsledok</span><div class="metric-note">Meta purchase ROAS, account-level.</div></article>
-          <article class="card"><div class="metric-label">Dnešné CPA</div><div class="metric-value">36,58 €</div><span class="status bad">Výrazne slabší stav</span><div class="metric-note">Meta spend / Shopify objednávky.</div></article>
-          <article class="card"><div class="metric-label">Dnešné CR</div><div class="metric-value">0,92 %</div><div class="metric-note">Shopify sessions conversion rate.</div></article>
-          <article class="card"><div class="metric-label">Business Efficiency Index</div><div class="metric-value">55</div><span class="status bad">Pod 80</span><div class="metric-note">Čiastočný index, bez presnej COGS/marže.</div></article>
-          <article class="card"><div class="metric-label">AOV</div><div class="metric-value">88,85 €</div><div class="metric-note">Shopify average_order_value.</div></article>
-          <article class="card"><div class="metric-label">Objednávky</div><div class="metric-value">9</div><div class="metric-note">Shopify orders za najnovší dostupný deň.</div></article>
+          <article class="card"><div class="metric-label">Dnešné tržby</div><div class="metric-value">40,02 €</div><div class="metric-note">Shopify total sales, 1 objednávka.</div></article>
+          <article class="card"><div class="metric-label">Dnešný Meta spend</div><div class="metric-value">6,52 €</div><div class="metric-note">Meta account-level spend za 19. 6.</div></article>
+          <article class="card"><div class="metric-label">Dnešné PNO</div><div class="metric-value">16,29 %</div><span class="status warn">Hraničné pásmo</span><div class="metric-note">Spend / Shopify total sales. Dnešok je zatiaľ veľmi skorý.</div></article>
+          <article class="card"><div class="metric-label">Blended ROAS</div><div class="metric-value">6,14</div><span class="status warn">Tesne pod minimom</span><div class="metric-note">Shopify tržby / Meta spend.</div></article>
+          <article class="card"><div class="metric-label">Meta ROAS</div><div class="metric-value">Nedostupné</div><span class="status warn">Meta lag</span><div class="metric-note">Purchase ROAS dnes zatiaľ Meta nevracia.</div></article>
+          <article class="card"><div class="metric-label">Dnešné CPA</div><div class="metric-value">6,52 €</div><span class="status good">Skorý signál</span><div class="metric-note">Meta spend / Shopify objednávky, pri 1 objednávke veľmi citlivé.</div></article>
+          <article class="card"><div class="metric-label">Dnešné CR</div><div class="metric-value">0,00 %</div><div class="metric-note">Shopify sessions conversion rate zatiaľ 0,00 % pri 28 sessions.</div></article>
+          <article class="card"><div class="metric-label">Business Efficiency Index</div><div class="metric-value">65</div><span class="status bad">Čiastočný</span><div class="metric-note">Orientačný intra-day index bez dnešného Meta ROAS.</div></article>
+          <article class="card"><div class="metric-label">AOV</div><div class="metric-value">24,85 €</div><div class="metric-note">Shopify average_order_value.</div></article>
+          <article class="card"><div class="metric-label">Objednávky</div><div class="metric-value">1</div><div class="metric-note">Shopify orders za dnešok.</div></article>
         </div>
       </section>
 
@@ -86,7 +86,7 @@
 
       <section aria-labelledby="trend-title">
         <div class="section-head">
-          <div><h2 id="trend-title">Trend tržieb a spendu</h2><p class="subtle">Globálny default mimo horného bloku je posledných 7 dostupných nenulových dní. Graf aj tabuľka reagujú na vybraný dátumový rozsah.</p></div>
+          <div><h2 id="trend-title">Trend tržieb a spendu</h2><p class="subtle">Globálny default mimo horného bloku je posledných 7 kompletných dostupných dní. Graf aj tabuľka reagujú na vybraný dátumový rozsah.</p></div>
           <div class="controls"><button data-metric="revenue" class="active">Tržby</button><button data-metric="spend">Spend</button><button data-metric="pno">PNO</button><button data-metric="blendedRoas">Blended ROAS</button></div>
         </div>
         <div class="grid two-col">
@@ -101,16 +101,16 @@
       </section>
 
       <section aria-labelledby="campaign-title">
-        <div class="section-head"><div><h2 id="campaign-title">Top Meta kampane podľa spendu</h2><p class="subtle">Kampaňový pohľad je najnovší dostupný deň 18. 6. 2026, top 12 podľa spendu. Niektoré kampane nemajú dostupný purchase ROAS pri dennom reporte.</p></div><span class="pill">18. 6. 2026</span></div>
+        <div class="section-head"><div><h2 id="campaign-title">Top Meta kampane podľa spendu</h2><p class="subtle">Kampaňový pohľad je dnešný intra-day report 19. 6. 2026. Spend je zatiaľ nízky a purchase ROAS pri dennom reporte ešte nie je dostupný.</p></div><span class="pill">19. 6. 2026</span></div>
         <div class="grid two-col"><div class="card"><div class="chart-wrap small"><canvas id="campaignChart"></canvas></div></div><div class="card"><div class="table-wrap"><table><thead><tr><th>Kampaň</th><th>Spend</th><th>ROAS</th><th>CTR</th><th>CPM</th></tr></thead><tbody id="campaignRows"></tbody></table></div></div></div>
       </section>
 
       <section aria-labelledby="product-title">
-        <div class="section-head"><div><h2 id="product-title">Top produkty za posledných 7 dostupných dní</h2><p class="subtle">Shopify pohľad podľa gross sales za 12. 6. - 18. 6. 2026. Riadok 19. 6. bol vynechaný, pretože zatiaľ obsahoval nulové hodnoty.</p></div><span class="pill">Shopify products</span></div>
+        <div class="section-head"><div><h2 id="product-title">Top produkty za posledných 7 dostupných dní</h2><p class="subtle">Shopify pohľad podľa gross sales za posledných 7 dostupných dní vrátane dnešného skorého predaja.</p></div><span class="pill">Shopify products</span></div>
         <div class="table-wrap"><table><thead><tr><th>Produkt</th><th>Gross sales</th><th>Net sales</th><th>Objednávky</th></tr></thead><tbody id="productRows"></tbody></table></div>
       </section>
     </main>
-    <p class="footer">Dátové zdroje: Shopify Admin pre objednávky, tržby, sessions a produkty; Meta MCP pre account-level a campaign-level paid media metriky. Blockery: Business Efficiency Index je zatiaľ čiastočný bez presnej marže a COGS; 19. 6. 2026 zatiaľ nemal použiteľné Shopify hodnoty v čase obnovy. Netlify zdroj je GitHub repo serneyy/teenwear-performance-dashboard.</p>
+    <p class="footer">Dátové zdroje: Shopify Admin pre objednávky, tržby, sessions a produkty; Meta MCP pre account-level a campaign-level paid media metriky. Blockery: Business Efficiency Index je zatiaľ čiastočný bez presnej marže a COGS; dnešný Meta purchase ROAS a Meta nákupy za 19. 6. 2026 zatiaľ nie sú dostupné. Netlify zdroj je GitHub repo serneyy/teenwear-performance-dashboard.</p>
   </div>
 
   <script>
@@ -121,21 +121,16 @@
       {date:'2026-06-15',label:'15. 6.',revenue:1561.54,netSales:1261.46,orders:17,aov:79.575,spend:315.60,metaRoas:4.72,ctr:1.75,cpm:3.83,cpc:0.22,clicks:1442,impressions:82312,metaPurchases:14,cr:1.5463917525773196,bei:99},
       {date:'2026-06-16',label:'16. 6.',revenue:630.66,netSales:545.25,orders:7,aov:81.851,spend:379.21,metaRoas:0.75,ctr:1.80,cpm:4.23,cpc:0.24,clicks:1611,impressions:89591,metaPurchases:3,cr:0.5793742757821553,bei:30},
       {date:'2026-06-17',label:'17. 6.',revenue:792.25,netSales:618.79,orders:10,aov:61.879,spend:412.08,metaRoas:1.96,ctr:1.73,cpm:4.62,cpc:0.27,clicks:1546,impressions:89256,metaPurchases:11,cr:0.9142857142857144,bei:44},
-      {date:'2026-06-18',label:'18. 6.',revenue:987.28,netSales:806.16,orders:9,aov:88.851,spend:329.26,metaRoas:2.46,ctr:1.55,cpm:4.95,cpc:0.32,clicks:1033,impressions:66494,metaPurchases:8,cr:0.9244992295839753,bei:55}
+      {date:'2026-06-18',label:'18. 6.',revenue:987.28,netSales:806.16,orders:9,aov:88.851,spend:330.02,metaRoas:2.46,ctr:1.55,cpm:4.95,cpc:0.32,clicks:1033,impressions:66633,metaPurchases:8,cr:1.078582434514638,bei:57}
     ];
     const campaigns=[
-      {name:'[DE] - DABA - A+',spend:118.49,roas:1.09,ctr:1.35,cpm:6.13},
-      {name:'[IT] - DABA - A+',spend:53.43,roas:6.87,ctr:1.58,cpm:3.03},
-      {name:'[DE] - VIDEO - A+ - ai v1',spend:36.67,roas:3.97,ctr:1.62,cpm:10.09},
-      {name:'[DE] - VIDEO - A+ - perf',spend:19.17,roas:null,ctr:1.19,cpm:9.14},
-      {name:'[T2] - DABA - A+',spend:18.21,roas:null,ctr:1.64,cpm:2.45},
-      {name:'[T2] - VIDEO - A+ - ai v1',spend:18.16,roas:7.12,ctr:1.54,cpm:3.01},
-      {name:'[DE] - VIDEO - A+ - organic',spend:15.56,roas:null,ctr:2.22,cpm:6.64},
-      {name:'[DE] - STATIC 3 - A+',spend:15.35,roas:null,ctr:1.55,cpm:14.92},
-      {name:'ASC+ | EU',spend:15.11,roas:null,ctr:2.18,cpm:4.84},
-      {name:'[IT] - VIDEO - A+ - ai v1',spend:8.58,roas:null,ctr:1.04,cpm:4.95},
-      {name:'[IT] - DABA - A+ - RMK',spend:7.82,roas:5.12,ctr:1.86,cpm:4.27},
-      {name:'[DE] - DABA - A+ - RMK',spend:2.71,roas:null,ctr:2.78,cpm:9.41}
+      {name:'[DE] - DABA - A+',spend:3.17,roas:null,ctr:0.40,cpm:6.38},
+      {name:'[IT] - DABA - A+ - RMK',spend:1.29,roas:null,ctr:2.23,cpm:3.19},
+      {name:'[DE] - VIDEO - A+ - ai v1',spend:0.93,roas:null,ctr:2.54,cpm:7.88},
+      {name:'[T2] - DABA - A+',spend:0.36,roas:null,ctr:3.55,cpm:2.55},
+      {name:'[T2] - VIDEO - A+ - ai v1',spend:0.26,roas:null,ctr:3.23,cpm:2.80},
+      {name:'[DE] - VIDEO - A+ - perf',spend:0.26,roas:null,ctr:5.00,cpm:13.00},
+      {name:'[DE] - VIDEO - A+ - organic',spend:0.25,roas:null,ctr:2.70,cpm:6.76}
     ];
     const products=[
       {name:'TORNZ - Baggy Denim Embroidered Jorts',gross:644.50,net:357.78,orders:10},
@@ -146,8 +141,8 @@
       {name:'STRIPASO - Baggy Graphic Jeans',gross:263.70,net:163.77,orders:4},
       {name:'SPIDER - Baggy Graphic Shorts',gross:248.06,net:148.84,orders:4},
       {name:'DORSY - Oversized Graphic T-Shirt',gross:198.21,net:118.94,orders:4},
-      {name:'SPACER - Oversized Print Long Sleeved T-Shirt',gross:188.83,net:118.55,orders:3},
-      {name:'GREYO - Baggy Basic Embroidered Jeans',gross:186.29,net:78.93,orders:3}
+      {name:'RISON - Oversized Print T-Shirt',gross:195.81,net:124.66,orders:5},
+      {name:'SPACER - Oversized Print Long Sleeved T-Shirt',gross:188.83,net:118.55,orders:3}
     ];
     const eur=new Intl.NumberFormat('sk-SK',{style:'currency',currency:'EUR',maximumFractionDigits:2});
     const num=new Intl.NumberFormat('sk-SK',{maximumFractionDigits:2});
@@ -171,7 +166,7 @@
       return {revenue,netSales,spend,orders,clicks,impressions,metaPurchases,aov:orders?netSales/orders:0,pno:revenue?spend/revenue*100:0,blendedRoas:spend?revenue/spend:0,metaRoas,ctr,cpm:impressions?spend/impressions*1000:0,cpa:orders?spend/orders:0,metaCpa:metaPurchases?spend/metaPurchases:0,cr,bei:calculateBei({revenue,orders,spend,metaRoas,ctr,cr})}
     }
     function kpiStatus(key,value){if(key==='metaRoas')return value>=3.5?(value>=4?'good':'warn'):'bad';if(key==='blendedRoas')return value>=6.7?(value>=7.5?'good':'warn'):'bad';if(key==='pno')return value<=15?(value<=13.5?'good':'warn'):'bad';if(key==='cpa')return value<=26?(value<=24?'good':'warn'):'bad';if(key==='ctr')return value>=1.8?(value>=2.2?'good':'warn'):'bad';if(key==='cpm')return 'warn';if(key==='bei')return value>=100?'good':(value>=80?'warn':'bad');return 'warn'}
-    function statusText(key,value){const status=kpiStatus(key,value);if(key==='cpm')return 'Sledovať podľa krajiny';if(key==='pno'&&value>18)return 'Rizikovejší stav';if(key==='cpa'&&value>35)return 'Výrazne slabší stav';if(key==='bei'&&value<80)return 'Pod 80: slabší stav pre scale';return status==='good'?'Blízko ideálneho stavu':status==='warn'?'V poriadku / hraničné pásmo':'Slabší výsledok'}
+    function statusText(key,value){const status=kpiStatus(key,value);if(key==='cpm')return 'Sledovať podľa krajiny';if(key==='pno'&&value>18)return 'Rizikovejší stav';if(key==='cpa'&&value>35)return 'Výrazne slabší stav';if(key==='cpa'&&value>30)return 'Slabší stav';if(key==='bei'&&value<80)return 'Pod 80: slabší stav pre scale';return status==='good'?'Blízko ideálneho stavu':status==='warn'?'V poriadku / hraničné pásmo':'Slabší výsledok'}
     function renderGuardrails(agg){
       const items=[
         {key:'metaRoas',title:'Meta ROAS',target:'4.0 až 4.5',raw:agg.metaRoas,actual:num.format(agg.metaRoas),rule:'Minimum 3.5+. Scale až pri približne 5.0+. Pod 3.0 je skôr signál na výraznú opatrnosť alebo reduce.'},
@@ -193,7 +188,8 @@
       mainChart=new Chart(document.getElementById('mainChart'),{data:{labels,datasets},options:baseOptions()});
       if(efficiencyChart)efficiencyChart.destroy();
       efficiencyChart=new Chart(document.getElementById('efficiencyChart'),{type:'line',data:{labels,datasets:[{label:'Business Efficiency Index',data:list.map(row=>row.bei),borderColor:'#c4b5fd',backgroundColor:'rgba(196,181,253,.14)',tension:.35,pointRadius:4,fill:true},{label:'Cieľ 100',data:list.map(()=>100),borderColor:'rgba(54,211,153,.8)',borderDash:[6,6],pointRadius:0},{label:'Slabší scale stav 80',data:list.map(()=>80),borderColor:'rgba(246,196,83,.8)',borderDash:[4,6],pointRadius:0}]},options:baseOptions()});
-      if(!campaignChart)campaignChart=new Chart(document.getElementById('campaignChart'),{type:'bar',data:{labels:campaigns.map(c=>c.name),datasets:[{label:'Spend',data:campaigns.map(c=>c.spend),backgroundColor:'rgba(125,211,252,.42)',borderColor:'#7dd3fc',borderWidth:1,borderRadius:5}]},options:{...baseOptions(),indexAxis:'y'}});
+      if(campaignChart)campaignChart.destroy();
+      campaignChart=new Chart(document.getElementById('campaignChart'),{type:'bar',data:{labels:campaigns.map(c=>c.name),datasets:[{label:'Spend',data:campaigns.map(c=>c.spend),backgroundColor:'rgba(125,211,252,.42)',borderColor:'#7dd3fc',borderWidth:1,borderRadius:5}]},options:{...baseOptions(),indexAxis:'y'}});
     }
     function renderTables(list){
       document.getElementById('dailyRows').innerHTML=list.map(row=>{const pno=row.spend/row.revenue*100,blended=row.revenue/row.spend;return `<tr><td>${row.label}</td><td>${money(row.revenue)}</td><td>${row.orders}</td><td>${money(row.aov)}</td><td>${money(row.spend)}</td><td class="${pno>18?'bad-text':''}">${pct(pno)}</td><td class="${blended<5.5?'bad-text':''}">${num.format(blended)}</td><td class="${row.metaRoas<3?'bad-text':''}">${num.format(row.metaRoas)}</td><td class="${row.ctr<1.8?'bad-text':''}">${pct(row.ctr)}</td><td>${money(row.cpm)}</td><td>${pct(row.cr)}</td><td class="${row.bei<80?'bad-text':''}">${num.format(row.bei)}</td></tr>`}).join('');

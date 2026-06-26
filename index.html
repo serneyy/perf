@@ -1,1 +1,404 @@
-<!doctype html><html lang="sk"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Teenwear.eu — Performance</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700;800&family=Inter:wght@400;450;500;600&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet"><script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script><style> :root{ --bg:#f4f4f5;--surface:#fff;--surface2:#fafafa;--surface3:#f4f4f5; --ink:#09090b;--ink2:#3f3f46;--ink3:#71717a;--ink4:#a1a1aa; --line:rgba(9,9,11,.08);--line2:rgba(9,9,11,.05);--line3:rgba(9,9,11,.13); --pos:#15803d;--pos-bg:#f0fdf4;--warn:#b45309;--warn-bg:#fffbeb;--neg:#dc2626;--neg-bg:#fef2f2; --shadow:0 1px 1px rgba(9,9,11,.03),0 6px 16px rgba(9,9,11,.04),0 22px 48px rgba(9,9,11,.05); --shadow-sm:0 1px 2px rgba(9,9,11,.06); --disp:'Inter Tight',ui-sans-serif,system-ui,sans-serif; --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace; --rad:18px;--rad2:13px;--rad3:9px; } *{box-sizing:border-box} html{-webkit-text-size-adjust:100%} body{margin:0;min-height:100vh;background: radial-gradient(120% 80% at 100% -10%,#fbfbfc 0,transparent 50%), var(--bg); color:var(--ink);font-family:'Inter',ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;letter-spacing:-.003em} .num,.metric-value,.target,.actual strong,td.n,.gauge-val,.kpi-v,.bei-big,th{font-family:var(--mono);font-variant-numeric:tabular-nums;font-feature-settings:"tnum"} h1,h2,h3,p{margin:0} a{color:inherit} .shell{width:min(1460px,calc(100% - 32px));margin:0 auto;padding:30px 0 72px} /* ---------- topbar ---------- */ .topbar{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;flex-wrap:wrap} .brand{display:flex;flex-direction:column;gap:9px} .eyebrow{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--ink4);display:flex;align-items:center;gap:9px} .eyebrow .live{display:inline-flex;align-items:center;gap:6px;color:var(--ink2)} .live i{width:7px;height:7px;border-radius:50%;background:var(--pos);box-shadow:0 0 0 0 rgba(21,128,61,.4);animation:pulse 2.4s infinite} @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(21,128,61,.35)}70%{box-shadow:0 0 0 6px rgba(21,128,61,0)}100%{box-shadow:0 0 0 0 rgba(21,128,61,0)}} h1{font-family:var(--disp);font-size:clamp(26px,3.2vw,40px);line-height:1;letter-spacing:-.04em;font-weight:700} .src{display:flex;flex-wrap:wrap;gap:7px;margin-top:3px} .chip{display:inline-flex;align-items:center;gap:7px;padding:6px 11px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--ink3);font-size:11.5px;font-weight:500;white-space:nowrap;box-shadow:var(--shadow-sm)} .chip b{color:var(--ink2);font-weight:600} .topbar .controls{align-items:flex-end} /* ---------- toolbar ---------- */ .toolbar{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-top:22px;padding:10px;border:1px solid var(--line);border-radius:var(--rad2);background:var(--surface);box-shadow:var(--shadow-sm)} .seg{display:inline-flex;background:var(--surface3);border:1px solid var(--line2);border-radius:10px;padding:3px;gap:2px} .controls{display:flex;flex-wrap:wrap;align-items:center;gap:8px} button{cursor:pointer;font:inherit;font-size:13px;font-weight:550;color:var(--ink2);background:transparent;border:0;border-radius:8px;min-height:34px;padding:0 14px;transition:all .15s} .seg button{min-width:54px} .seg button:hover{color:var(--ink)} .seg button.active{background:var(--surface);color:var(--ink);box-shadow:var(--shadow-sm);font-weight:600} input{font:inherit;font-size:12.5px;font-weight:500;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:9px;min-height:36px;padding:0 11px;width:148px;color-scheme:light;box-shadow:var(--shadow-sm);font-family:var(--mono)} input:focus-visible,button:focus-visible{outline:2px solid var(--ink);outline-offset:1px} .range-label{font-family:var(--mono);font-size:11.5px;color:var(--ink3);letter-spacing:.02em;padding-right:6px} .range-label b{color:var(--ink);font-weight:600} /* ---------- section ---------- */ section{margin-top:16px;padding:26px;border:1px solid var(--line);border-radius:var(--rad);background:var(--surface);box-shadow:var(--shadow)} .sec-head{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;margin-bottom:22px} .sec-head .eyebrow{margin-bottom:9px} h2{font-family:var(--disp);font-size:clamp(18px,2vw,23px);letter-spacing:-.03em;font-weight:700} .sub{color:var(--ink3);font-size:12.5px;line-height:1.55;max-width:70ch;margin-top:6px} .metric-toggle{display:inline-flex;background:var(--surface3);border:1px solid var(--line2);border-radius:10px;padding:3px;gap:2px;flex-wrap:wrap} .bei-controls{display:flex;flex-direction:column;align-items:flex-end;gap:8px} .bei-dates{display:flex;gap:8px} .bei-dates input{width:132px} .grid{display:grid;gap:13px} .two-col{grid-template-columns:minmax(0,1.4fr) minmax(310px,.6fr)} /* ---------- today KPIs ---------- */ .today{position:relative;overflow:hidden;background:linear-gradient(180deg,#fcfcfd,#fff 46%)} .kpi-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--rad2);overflow:hidden} .kpi{background:var(--surface);padding:17px 18px;display:flex;flex-direction:column;gap:0;min-width:0;transition:background .15s} .kpi:hover{background:var(--surface2)} .kpi-l{font-size:11px;font-weight:550;letter-spacing:.04em;text-transform:uppercase;color:var(--ink3);display:flex;align-items:center;justify-content:space-between;gap:8px} .kpi-v{font-size:clamp(21px,2.3vw,27px);font-weight:600;letter-spacing:-.04em;margin-top:11px;line-height:1;color:var(--ink);overflow-wrap:anywhere} .kpi-foot{margin-top:11px;min-height:18px;display:flex;align-items:center} /* status tag */ .tag{display:inline-flex;align-items:center;gap:6px;padding:3px 8px 3px 7px;border-radius:999px;font-size:10.5px;font-weight:600;line-height:1;border:1px solid var(--line);background:var(--surface2);color:var(--ink2);white-space:nowrap} .tag::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor} .tag.pos{color:var(--pos);background:var(--pos-bg);border-color:rgba(21,128,61,.2)} .tag.warn{color:var(--warn);background:var(--warn-bg);border-color:rgba(180,83,9,.2)} .tag.neg{color:var(--neg);background:var(--neg-bg);border-color:rgba(220,38,38,.2)} .tag.mono{font-family:var(--mono);letter-spacing:0} /* ---------- guideposts / gauges ---------- */ .gauge-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px} .gp{border:1px solid var(--line);border-radius:var(--rad2);background:var(--surface);padding:18px;display:flex;flex-direction:column;transition:border-color .16s,box-shadow .16s,transform .16s} .gp:hover{border-color:var(--line3);box-shadow:0 8px 24px rgba(9,9,11,.06);transform:translateY(-2px)} .gp-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px} .gp-label{font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--ink3)} .gp-val{font-family:var(--mono);font-size:30px;font-weight:600;letter-spacing:-.04em;line-height:1;margin-top:13px;color:var(--ink)} .gp-val .u{font-size:15px;color:var(--ink4);margin-left:3px;font-weight:500} .gauge{margin-top:17px} .gauge-track{position:relative;height:8px;border-radius:999px;background:var(--surface3);border:1px solid var(--line2);overflow:hidden} .gauge-zone{position:absolute;top:0;bottom:0;background:repeating-linear-gradient(45deg,rgba(9,9,11,.14),rgba(9,9,11,.14) 3px,rgba(9,9,11,.07) 3px,rgba(9,9,11,.07) 6px);border-left:1px solid rgba(9,9,11,.22);border-right:1px solid rgba(9,9,11,.22)} .gauge-marker{position:absolute;top:50%;width:3px;height:18px;border-radius:2px;transform:translate(-50%,-50%);background:var(--ink);box-shadow:0 0 0 3px var(--surface)} .gauge-marker.pos{background:var(--pos)}.gauge-marker.warn{background:var(--warn)}.gauge-marker.neg{background:var(--neg)} .gauge-scale{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;color:var(--ink4);margin-top:7px} .gp-goals{margin-top:15px;padding-top:13px;border-top:1px solid var(--line2);display:flex} .gp-goal{flex:1;display:flex;flex-direction:column;gap:5px;min-width:0} .gp-goal+.gp-goal{border-left:1px solid var(--line2);padding-left:15px;margin-left:1px} .gp-goal span{font-size:9.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink4);font-weight:600} .gp-goal b{font-family:var(--mono);font-size:13px;color:var(--ink);font-weight:600;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis} .gp-flat{justify-content:flex-start} .gp-flat .gauge-flat{margin-top:17px;height:8px;border-radius:999px;background:repeating-linear-gradient(90deg,var(--surface3),var(--surface3) 6px,var(--line2) 6px,var(--line2) 7px);border:1px solid var(--line2)} /* ---------- efficiency ---------- */ .bei-card{display:flex;flex-direction:column} .bei-big{font-family:var(--mono);font-size:clamp(48px,7vw,72px);font-weight:600;letter-spacing:-.05em;line-height:.9;color:var(--ink)} .bei-sub{color:var(--ink3);font-size:12.5px;line-height:1.55;margin-top:14px} .bei-bar{margin-top:18px;height:10px;border-radius:999px;background:var(--surface3);border:1px solid var(--line2);position:relative;overflow:hidden} .bei-fill{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(90deg,#3f3f46,#09090b);border-radius:999px;transition:width .5s ease} .bei-ticks{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;color:var(--ink4);margin-top:7px} details{margin-top:16px;border-top:1px solid var(--line2);padding-top:13px} summary{cursor:pointer;font-size:12.5px;font-weight:550;color:var(--ink2);list-style:none} summary::-webkit-details-marker{display:none} summary::before{content:"+ ";font-family:var(--mono);color:var(--ink4)} details[open] summary::before{content:"– "} .card{border:1px solid var(--line);border-radius:var(--rad2);background:var(--surface);padding:20px;min-width:0} .card-title{font-size:12px;font-weight:600;color:var(--ink2);letter-spacing:-.01em;margin-bottom:4px;display:flex;align-items:center;justify-content:space-between;gap:10px} .chart-wrap{height:320px;min-height:240px;margin-top:10px} .chart-wrap.sm{height:300px} canvas{width:100%!important;height:100%!important} /* ---------- insights ---------- */ .insights{display:grid;gap:1px;background:var(--line2);border:1px solid var(--line);border-radius:var(--rad3);overflow:hidden} .ins{background:var(--surface);padding:13px 15px;font-size:12.5px;line-height:1.5;color:var(--ink2);display:flex;gap:11px;align-items:flex-start} .ins:hover{background:var(--surface2)} .ins i{width:5px;align-self:stretch;border-radius:3px;background:var(--ink3);flex:none} .ins.neg i{background:var(--neg)}.ins.warn i{background:var(--warn)}.ins.pos i{background:var(--pos)} .ins b{font-family:var(--mono);font-weight:600;color:var(--ink)} .note{margin-top:13px;padding:12px 14px;border:1px solid rgba(180,83,9,.2);border-radius:var(--rad3);background:var(--warn-bg);color:var(--warn);font-size:11.5px;line-height:1.55} /* ---------- table ---------- */ .tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--rad2)} table{width:100%;border-collapse:collapse;min-width:780px} th,td{padding:12px 15px;text-align:right;font-size:12.5px;white-space:nowrap;border-bottom:1px solid var(--line2)} th:first-child,td:first-child{text-align:left} th{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.06em;font-weight:600;color:var(--ink3);background:var(--surface2);position:sticky;top:0;border-bottom:1px solid var(--line)} td{color:var(--ink2)} td.n{color:var(--ink);font-weight:500} td.lead{font-weight:550;color:var(--ink)} tbody tr:last-child td{border-bottom:0} tbody tr:hover td{background:var(--surface2)} .neg-c{color:var(--neg)!important} .prod-bar{position:relative} .prod-bar span{position:absolute;left:0;top:0;bottom:0;background:rgba(9,9,11,.05);z-index:0} .prod-bar em{position:relative;z-index:1;font-style:normal} .camp-name{font-size:12px;color:var(--ink2);display:inline-flex;align-items:center;gap:8px} .dotk{width:6px;height:6px;border-radius:2px;background:var(--ink);flex:none} .foot{color:var(--ink4);font-size:11px;line-height:1.6;padding:28px 2px 0;font-family:var(--mono);letter-spacing:.01em} @media(max-width:1180px){.kpi-grid{grid-template-columns:repeat(3,1fr)}.gauge-grid{grid-template-columns:repeat(2,1fr)}.two-col{grid-template-columns:1fr}} @media(max-width:680px){.shell{width:calc(100% - 22px);padding-top:16px}.topbar{flex-direction:column}.kpi-grid,.gauge-grid{grid-template-columns:1fr}section{padding:18px}.toolbar{flex-direction:column;align-items:stretch}input{width:calc(50% - 4px)}.chart-wrap{height:280px}table{min-width:920px}} @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}} </style></head><body><div class="shell"><div class="topbar"><div class="brand"><div class="eyebrow"><span class="live"><i></i>LIVE</span> · TEENWEAR.EU · PERFORMANCE</div><h1>Performance Dashboard</h1><div class="src"><span class="chip">Aktualizované <b>26. 6. 2026, 17:01</b></span><span class="chip">Shopify <b>EUR</b></span><span class="chip">Meta <b>ENORDA s.r.o.</b></span></div></div><div class="controls" aria-label="Výber obdobia"><div class="seg"><button data-preset="today">Dnes</button><button data-preset="3d">3 dni</button><button data-preset="7d" class="active">7 dní</button></div><input type="date" id="fromDate" value="2026-06-20" min="2026-06-20" max="2026-06-26"><input type="date" id="toDate" value="2026-06-26" min="2026-06-20" max="2026-06-26"></div></div><main><section class="today"><div class="sec-head"><div><div class="eyebrow">Dnešný deň</div><h2>Prehľad k 17:01</h2></div><span class="tag mono">priebežné · deň neuzavretý</span></div><div class="kpi-grid" id="todayGrid"></div></section><section><div class="sec-head"><div><div class="eyebrow">01 — Guideposts</div><h2>KPI hranice</h2><p class="sub">Orientačné pásma pre riadenie výkonu. Marker ukazuje aktuálnu hodnotu voči cieľovému pásmu (šrafované).</p></div><div class="bei-controls"><div class="seg" id="gpSeg"><button data-gp="today">Dnes</button><button data-gp="3d">3 dni</button><button data-gp="7d" class="active">7 dní</button></div><div class="bei-dates"><input type="date" id="gpFrom" value="2026-06-20" min="2026-06-20" max="2026-06-26"><input type="date" id="gpTo" value="2026-06-26" min="2026-06-20" max="2026-06-26"></div></div></div><div class="gauge-grid" id="gauges"></div></section><section><div class="sec-head"><div><div class="eyebrow">02 — Efektivita</div><h2>2. Celková efektivita biznisu</h2><p class="sub">Toto je zjednodušený index celkového zdravia biznisu. Základ 100 je priemer Jan-May 2025. Skladá sa z Blended ROAS, PNO, ceny nákupu voči hrubému zisku, efektivity reklám a efektivity stránky.</p></div><div class="bei-controls"><div class="seg" id="beiSeg"><button data-bei="today">Dnes</button><button data-bei="3d">3 dni</button><button data-bei="7d" class="active">7 dní</button></div><div class="bei-dates"><input type="date" id="beiFrom" value="2026-06-20" min="2026-06-20" max="2026-06-26"><input type="date" id="beiTo" value="2026-06-26" min="2026-06-20" max="2026-06-26"></div></div></div><div class="grid two-col"><div class="card"><div class="card-title">Business Efficiency Index, základ Jan-May 2025 = 100<span class="tag mono" id="beiTrendTag">—</span></div><div class="chart-wrap"><canvas id="efficiencyChart"></canvas></div></div><div class="card bei-card"><div class="eyebrow">Aktuálne · vybrané obdobie</div><div class="bei-big" id="beiValue">51</div><div class="bei-bar"><div class="bei-fill" id="beiFill" style="width:36%"></div></div><div class="bei-ticks"><span>0</span><span>80</span><span>100</span><span>140</span></div><div style="margin-top:14px"><span class="tag" id="beiStatus">—</span></div><p class="bei-sub" id="beiNote">Index je orientačný, kým nie je napojená presná hrubá marža a COGS.</p><details><summary>Metodika</summary><p class="bei-sub" style="margin-top:10px">Blended ROAS (30 %), PNO (25 %), cena nákupu voči odhadovanému hrubému zisku pri 35 % AOV (15 %), efektivita reklám (15 %) a efektivita stránky (15 %). Po napojení presnej marže prepočítať na finálnu bázu.</p></details></div></div></section><section><div class="sec-head"><div><div class="eyebrow">03 — Trend</div><h2>Tržby a spend</h2><p class="sub">Posledných 7 dní: 20. 6. – 26. 6. 2026. PNO = Meta spend / Shopify total_sales.</p></div><div class="metric-toggle"><button data-metric="revenue" class="active">Tržby</button><button data-metric="spend">Spend</button><button data-metric="pno">PNO</button><button data-metric="blendedRoas">Blended ROAS</button></div></div><div class="grid two-col"><div class="card"><div class="card-title" id="mainChartTitle">Revenue vs spend</div><div class="chart-wrap"><canvas id="mainChart"></canvas></div></div><div class="card"><div class="card-title">Insighty</div><div class="insights" id="insights" style="margin-top:10px"></div><div class="note">Dnešný blok je priebežný: Meta atribúcia aj Shopify objednávky sa počas dňa môžu ešte meniť.</div></div></div></section><section><div class="sec-head"><div><div class="eyebrow">04 — Denný výkon</div><h2>Rozpad po dňoch</h2><p class="sub">Shopify total_sales pre tržby, average_order_value pre AOV. Meta dáta sú account-level.</p></div><span class="range-label" id="rowCount"></span></div><div class="tbl-wrap"><table><thead><tr><th>Dátum</th><th>Tržby</th><th>Obj.</th><th>AOV</th><th>Spend</th><th>PNO</th><th>Bl. ROAS</th><th>Meta ROAS</th><th>CPA</th><th>CTR</th><th>CPM</th><th>CR</th><th>BEI</th></tr></thead><tbody id="dailyRows"></tbody></table></div></section><section><div class="sec-head"><div><div class="eyebrow">05 — Paid media</div><h2>Top Meta kampane</h2><p class="sub">Posledný Meta campaign report za 20. 6. – 26. 6. 2026, zoradené podľa spendu.</p></div><span class="range-label"><b>20. 6.</b> – <b>26. 6.</b></span></div><div class="grid two-col"><div class="card"><div class="card-title">Spend podľa kampane</div><div class="chart-wrap sm"><canvas id="campaignChart"></canvas></div></div><div class="card"><div class="tbl-wrap" style="border:0"><table><thead><tr><th>Kampaň</th><th>Spend</th><th>ROAS</th><th>CTR</th><th>CPM</th></tr></thead><tbody id="campaignRows"></tbody></table></div></div></div></section><section><div class="sec-head"><div><div class="eyebrow">06 — Produkty</div><h2>Top produkty</h2><p class="sub">Shopify sales breakdown za najnovšie dostupné 7-dňové okno: 20. 6. – 26. 6. 2026.</p></div><span class="range-label">Shopify · gross</span></div><div class="tbl-wrap"><table><thead><tr><th>Produkt</th><th>Gross sales</th><th>Net sales</th><th>Obj.</th></tr></thead><tbody id="productRows"></tbody></table></div></section></main><p class="foot">SOURCES — Shopify Admin: orders, revenue, sessions, product breakdown · Meta MCP: account &amp; campaign paid media · BEI je čiastočný bez presnej marže a COGS · repo serneyy/tw-perf-dashboard</p></div><script> const rawDays=[{date:'2026-06-20',label:'20. 6.',revenue:1080.01,netSales:934.05,orders:10,aov:93.405,spend:221.41,metaRoas:1.38,ctr:1.57,cpm:5.21,clicks:669,impressions:42521,metaPurchases:4,cr:1.4675052410901468,sessions:477,bei:68},{date:'2026-06-21',label:'21. 6.',revenue:202.82,netSales:159.38,orders:6,aov:52.673,spend:272.69,metaRoas:.68,ctr:1.74,cpm:5.08,clicks:935,impressions:53633,metaPurchases:3,cr:.8849557522123894,sessions:565,bei:21},{date:'2026-06-22',label:'22. 6.',revenue:761.06,netSales:625.52,orders:9,aov:69.502,spend:232.13,metaRoas:1.14,ctr:1.66,cpm:5.54,clicks:697,impressions:41893,metaPurchases:6,cr:1.1131725417439703,sessions:539,bei:53},{date:'2026-06-23',label:'23. 6.',revenue:1098.65,netSales:885.67,orders:14,aov:63.262,spend:214.04,metaRoas:5.05,ctr:1.66,cpm:4.69,clicks:755,impressions:45615,metaPurchases:12,cr:1.2939001848428836,sessions:541,bei:87},{date:'2026-06-24',label:'24. 6.',revenue:182.36,netSales:153.25,orders:2,aov:76.625,spend:211.13,metaRoas:.28,ctr:1.39,cpm:3.86,clicks:762,impressions:54676,metaPurchases:1,cr:.19723865877712033,sessions:507,bei:17},{date:'2026-06-25',label:'25. 6.',revenue:935.18,netSales:796.91,orders:12,aov:68.512,spend:211.59,metaRoas:1.36,ctr:1.57,cpm:4.06,clicks:817,impressions:52162,metaPurchases:4,cr:1.4678899082568808,sessions:545,bei:61},{date:'2026-06-26',label:'26. 6.',revenue:505.23,netSales:418.54,orders:5,aov:83.708,spend:127.30,metaRoas:2.37,ctr:1.35,cpm:3.86,clicks:447,impressions:32994,metaPurchases:3,cr:.9868421052631579,sessions:304,bei:60,partial:true}]; const campaigns=[{name:'[DE] - DABA - A+',spend:807.47,roas:.65,ctr:1.50,cpm:6.97},{name:'[T2] - DABA - A+',spend:224.98,roas:2.13,ctr:1.53,cpm:2.58},{name:'[T2] - VIDEO - A+ - ai v1',spend:180.14,roas:4.45,ctr:1.56,cpm:2.32},{name:'[DE] - VIDEO - A+ - ai v1',spend:133.79,roas:.90,ctr:1.83,cpm:9.77},{name:'[DE] - VIDEO - A+ - perf',spend:56.69,roas:1.77,ctr:1.41,cpm:6.68},{name:'[DE] - VIDEO - A+ - organic',spend:52.40,roas:null,ctr:2.13,cpm:6.20},{name:'[IT] - DABA - A+ - RMK',spend:34.57,roas:11.21,ctr:2.04,cpm:2.84},{name:'ASC+ | EU',spend:0,roas:null,ctr:null,cpm:null}]; const products=[{name:'TORNZ - Baggy Denim Embroidered Jorts',gross:393.14,net:204.16,orders:7},{name:'WINGLY - Baggy Cotton Graphic Shorts',gross:292.66,net:175.60,orders:5},{name:'STRIPASO - Baggy Graphic Jeans',gross:230.47,net:130.49,orders:3},{name:'SYMBOLIKA - Oversized Print Zip Up Hoodie',gross:200.50,net:111.15,orders:2},{name:'SKICEN - Oversized Graphic Jersey T-Shirt',gross:168.79,net:101.29,orders:4},{name:'WESTY - Oversized Graphic Shirt',gross:156.18,net:88.51,orders:2},{name:'FREAKING - Oversized Print T-shirt',gross:134.49,net:50.52,orders:3},{name:'VERTEBRAX - Boxy Fit Print T-shirt',gross:133.76,net:45.59,orders:3},{name:'SPIKY - Oversized Print T-Shirt',gross:128.68,net:80.71,orders:3},{name:'FORGIVEN - Oversized Print T-Shirt',gross:127.01,net:76.21,orders:3}]; const eur=new Intl.NumberFormat('sk-SK',{style:'currency',currency:'EUR',maximumFractionDigits:2}); const num=new Intl.NumberFormat('sk-SK',{maximumFractionDigits:2}); const pct=v=>v==null||Number.isNaN(v)?'—':num.format(v)+' %'; const money=v=>v==null||Number.isNaN(v)?'—':eur.format(v); const clamp=(v,a,b)=>Math.max(a,Math.min(b,v)); let selectedMetric='revenue',mainChart,efficiencyChart,campaignChart; const rangeEls={from:document.getElementById('fromDate'),to:document.getElementById('toDate')}; const rows=()=>rawDays.filter(r=>r.date>=rangeEls.from.value&&r.date<=rangeEls.to.value); const beiEls={from:document.getElementById('beiFrom'),to:document.getElementById('beiTo')}; const beiRows=()=>rawDays.filter(r=>r.date>=beiEls.from.value&&r.date<=beiEls.to.value); const gpEls={from:document.getElementById('gpFrom'),to:document.getElementById('gpTo')}; const gpRows=()=>rawDays.filter(r=>r.date>=gpEls.from.value&&r.date<=gpEls.to.value); function calculateBei(a){if(!a.revenue||!a.metaPurchases||!a.spend||a.metaRoas==null)return null;const pno=a.spend/a.revenue*100,blended=a.revenue/a.spend,cpa=a.spend/a.metaPurchases,gp=(a.netSales/a.orders)*.35,gpc=gp/cpa*100,adEff=(a.metaRoas/3.7210763859043348*50)+(22.281203830369353/cpa*30)+(a.ctr/2.553477572363772*20),siteEff=(a.cr/1.0392857361709429*70)+((a.netSales/a.orders)/78.84036556603775*30);return Math.round((blended/8.209532919602445*30)+(12.180960960790275/pno*25)+(gpc/100*15)+(adEff/100*15)+(siteEff/100*15))} function aggregate(list){const sum=k=>list.reduce((a,r)=>a+(r[k]||0),0),revenue=sum('revenue'),netSales=sum('netSales'),spend=sum('spend'),orders=sum('orders'),clicks=sum('clicks'),impressions=sum('impressions'),metaPurchases=sum('metaPurchases'),sessions=sum('sessions'),metaRevenue=list.reduce((a,r)=>a+(r.metaRoas==null?0:r.spend*r.metaRoas),0),metaSpend=list.reduce((a,r)=>a+(r.metaRoas==null?0:r.spend),0);const cr=sessions?list.reduce((a,r)=>a+(r.cr||0)*r.sessions,0)/sessions:0,ctr=impressions?clicks/impressions*100:0;const agg={revenue,netSales,spend,orders,clicks,impressions,metaPurchases,sessions,aov:orders?netSales/orders:null,pno:revenue?spend/revenue*100:null,blendedRoas:spend&&revenue?revenue/spend:null,metaRoas:metaSpend?metaRevenue/metaSpend:null,ctr,cpm:impressions?spend/impressions*1000:null,cpa:metaPurchases?spend/metaPurchases:null,cr};agg.bei=calculateBei(agg);return agg} function kpiStatus(k,v){if(v==null)return'warn';if(k==='metaRoas')return v>=3.5?(v>=4?'pos':'warn'):'neg';if(k==='blendedRoas')return v>=6.7?(v>=7.5?'pos':'warn'):'neg';if(k==='pno')return v<=15?(v<=13.5?'pos':'warn'):'neg';if(k==='cpa')return v<=26?(v<=24?'pos':'warn'):'neg';if(k==='ctr')return v>=1.8?(v>=2.2?'pos':'warn'):'neg';if(k==='cpm')return'warn';if(k==='bei')return v>=100?'pos':v>=80?'warn':'neg';return'warn'} function statusText(k,v){const s=kpiStatus(k,v);if(v==null)return'bez dát';if(k==='cpm')return'sledovať';if(s==='pos')return'blízko ideálu';if(s==='warn')return'v poriadku';return'slabší výsledok'} /* ---- guidepost config (scale + target zone) ---- */ const GP=[ {k:'metaRoas',label:'Meta ROAS',fmt:'num',min:0,max:6,lo:4.0,hi:4.5,goal:'4,0–4,5',limit:'min 3,5'}, {k:'blendedRoas',label:'Blended ROAS',fmt:'num',min:0,max:11,lo:7.5,hi:8.5,goal:'7,5–8,5',limit:'min 6,7'}, {k:'pno',label:'PNO / Marketing',fmt:'pct',min:0,max:40,lo:12,hi:13.5,goal:'12–13,5 %',limit:'max ~15 %'}, {k:'cpa',label:'CPA',fmt:'eur',min:0,max:50,lo:20,hi:24,goal:'20–24 €',limit:'max ~26 €'}, {k:'ctr',label:'CTR Meta',fmt:'pct',min:0,max:4,lo:2.2,hi:2.8,goal:'2,2–2,8 %',limit:'min ~1,8 %'}, {k:'cpm',label:'CPM',fmt:'eur',flat:true,limit:'sledovať podľa krajiny'}, {k:'bei',label:'Business Efficiency Index',fmt:'num',min:0,max:140,lo:100,hi:140,goal:'100+',limit:'min 80'} ]; function fmtVal(f,v){if(v==null)return'—';if(f==='eur')return eur.format(v);if(f==='pct')return num.format(v)+'<span class="u">%</span>';return num.format(v)} function renderGuards(){const list=gpRows();if(!list.length)return;const a=aggregate(list);const pos=(c,v)=>clamp((v-c.min)/(c.max-c.min)*100,1.5,98.5); document.getElementById('gauges').innerHTML=GP.map(c=>{const v=a[c.k],s=kpiStatus(c.k,v); if(c.flat){return `<article class="gp gp-flat"><div class="gp-top"><div class="gp-label">${c.label}</div><span class="tag warn">sledovať</span></div><div class="gp-val">${fmtVal(c.fmt,v)}</div><div class="gauge-flat"></div><div class="gp-goals"><div class="gp-goal"><span>Pásmo</span><b>${c.limit}</b></div></div></article>`} const zl=pos(c,c.lo),zr=pos(c,c.hi),mk=pos(c,v); return `<article class="gp ${s==='neg'?'is-neg':''}"><div class="gp-top"><div class="gp-label">${c.label}</div><span class="tag ${s}">${statusText(c.k,v)}</span></div><div class="gp-val">${fmtVal(c.fmt,v)}</div><div class="gauge"><div class="gauge-track"><div class="gauge-zone" style="left:${zl}%;width:${Math.max(zr-zl,1.5)}%"></div><div class="gauge-marker ${s}" style="left:${mk}%"></div></div><div class="gauge-scale"><span>${num.format(c.min)}</span><span>${num.format(c.max)}</span></div></div><div class="gp-goals"><div class="gp-goal"><span>Cieľ</span><b>${c.goal}</b></div><div class="gp-goal"><span>Hranica</span><b>${c.limit}</b></div></div></article>`}).join('')} function renderToday(){const t=rawDays.find(r=>r.partial)||rawDays[rawDays.length-1];const pno=t.spend/t.revenue*100,blended=t.revenue/t.spend,cpa=t.metaPurchases?t.spend/t.metaPurchases:null; const cells=[ {l:'Tržby',v:money(t.revenue),s:null}, {l:'Ad spend',v:money(t.spend),s:['warn','priebežné']}, {l:'PNO',v:pct(pno),s:[kpiStatus('pno',pno),statusText('pno',pno)]}, {l:'Blended ROAS',v:num.format(blended),s:[kpiStatus('blendedRoas',blended),statusText('blendedRoas',blended)]}, {l:'Meta ROAS',v:num.format(t.metaRoas),s:[kpiStatus('metaRoas',t.metaRoas),statusText('metaRoas',t.metaRoas)]}, {l:'CPA',v:money(cpa),s:[kpiStatus('cpa',cpa),statusText('cpa',cpa)]}, {l:'CR',v:pct(t.cr),s:['warn','priebežné']}, {l:'BEI',v:num.format(t.bei),s:[kpiStatus('bei',t.bei),statusText('bei',t.bei)]}, {l:'AOV',v:money(t.aov),s:null}, {l:'Objednávky',v:num.format(t.orders),s:null} ]; document.getElementById('todayGrid').innerHTML=cells.map(c=>`<div class="kpi"><div class="kpi-l">${c.l}</div><div class="kpi-v">${c.v}</div><div class="kpi-foot">${c.s?`<span class="tag ${c.s[0]}">${c.s[1]}</span>`:''}</div></div>`).join('')} const vGrad=(ctx,from,to)=>{const ch=ctx.chart,{ctx:c,chartArea}=ch;if(!chartArea)return from;const g=c.createLinearGradient(0,chartArea.top,0,chartArea.bottom);g.addColorStop(0,from);g.addColorStop(1,to);return g}; const hGrad=(ctx,from,to)=>{const ch=ctx.chart,{ctx:c,chartArea}=ch;if(!chartArea)return from;const g=c.createLinearGradient(chartArea.left,0,chartArea.right,0);g.addColorStop(0,from);g.addColorStop(1,to);return g}; function baseOptions(){return{responsive:true,maintainAspectRatio:false,layout:{padding:{top:6}},animation:{duration:650,easing:'easeOutQuart'},interaction:{mode:'index',intersect:false},plugins:{legend:{labels:{color:'#3f3f46',boxWidth:8,boxHeight:8,usePointStyle:true,pointStyle:'circle',padding:15,font:{family:'Inter',size:12,weight:'500'}}},tooltip:{backgroundColor:'#09090b',titleColor:'#fff',bodyColor:'#d4d4d8',borderColor:'rgba(255,255,255,.08)',borderWidth:1,padding:12,cornerRadius:10,boxPadding:5,usePointStyle:true,titleFont:{family:'JetBrains Mono',weight:'600',size:12},bodyFont:{family:'Inter',size:12}}},scales:{x:{ticks:{color:'#a1a1aa',padding:8,font:{family:'JetBrains Mono',size:10.5}},grid:{display:false},border:{display:false}},y:{ticks:{color:'#a1a1aa',padding:10,maxTicksLimit:6,font:{family:'JetBrains Mono',size:10.5}},grid:{color:'rgba(9,9,11,.05)',drawTicks:false},border:{display:false}}}}} function renderCharts(list){const labels=list.map(r=>r.label);if(mainChart)mainChart.destroy(); const ds=selectedMetric==='revenue'?[{type:'bar',label:'Tržby',data:list.map(r=>r.revenue),backgroundColor:c=>vGrad(c,'#18181b','#52525b'),borderWidth:0,borderRadius:7,borderSkipped:false,maxBarThickness:26,order:2},{type:'line',label:'Spend',data:list.map(r=>r.spend),borderColor:'#dc2626',backgroundColor:c=>vGrad(c,'rgba(220,38,38,.15)','rgba(220,38,38,0)'),tension:.4,cubicInterpolationMode:'monotone',pointRadius:0,pointHoverRadius:5,pointHoverBackgroundColor:'#dc2626',pointHoverBorderColor:'#fff',pointHoverBorderWidth:2,borderWidth:2.5,fill:true,order:1}]:[{type:'line',label:selectedMetric==='pno'?'PNO %':selectedMetric==='spend'?'Spend':'Blended ROAS',data:list.map(r=>selectedMetric==='pno'?(r.revenue?r.spend/r.revenue*100:null):selectedMetric==='spend'?r.spend:r.revenue/r.spend),borderColor:'#09090b',backgroundColor:c=>vGrad(c,'rgba(9,9,11,.12)','rgba(9,9,11,0)'),tension:.4,cubicInterpolationMode:'monotone',pointRadius:0,pointHoverRadius:5,pointHoverBackgroundColor:'#09090b',pointHoverBorderColor:'#fff',pointHoverBorderWidth:2,borderWidth:2.5,fill:true}]; document.getElementById('mainChartTitle').textContent=selectedMetric==='revenue'?'Revenue vs spend':selectedMetric==='spend'?'Meta spend trend':selectedMetric==='pno'?'PNO trend':'Blended ROAS trend'; mainChart=new Chart(document.getElementById('mainChart'),{data:{labels,datasets:ds},options:baseOptions()}); if(campaignChart)campaignChart.destroy(); campaignChart=new Chart(document.getElementById('campaignChart'),{type:'bar',data:{labels:campaigns.map(c=>c.name),datasets:[{label:'Spend',data:campaigns.map(c=>c.spend),backgroundColor:c=>hGrad(c,'#52525b','#09090b'),borderWidth:0,borderRadius:5,borderSkipped:false,maxBarThickness:15}]},options:{...baseOptions(),indexAxis:'y',scales:{x:{ticks:{color:'#a1a1aa',padding:8,font:{family:'JetBrains Mono',size:10.5}},grid:{color:'rgba(9,9,11,.05)',drawTicks:false},border:{display:false}},y:{ticks:{color:'#52525b',font:{family:'Inter',size:11}},grid:{display:false},border:{display:false}}},plugins:{legend:{display:false},tooltip:baseOptions().plugins.tooltip}}})} function renderTables(list){ document.getElementById('dailyRows').innerHTML=list.map(r=>{const pno=r.revenue?r.spend/r.revenue*100:null,blended=r.revenue/r.spend,cpa=r.metaPurchases?r.spend/r.metaPurchases:null; return `<tr><td class="lead">${r.label}${r.partial?' ·':''}</td><td class="n">${money(r.revenue)}</td><td class="n">${r.orders}</td><td class="n">${money(r.aov)}</td><td class="n">${money(r.spend)}</td><td class="n ${pno>18?'neg-c':''}">${pct(pno)}</td><td class="n ${blended<5.5?'neg-c':''}">${num.format(blended)}</td><td class="n ${r.metaRoas<3?'neg-c':''}">${num.format(r.metaRoas)}</td><td class="n ${cpa>30?'neg-c':''}">${money(cpa)}</td><td class="n ${r.ctr<1.8?'neg-c':''}">${pct(r.ctr)}</td><td class="n">${money(r.cpm)}</td><td class="n">${pct(r.cr)}</td><td class="n ${r.bei<80?'neg-c':''}">${num.format(r.bei)}</td></tr>`}).join(''); document.getElementById('campaignRows').innerHTML=campaigns.map(c=>`<tr><td><span class="camp-name"><span class="dotk"></span>${c.name}</span></td><td class="n">${money(c.spend)}</td><td class="n ${c.roas!=null&&c.roas<1?'neg-c':''}">${c.roas==null?'—':num.format(c.roas)}</td><td class="n ${c.ctr<1.8?'neg-c':''}">${pct(c.ctr)}</td><td class="n">${money(c.cpm)}</td></tr>`).join(''); const maxG=Math.max(...products.map(p=>p.gross)); document.getElementById('productRows').innerHTML=products.map(p=>`<tr><td class="lead">${p.name}</td><td class="n prod-bar"><span style="width:${(p.gross/maxG*100).toFixed(1)}%"></span><em>${money(p.gross)}</em></td><td class="n">${money(p.net)}</td><td class="n">${p.orders}</td></tr>`).join('')} function renderInsights(a,list){const best=[...list].sort((x,y)=>y.revenue-x.revenue)[0],worst=[...list].sort((x,y)=>(y.spend/y.revenue)-(x.spend/x.revenue))[0]; document.getElementById('insights').innerHTML=[ `<div class="ins neg"><i></i><div>PNO je <b>${pct(a.pno)}</b>. Stabilnejší režim je približne do 15 %, takže ekonomika spendu je v tomto pohľade rizikovejšia.</div></div>`, `<div class="ins neg"><i></i><div>Blended ROAS <b>${num.format(a.blendedRoas)}</b> oproti orientačnému cieľu 7,5–8,5. Pod 5,5 je slabší stav na scale.</div></div>`, `<div class="ins pos"><i></i><div>Najsilnejší deň <b>${best.label}</b> — tržby <b>${money(best.revenue)}</b>, ${best.orders} obj.</div></div>`, `<div class="ins warn"><i></i><div>Najťažší PNO deň <b>${worst.label}</b> — PNO <b>${pct(worst.spend/worst.revenue*100)}</b>.</div></div>`, `<div class="ins"><i></i><div>Meta ROAS <b>${num.format(a.metaRoas)}</b> · CTR <b>${pct(a.ctr)}</b> za vybrané obdobie.</div></div>` ].join('')} function renderBei(){const list=beiRows();if(!list.length)return;const a=aggregate(list),labels=list.map(r=>r.label); const beiTxt=a.bei==null?'—':num.format(a.bei); document.getElementById('beiValue').textContent=beiTxt; document.getElementById('beiFill').style.width=clamp((a.bei||0)/140*100,0,100)+'%'; const bs=document.getElementById('beiStatus');bs.className='tag '+kpiStatus('bei',a.bei);bs.textContent=statusText('bei',a.bei)+' · '+beiTxt+' / 100'; const dir=list.length>1?(list[list.length-1].bei-list[0].bei):0;const tt=document.getElementById('beiTrendTag');tt.className='tag mono '+(dir>0?'pos':dir<0?'neg':'');tt.textContent=(dir>0?'▲ +':dir<0?'▼ ':'→ ')+Math.abs(dir)+' · '+labels[0]+'–'+labels[labels.length-1]; if(efficiencyChart)efficiencyChart.destroy(); efficiencyChart=new Chart(document.getElementById('efficiencyChart'),{type:'line',data:{labels,datasets:[{label:'BEI',data:list.map(r=>r.bei),borderColor:'#09090b',backgroundColor:c=>vGrad(c,'rgba(9,9,11,.13)','rgba(9,9,11,0)'),tension:.4,cubicInterpolationMode:'monotone',pointRadius:0,pointHoverRadius:5,pointHoverBackgroundColor:'#09090b',pointHoverBorderColor:'#fff',pointHoverBorderWidth:2,borderWidth:2.5,fill:true},{label:'Cieľ 100',data:list.map(()=>100),borderColor:'rgba(21,128,61,.7)',borderDash:[5,5],pointRadius:0,borderWidth:1.5},{label:'Min 80',data:list.map(()=>80),borderColor:'rgba(180,83,9,.6)',borderDash:[3,5],pointRadius:0,borderWidth:1.5}]},options:baseOptions()})} function update(){const list=rows(),a=aggregate(list);if(!list.length)return; document.getElementById('rowCount').innerHTML=`<b>${list.length}</b> dní`; renderToday();renderCharts(list);renderTables(list);renderInsights(a,list)} document.querySelectorAll('[data-preset]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('[data-preset]').forEach(x=>x.classList.remove('active'));b.classList.add('active');const p=b.dataset.preset;if(p==='today'){rangeEls.from.value='2026-06-26';rangeEls.to.value='2026-06-26'}if(p==='3d'){rangeEls.from.value='2026-06-24';rangeEls.to.value='2026-06-26'}if(p==='7d'){rangeEls.from.value='2026-06-20';rangeEls.to.value='2026-06-26'}update()})); document.querySelectorAll('[data-metric]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('[data-metric]').forEach(x=>x.classList.remove('active'));b.classList.add('active');selectedMetric=b.dataset.metric;renderCharts(rows())})); [rangeEls.from,rangeEls.to].forEach(i=>i.addEventListener('change',()=>{if(rangeEls.from.value>rangeEls.to.value)rangeEls.to.value=rangeEls.from.value;document.querySelectorAll('[data-preset]').forEach(b=>b.classList.remove('active'));update()})); document.querySelectorAll('[data-bei]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('[data-bei]').forEach(x=>x.classList.remove('active'));b.classList.add('active');const p=b.dataset.bei;if(p==='today'){beiEls.from.value='2026-06-26';beiEls.to.value='2026-06-26'}if(p==='3d'){beiEls.from.value='2026-06-24';beiEls.to.value='2026-06-26'}if(p==='7d'){beiEls.from.value='2026-06-20';beiEls.to.value='2026-06-26'}renderBei()})); [beiEls.from,beiEls.to].forEach(i=>i.addEventListener('change',()=>{if(beiEls.from.value>beiEls.to.value)beiEls.to.value=beiEls.from.value;document.querySelectorAll('[data-bei]').forEach(b=>b.classList.remove('active'));renderBei()})); document.querySelectorAll('[data-gp]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('[data-gp]').forEach(x=>x.classList.remove('active'));b.classList.add('active');const p=b.dataset.gp;if(p==='today'){gpEls.from.value='2026-06-26';gpEls.to.value='2026-06-26'}if(p==='3d'){gpEls.from.value='2026-06-24';gpEls.to.value='2026-06-26'}if(p==='7d'){gpEls.from.value='2026-06-20';gpEls.to.value='2026-06-26'}renderGuards()})); [gpEls.from,gpEls.to].forEach(i=>i.addEventListener('change',()=>{if(gpEls.from.value>gpEls.to.value)gpEls.to.value=gpEls.from.value;document.querySelectorAll('[data-gp]').forEach(b=>b.classList.remove('active'));renderGuards()})); update();renderBei();renderGuards(); </script></body></html>
+<!doctype html>
+<html lang="sk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Teenwear.eu — Performance</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700;800&family=Inter:wght@400;450;500;600&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<style>
+:root{
+--bg:#f4f4f5;--surface:#fff;--surface2:#fafafa;--surface3:#f4f4f5;
+--ink:#09090b;--ink2:#3f3f46;--ink3:#71717a;--ink4:#a1a1aa;
+--line:rgba(9,9,11,.08);--line2:rgba(9,9,11,.05);--line3:rgba(9,9,11,.13);
+--pos:#15803d;--pos-bg:#f0fdf4;--warn:#b45309;--warn-bg:#fffbeb;--neg:#dc2626;--neg-bg:#fef2f2;
+--shadow:0 1px 1px rgba(9,9,11,.03),0 6px 16px rgba(9,9,11,.04),0 22px 48px rgba(9,9,11,.05);
+--shadow-sm:0 1px 2px rgba(9,9,11,.06);
+--disp:'Inter Tight',ui-sans-serif,system-ui,sans-serif;
+--mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+--rad:18px;--rad2:13px;--rad3:9px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;min-height:100vh;background:
+radial-gradient(120% 80% at 100% -10%,#fbfbfc 0,transparent 50%),
+var(--bg);
+color:var(--ink);font-family:'Inter',ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;letter-spacing:-.003em}
+.num,.metric-value,.target,.actual strong,td.n,.gauge-val,.kpi-v,.bei-big,th{font-family:var(--mono);font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
+h1,h2,h3,p{margin:0}
+a{color:inherit}
+.shell{width:min(1460px,calc(100% - 32px));margin:0 auto;padding:30px 0 72px}
+
+/* ---------- topbar ---------- */
+.topbar{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.brand{display:flex;flex-direction:column;gap:9px}
+.eyebrow{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--ink4);display:flex;align-items:center;gap:9px}
+.eyebrow .live{display:inline-flex;align-items:center;gap:6px;color:var(--ink2)}
+.live i{width:7px;height:7px;border-radius:50%;background:var(--pos);box-shadow:0 0 0 0 rgba(21,128,61,.4);animation:pulse 2.4s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(21,128,61,.35)}70%{box-shadow:0 0 0 6px rgba(21,128,61,0)}100%{box-shadow:0 0 0 0 rgba(21,128,61,0)}}
+h1{font-family:var(--disp);font-size:clamp(26px,3.2vw,40px);line-height:1;letter-spacing:-.04em;font-weight:700}
+.src{display:flex;flex-wrap:wrap;gap:7px;margin-top:3px}
+.chip{display:inline-flex;align-items:center;gap:7px;padding:6px 11px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--ink3);font-size:11.5px;font-weight:500;white-space:nowrap;box-shadow:var(--shadow-sm)}
+.chip b{color:var(--ink2);font-weight:600}
+.topbar .controls{align-items:flex-end}
+
+/* ---------- toolbar ---------- */
+.toolbar{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-top:22px;padding:10px;border:1px solid var(--line);border-radius:var(--rad2);background:var(--surface);box-shadow:var(--shadow-sm)}
+.seg{display:inline-flex;background:var(--surface3);border:1px solid var(--line2);border-radius:10px;padding:3px;gap:2px}
+.controls{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+button{cursor:pointer;font:inherit;font-size:13px;font-weight:550;color:var(--ink2);background:transparent;border:0;border-radius:8px;min-height:34px;padding:0 14px;transition:all .15s}
+.seg button{min-width:54px}
+.seg button:hover{color:var(--ink)}
+.seg button.active{background:var(--surface);color:var(--ink);box-shadow:var(--shadow-sm);font-weight:600}
+input{font:inherit;font-size:12.5px;font-weight:500;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:9px;min-height:36px;padding:0 11px;width:148px;color-scheme:light;box-shadow:var(--shadow-sm);font-family:var(--mono)}
+input:focus-visible,button:focus-visible{outline:2px solid var(--ink);outline-offset:1px}
+.range-label{font-family:var(--mono);font-size:11.5px;color:var(--ink3);letter-spacing:.02em;padding-right:6px}
+.range-label b{color:var(--ink);font-weight:600}
+
+/* ---------- section ---------- */
+section{margin-top:16px;padding:26px;border:1px solid var(--line);border-radius:var(--rad);background:var(--surface);box-shadow:var(--shadow)}
+.sec-head{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;margin-bottom:22px}
+.sec-head .eyebrow{margin-bottom:9px}
+h2{font-family:var(--disp);font-size:clamp(18px,2vw,23px);letter-spacing:-.03em;font-weight:700}
+.sub{color:var(--ink3);font-size:12.5px;line-height:1.55;max-width:70ch;margin-top:6px}
+.metric-toggle{display:inline-flex;background:var(--surface3);border:1px solid var(--line2);border-radius:10px;padding:3px;gap:2px;flex-wrap:wrap}
+.bei-controls{display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+.bei-dates{display:flex;gap:8px}
+.bei-dates input{width:132px}
+
+.grid{display:grid;gap:13px}
+.two-col{grid-template-columns:minmax(0,1.4fr) minmax(310px,.6fr)}
+
+/* ---------- today KPIs ---------- */
+.today{position:relative;overflow:hidden;background:linear-gradient(180deg,#fcfcfd,#fff 46%)}
+.kpi-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--rad2);overflow:hidden}
+.kpi{background:var(--surface);padding:17px 18px;display:flex;flex-direction:column;gap:0;min-width:0;transition:background .15s}
+.kpi:hover{background:var(--surface2)}
+.kpi-l{font-size:11px;font-weight:550;letter-spacing:.04em;text-transform:uppercase;color:var(--ink3);display:flex;align-items:center;justify-content:space-between;gap:8px}
+.kpi-v{font-size:clamp(21px,2.3vw,27px);font-weight:600;letter-spacing:-.04em;margin-top:11px;line-height:1;color:var(--ink);overflow-wrap:anywhere}
+.kpi-foot{margin-top:11px;min-height:18px;display:flex;align-items:center}
+
+/* status tag */
+.tag{display:inline-flex;align-items:center;gap:6px;padding:3px 8px 3px 7px;border-radius:999px;font-size:10.5px;font-weight:600;line-height:1;border:1px solid var(--line);background:var(--surface2);color:var(--ink2);white-space:nowrap}
+.tag::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.tag.pos{color:var(--pos);background:var(--pos-bg);border-color:rgba(21,128,61,.2)}
+.tag.warn{color:var(--warn);background:var(--warn-bg);border-color:rgba(180,83,9,.2)}
+.tag.neg{color:var(--neg);background:var(--neg-bg);border-color:rgba(220,38,38,.2)}
+.tag.mono{font-family:var(--mono);letter-spacing:0}
+
+/* ---------- guideposts / gauges ---------- */
+.gauge-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px}
+.gp{border:1px solid var(--line);border-radius:var(--rad2);background:var(--surface);padding:18px;display:flex;flex-direction:column;transition:border-color .16s,box-shadow .16s,transform .16s}
+.gp:hover{border-color:var(--line3);box-shadow:0 8px 24px rgba(9,9,11,.06);transform:translateY(-2px)}
+.gp-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.gp-label{font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--ink3)}
+.gp-val{font-family:var(--mono);font-size:30px;font-weight:600;letter-spacing:-.04em;line-height:1;margin-top:13px;color:var(--ink)}
+.gp-val .u{font-size:15px;color:var(--ink4);margin-left:3px;font-weight:500}
+.gauge{margin-top:17px}
+.gauge-track{position:relative;height:8px;border-radius:999px;background:var(--surface3);border:1px solid var(--line2);overflow:hidden}
+.gauge-zone{position:absolute;top:0;bottom:0;background:repeating-linear-gradient(45deg,rgba(9,9,11,.14),rgba(9,9,11,.14) 3px,rgba(9,9,11,.07) 3px,rgba(9,9,11,.07) 6px);border-left:1px solid rgba(9,9,11,.22);border-right:1px solid rgba(9,9,11,.22)}
+.gauge-marker{position:absolute;top:50%;width:3px;height:18px;border-radius:2px;transform:translate(-50%,-50%);background:var(--ink);box-shadow:0 0 0 3px var(--surface)}
+.gauge-marker.pos{background:var(--pos)}.gauge-marker.warn{background:var(--warn)}.gauge-marker.neg{background:var(--neg)}
+.gauge-scale{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;color:var(--ink4);margin-top:7px}
+.gp-goals{margin-top:15px;padding-top:13px;border-top:1px solid var(--line2);display:flex}
+.gp-goal{flex:1;display:flex;flex-direction:column;gap:5px;min-width:0}
+.gp-goal+.gp-goal{border-left:1px solid var(--line2);padding-left:15px;margin-left:1px}
+.gp-goal span{font-size:9.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink4);font-weight:600}
+.gp-goal b{font-family:var(--mono);font-size:13px;color:var(--ink);font-weight:600;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gp-flat{justify-content:flex-start}
+.gp-flat .gauge-flat{margin-top:17px;height:8px;border-radius:999px;background:repeating-linear-gradient(90deg,var(--surface3),var(--surface3) 6px,var(--line2) 6px,var(--line2) 7px);border:1px solid var(--line2)}
+
+/* ---------- efficiency ---------- */
+.bei-card{display:flex;flex-direction:column}
+.bei-big{font-family:var(--mono);font-size:clamp(48px,7vw,72px);font-weight:600;letter-spacing:-.05em;line-height:.9;color:var(--ink)}
+.bei-sub{color:var(--ink3);font-size:12.5px;line-height:1.55;margin-top:14px}
+.bei-bar{margin-top:18px;height:10px;border-radius:999px;background:var(--surface3);border:1px solid var(--line2);position:relative;overflow:hidden}
+.bei-fill{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(90deg,#3f3f46,#09090b);border-radius:999px;transition:width .5s ease}
+.bei-ticks{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;color:var(--ink4);margin-top:7px}
+details{margin-top:16px;border-top:1px solid var(--line2);padding-top:13px}
+summary{cursor:pointer;font-size:12.5px;font-weight:550;color:var(--ink2);list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"+ ";font-family:var(--mono);color:var(--ink4)}
+details[open] summary::before{content:"– "}
+.card{border:1px solid var(--line);border-radius:var(--rad2);background:var(--surface);padding:20px;min-width:0}
+.card-title{font-size:12px;font-weight:600;color:var(--ink2);letter-spacing:-.01em;margin-bottom:4px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.chart-wrap{height:320px;min-height:240px;margin-top:10px}
+.chart-wrap.sm{height:300px}
+canvas{width:100%!important;height:100%!important}
+
+/* ---------- insights ---------- */
+.insights{display:grid;gap:1px;background:var(--line2);border:1px solid var(--line);border-radius:var(--rad3);overflow:hidden}
+.ins{background:var(--surface);padding:13px 15px;font-size:12.5px;line-height:1.5;color:var(--ink2);display:flex;gap:11px;align-items:flex-start}
+.ins:hover{background:var(--surface2)}
+.ins i{width:5px;align-self:stretch;border-radius:3px;background:var(--ink3);flex:none}
+.ins.neg i{background:var(--neg)}.ins.warn i{background:var(--warn)}.ins.pos i{background:var(--pos)}
+.ins b{font-family:var(--mono);font-weight:600;color:var(--ink)}
+.note{margin-top:13px;padding:12px 14px;border:1px solid rgba(180,83,9,.2);border-radius:var(--rad3);background:var(--warn-bg);color:var(--warn);font-size:11.5px;line-height:1.55}
+
+/* ---------- table ---------- */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--rad2)}
+table{width:100%;border-collapse:collapse;min-width:780px}
+th,td{padding:12px 15px;text-align:right;font-size:12.5px;white-space:nowrap;border-bottom:1px solid var(--line2)}
+th:first-child,td:first-child{text-align:left}
+th{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.06em;font-weight:600;color:var(--ink3);background:var(--surface2);position:sticky;top:0;border-bottom:1px solid var(--line)}
+td{color:var(--ink2)}
+td.n{color:var(--ink);font-weight:500}
+td.lead{font-weight:550;color:var(--ink)}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:hover td{background:var(--surface2)}
+.neg-c{color:var(--neg)!important}
+.prod-bar{position:relative}
+.prod-bar span{position:absolute;left:0;top:0;bottom:0;background:rgba(9,9,11,.05);z-index:0}
+.prod-bar em{position:relative;z-index:1;font-style:normal}
+.camp-name{font-size:12px;color:var(--ink2);display:inline-flex;align-items:center;gap:8px}
+.dotk{width:6px;height:6px;border-radius:2px;background:var(--ink);flex:none}
+
+.foot{color:var(--ink4);font-size:11px;line-height:1.6;padding:28px 2px 0;font-family:var(--mono);letter-spacing:.01em}
+
+@media(max-width:1180px){.kpi-grid{grid-template-columns:repeat(3,1fr)}.gauge-grid{grid-template-columns:repeat(2,1fr)}.two-col{grid-template-columns:1fr}}
+@media(max-width:680px){.shell{width:calc(100% - 22px);padding-top:16px}.topbar{flex-direction:column}.kpi-grid,.gauge-grid{grid-template-columns:1fr}section{padding:18px}.toolbar{flex-direction:column;align-items:stretch}input{width:calc(50% - 4px)}.chart-wrap{height:280px}table{min-width:920px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body><div class="shell">
+
+<div class="topbar">
+  <div class="brand">
+    <div class="eyebrow"><span class="live"><i></i>LIVE</span> · TEENWEAR.EU · PERFORMANCE</div>
+    <h1>Performance Dashboard</h1>
+    <div class="src">
+      <span class="chip">Aktualizované <b>26. 6. 2026, 18:01</b></span>
+      <span class="chip">Shopify <b>EUR</b></span>
+      <span class="chip">Meta <b>ENORDA s.r.o.</b></span>
+    </div>
+  </div>
+  <div class="controls" aria-label="Výber obdobia">
+    <div class="seg">
+      <button data-preset="today">Dnes</button>
+      <button data-preset="3d">3 dni</button>
+      <button data-preset="7d" class="active">7 dní</button>
+    </div>
+    <input type="date" id="fromDate" value="2026-06-20" min="2026-06-20" max="2026-06-26">
+    <input type="date" id="toDate" value="2026-06-26" min="2026-06-20" max="2026-06-26">
+  </div>
+</div>
+
+<main>
+
+<section class="today">
+  <div class="sec-head">
+    <div><div class="eyebrow">Dnešný deň</div><h2>Prehľad k 18:01</h2></div>
+    <span class="tag mono">priebežné · deň neuzavretý</span>
+  </div>
+  <div class="kpi-grid" id="todayGrid"></div>
+</section>
+
+<section>
+  <div class="sec-head">
+    <div><div class="eyebrow">01 — Guideposts</div><h2>KPI hranice</h2>
+    <p class="sub">Orientačné pásma pre riadenie výkonu. Marker ukazuje aktuálnu hodnotu voči cieľovému pásmu (šrafované).</p></div>
+    <div class="bei-controls">
+      <div class="seg" id="gpSeg">
+        <button data-gp="today">Dnes</button>
+        <button data-gp="3d">3 dni</button>
+        <button data-gp="7d" class="active">7 dní</button>
+      </div>
+      <div class="bei-dates">
+        <input type="date" id="gpFrom" value="2026-06-20" min="2026-06-20" max="2026-06-26">
+        <input type="date" id="gpTo" value="2026-06-26" min="2026-06-20" max="2026-06-26">
+      </div>
+    </div>
+  </div>
+  <div class="gauge-grid" id="gauges"></div>
+</section>
+
+<section>
+  <div class="sec-head">
+    <div><div class="eyebrow">02 — Efektivita</div><h2>2. Celková efektivita biznisu</h2>
+    <p class="sub">Toto je zjednodušený index celkového zdravia biznisu. Základ 100 je priemer Jan-May 2025. Skladá sa z Blended ROAS, PNO, ceny nákupu voči hrubému zisku, efektivity reklám a efektivity stránky.</p></div>
+    <div class="bei-controls">
+      <div class="seg" id="beiSeg">
+        <button data-bei="today">Dnes</button>
+        <button data-bei="3d">3 dni</button>
+        <button data-bei="7d" class="active">7 dní</button>
+      </div>
+      <div class="bei-dates">
+        <input type="date" id="beiFrom" value="2026-06-20" min="2026-06-20" max="2026-06-26">
+        <input type="date" id="beiTo" value="2026-06-26" min="2026-06-20" max="2026-06-26">
+      </div>
+    </div>
+  </div>
+  <div class="grid two-col">
+    <div class="card"><div class="card-title">Business Efficiency Index, základ Jan-May 2025 = 100<span class="tag mono" id="beiTrendTag">—</span></div><div class="chart-wrap"><canvas id="efficiencyChart"></canvas></div></div>
+    <div class="card bei-card">
+      <div class="eyebrow">Aktuálne · vybrané obdobie</div>
+      <div class="bei-big" id="beiValue">50</div>
+      <div class="bei-bar"><div class="bei-fill" id="beiFill" style="width:50%"></div></div>
+      <div class="bei-ticks"><span>0</span><span>80</span><span>100</span><span>140</span></div>
+      <div style="margin-top:14px"><span class="tag" id="beiStatus">—</span></div>
+      <p class="bei-sub" id="beiNote">Index je orientačný, kým nie je napojená presná hrubá marža a COGS.</p>
+      <details><summary>Metodika</summary><p class="bei-sub" style="margin-top:10px">Blended ROAS (30 %), PNO (25 %), ceny nákupu voči hrubému zisku (15 %), efektivita reklám (15 %), efektivita stránky (15 %). Po napojení presnej marže prepočítať na finálnu bázu.</p></details>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head">
+    <div><div class="eyebrow">03 — Trend</div><h2>Tržby a spend</h2>
+    <p class="sub">Posledných 7 dní: 20. 6. – 26. 6. 2026. PNO = Meta spend / Shopify total_sales.</p></div>
+    <div class="metric-toggle">
+      <button data-metric="revenue" class="active">Tržby</button>
+      <button data-metric="spend">Spend</button>
+      <button data-metric="pno">PNO</button>
+      <button data-metric="blendedRoas">Blended ROAS</button>
+    </div>
+  </div>
+  <div class="grid two-col">
+    <div class="card"><div class="card-title" id="mainChartTitle">Revenue vs spend</div><div class="chart-wrap"><canvas id="mainChart"></canvas></div></div>
+    <div class="card">
+      <div class="card-title">Insighty</div>
+      <div class="insights" id="insights" style="margin-top:10px"></div>
+      <div class="note">Dnešný blok je priebežný: Meta atribúcia aj Shopify objednávky sa počas dňa môžu ešte meniť.</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head">
+    <div><div class="eyebrow">04 — Denný výkon</div><h2>Rozpad po dňoch</h2>
+    <p class="sub">Shopify total_sales pre tržby, average_order_value pre AOV. Meta dáta sú account-level.</p></div>
+    <span class="range-label" id="rowCount"></span>
+  </div>
+  <div class="tbl-wrap"><table><thead><tr><th>Dátum</th><th>Tržby</th><th>Obj.</th><th>AOV</th><th>Spend</th><th>PNO</th><th>Bl. ROAS</th><th>Meta ROAS</th><th>CPA</th><th>CTR</th><th>CPM</th><th>CR</th><th>BEI</th></tr></thead><tbody id="dailyRows"></tbody></table></div>
+</section>
+
+<section>
+  <div class="sec-head">
+    <div><div class="eyebrow">05 — Paid media</div><h2>Top Meta kampane</h2>
+    <p class="sub">Posledný Meta campaign report za 20. 6. – 26. 6. 2026, zoradené podľa spendu.</p></div>
+    <span class="range-label"><b>20. 6.</b> – <b>26. 6.</b></span>
+  </div>
+  <div class="grid two-col">
+    <div class="card"><div class="card-title">Spend podľa kampane</div><div class="chart-wrap sm"><canvas id="campaignChart"></canvas></div></div>
+    <div class="card"><div class="tbl-wrap" style="border:0"><table><thead><tr><th>Kampaň</th><th>Spend</th><th>ROAS</th><th>CTR</th><th>CPM</th></tr></thead><tbody id="campaignRows"></tbody></table></div></div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head">
+    <div><div class="eyebrow">06 — Produkty</div><h2>Top produkty</h2>
+    <p class="sub">Shopify sales breakdown za najnovšie dostupné 7-dňové okno: 20. 6. – 26. 6. 2026.</p></div>
+    <span class="range-label">Shopify · gross</span>
+  </div>
+  <div class="tbl-wrap"><table><thead><tr><th>Produkt</th><th>Gross sales</th><th>Net sales</th><th>Obj.</th></tr></thead><tbody id="productRows"></tbody></table></div>
+</section>
+
+</main>
+<p class="foot">SOURCES — Shopify Admin: orders, revenue, sessions, product breakdown · Meta MCP: account &amp; campaign paid media · BEI je čiastočný bez presnej marže a COGS · repo serneyy/tw-perf-dashboard</p>
+</div>
+
+<script>
+const rawDays=[{date:'2026-06-20',label:'20. 6.',revenue:1080.01,netSales:934.05,orders:10,aov:93.405,spend:221.41,metaRoas:1.38,ctr:1.57,cpm:5.21,clicks:669,impressions:42521,metaPurchases:4,cr:1.4675052410901468,sessions:477,bei:68},{date:'2026-06-21',label:'21. 6.',revenue:202.82,netSales:159.38,orders:6,aov:52.673,spend:272.69,metaRoas:0.68,ctr:1.74,cpm:5.08,clicks:935,impressions:53633,metaPurchases:3,cr:0.8849557522123894,sessions:565,bei:21},{date:'2026-06-22',label:'22. 6.',revenue:761.06,netSales:625.52,orders:9,aov:69.502,spend:232.13,metaRoas:1.14,ctr:1.66,cpm:5.54,clicks:697,impressions:41893,metaPurchases:6,cr:1.1131725417439704,sessions:539,bei:53},{date:'2026-06-23',label:'23. 6.',revenue:1098.65,netSales:885.67,orders:14,aov:63.262,spend:214.04,metaRoas:5.05,ctr:1.66,cpm:4.69,clicks:755,impressions:45615,metaPurchases:12,cr:1.2939001848428835,sessions:541,bei:87},{date:'2026-06-24',label:'24. 6.',revenue:182.36,netSales:153.25,orders:2,aov:76.625,spend:211.13,metaRoas:0.28,ctr:1.39,cpm:3.86,clicks:762,impressions:54676,metaPurchases:1,cr:0.19723865877712032,sessions:507,bei:17},{date:'2026-06-25',label:'25. 6.',revenue:935.18,netSales:796.91,orders:12,aov:68.512,spend:211.6,metaRoas:1.36,ctr:1.57,cpm:4.06,clicks:817,impressions:52164,metaPurchases:4,cr:1.4678899082568808,sessions:545,bei:61},{date:'2026-06-26',label:'26. 6.',revenue:739.68,netSales:614.83,orders:7,aov:87.832,spend:137.55,metaRoas:2.2,ctr:1.37,cpm:3.87,clicks:488,impressions:35563,metaPurchases:3,cr:1.2195121951219512,sessions:328,partial:true,bei:72}];
+const campaigns=[{name:'[DE] - DABA - A+',spend:813.79,roas:0.64,ctr:1.5,cpm:6.97},{name:'[T2] - DABA - A+',spend:227.26,roas:2.1,ctr:1.53,cpm:2.58},{name:'[T2] - VIDEO - A+ - ai v1',spend:181.5,roas:4.42,ctr:1.56,cpm:2.32},{name:'[DE] - VIDEO - A+ - ai v1',spend:133.79,roas:0.9,ctr:1.83,cpm:9.77},{name:'[DE] - VIDEO - A+ - perf',spend:56.69,roas:1.77,ctr:1.41,cpm:6.68},{name:'[DE] - VIDEO - A+ - organic',spend:52.4,roas:null,ctr:2.13,cpm:6.2},{name:'[IT] - DABA - A+ - RMK',spend:35.12,roas:11.04,ctr:2.03,cpm:2.87},{name:'ASC+ | EU',spend:0,roas:null,ctr:null,cpm:null}];
+const products=[{name:'TORNZ - Baggy Denim Embroidered Jorts',gross:393.14,net:204.16,orders:7},{name:'WINGLY - Baggy Cotton Graphic Shorts',gross:349.27,net:209.57,orders:6},{name:'SYMBOLIKA - Oversized Print Zip Up Hoodie',gross:292.05,net:166.08,orders:3},{name:'STRIPASO - Baggy Graphic Jeans',gross:230.47,net:130.49,orders:3},{name:'SKICEN - Oversized Graphic Jersey T-Shirt',gross:211.24,net:126.76,orders:5},{name:'WESTY - Oversized Graphic Shirt',gross:156.18,net:88.51,orders:2},{name:'FREAKING - Oversized Print T-shirt',gross:134.49,net:50.52,orders:3},{name:'VERTEBRAX - Boxy Fit Print T-shirt',gross:133.76,net:45.59,orders:3},{name:'SPIKY - Oversized Print T-Shirt',gross:128.68,net:80.71,orders:3},{name:'FORGIVEN - Oversized Print T-Shirt',gross:127.01,net:76.21,orders:3}];
+
+const eur=new Intl.NumberFormat('sk-SK',{style:'currency',currency:'EUR',maximumFractionDigits:2});
+const num=new Intl.NumberFormat('sk-SK',{maximumFractionDigits:2});
+const pct=v=>v==null||Number.isNaN(v)?'—':num.format(v)+' %';
+const money=v=>v==null||Number.isNaN(v)?'—':eur.format(v);
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+let selectedMetric='revenue',mainChart,efficiencyChart,campaignChart;
+const rangeEls={from:document.getElementById('fromDate'),to:document.getElementById('toDate')};
+const rows=()=>rawDays.filter(r=>r.date>=rangeEls.from.value&&r.date<=rangeEls.to.value);
+const beiEls={from:document.getElementById('beiFrom'),to:document.getElementById('beiTo')};
+const beiRows=()=>rawDays.filter(r=>r.date>=beiEls.from.value&&r.date<=beiEls.to.value);
+const gpEls={from:document.getElementById('gpFrom'),to:document.getElementById('gpTo')};
+const gpRows=()=>rawDays.filter(r=>r.date>=gpEls.from.value&&r.date<=gpEls.to.value);
+
+function calculateBei(a){if(!a.revenue||!a.metaPurchases||!a.spend||a.metaRoas==null)return null;const pno=a.spend/a.revenue*100,blended=a.revenue/a.spend,cpa=a.spend/a.metaPurchases,gp=(a.netSales/a.orders)*.35,gpc=gp/cpa*100,adEff=(a.metaRoas/3.7210763859043348*50)+(22.281203830369353/cpa*30)+(a.ctr/2.553477572363772*20),siteEff=(a.cr/1.0392857361709429*70)+((a.netSales/a.orders)/78.84036556603775*30);return Math.round((blended/8.209532919602445*30)+(12.180960960790275/pno*25)+(gpc/100*15)+(adEff/100*15)+(siteEff/100*15))}
+function aggregate(list){const sum=k=>list.reduce((a,r)=>a+(r[k]||0),0),revenue=sum('revenue'),netSales=sum('netSales'),spend=sum('spend'),orders=sum('orders'),clicks=sum('clicks'),impressions=sum('impressions'),metaPurchases=sum('metaPurchases'),sessions=sum('sessions'),metaRevenue=list.reduce((a,r)=>a+(r.metaRoas==null?0:r.spend*r.metaRoas),0),metaSpend=list.reduce((a,r)=>a+(r.metaRoas==null?0:r.spend),0);const cr=sessions?list.reduce((a,r)=>a+(r.cr||0)*r.sessions,0)/sessions:0,ctr=impressions?clicks/impressions*100:0;const agg={revenue,netSales,spend,orders,clicks,impressions,metaPurchases,sessions,aov:orders?netSales/orders:null,pno:revenue?spend/revenue*100:null,blendedRoas:spend&&revenue?revenue/spend:null,metaRoas:metaSpend?metaRevenue/metaSpend:null,ctr,cpm:impressions?spend/impressions*1000:null,cpa:metaPurchases?spend/metaPurchases:null,cr};agg.bei=calculateBei(agg);return agg}
+function kpiStatus(k,v){if(v==null)return'warn';if(k==='metaRoas')return v>=3.5?(v>=4?'pos':'warn'):'neg';if(k==='blendedRoas')return v>=6.7?(v>=7.5?'pos':'warn'):'neg';if(k==='pno')return v<=15?(v<=13.5?'pos':'warn'):'neg';if(k==='cpa')return v<=26?(v<=24?'pos':'warn'):'neg';if(k==='ctr')return v>=1.8?(v>=2.2?'pos':'warn'):'neg';if(k==='cpm')return'warn';if(k==='bei')return v>=100?'pos':v>=80?'warn':'neg';return'warn'}
+function statusText(k,v){const s=kpiStatus(k,v);if(v==null)return'bez dát';if(k==='cpm')return'sledovať';if(s==='pos')return'blízko ideálu';if(s==='warn')return'v poriadku';return'slabší výsledok'}
+
+/* ---- guidepost config (scale + target zone) ---- */
+const GP=[
+ {k:'metaRoas',label:'Meta ROAS',fmt:'num',min:0,max:6,lo:4.0,hi:4.5,goal:'4,0–4,5',limit:'min 3,5'},
+ {k:'blendedRoas',label:'Blended ROAS',fmt:'num',min:0,max:11,lo:7.5,hi:8.5,goal:'7,5–8,5',limit:'min 6,7'},
+ {k:'pno',label:'PNO / Marketing',fmt:'pct',min:0,max:40,lo:12,hi:13.5,goal:'12–13,5 %',limit:'max ~15 %'},
+ {k:'cpa',label:'CPA',fmt:'eur',min:0,max:50,lo:20,hi:24,goal:'20–24 €',limit:'max ~26 €'},
+ {k:'ctr',label:'CTR Meta',fmt:'pct',min:0,max:4,lo:2.2,hi:2.8,goal:'2,2–2,8 %',limit:'min ~1,8 %'},
+ {k:'cpm',label:'CPM',fmt:'eur',flat:true,limit:'sledovať podľa krajiny'},
+ {k:'bei',label:'Business Efficiency Index',fmt:'num',min:0,max:140,lo:100,hi:140,goal:'100+',limit:'min 80'}
+];
+function fmtVal(f,v){if(v==null)return'—';if(f==='eur')return eur.format(v);if(f==='pct')return num.format(v)+'<span class="u">%</span>';return num.format(v)}
+function renderGuards(){const list=gpRows();if(!list.length)return;const a=aggregate(list);const pos=(c,v)=>clamp((v-c.min)/(c.max-c.min)*100,1.5,98.5);
+ document.getElementById('gauges').innerHTML=GP.map(c=>{const v=a[c.k],s=kpiStatus(c.k,v);
+  if(c.flat){return `<article class="gp gp-flat"><div class="gp-top"><div class="gp-label">${c.label}</div><span class="tag warn">sledovať</span></div><div class="gp-val">${fmtVal(c.fmt,v)}</div><div class="gauge-flat"></div><div class="gp-goals"><div class="gp-goal"><span>Pásmo</span><b>${c.limit}</b></div></div></article>`}
+  const zl=pos(c,c.lo),zr=pos(c,c.hi),mk=pos(c,v);
+  return `<article class="gp ${s==='neg'?'is-neg':''}"><div class="gp-top"><div class="gp-label">${c.label}</div><span class="tag ${s}">${statusText(c.k,v)}</span></div><div class="gp-val">${fmtVal(c.fmt,v)}</div><div class="gauge"><div class="gauge-track"><div class="gauge-zone" style="left:${zl}%;width:${Math.max(zr-zl,1.5)}%"></div><div class="gauge-marker ${s}" style="left:${mk}%"></div></div><div class="gauge-scale"><span>${num.format(c.min)}</span><span>${num.format(c.max)}</span></div></div><div class="gp-goals"><div class="gp-goal"><span>Cieľ</span><b>${c.goal}</b></div><div class="gp-goal"><span>Hranica</span><b>${c.limit}</b></div></div></article>`}).join('')}
+function renderToday(){const t=rawDays.find(r=>r.partial)||rawDays[rawDays.length-1];const pno=t.spend/t.revenue*100,blended=t.revenue/t.spend,cpa=t.metaPurchases?t.spend/t.metaPurchases:null;
+ const cells=[
+  {l:'Tržby',v:money(t.revenue),s:null},
+  {l:'Ad spend',v:money(t.spend),s:['warn','priebežné']},
+  {l:'PNO',v:pct(pno),s:[kpiStatus('pno',pno),statusText('pno',pno)]},
+  {l:'Blended ROAS',v:num.format(blended),s:[kpiStatus('blendedRoas',blended),statusText('blendedRoas',blended)]},
+  {l:'Meta ROAS',v:num.format(t.metaRoas),s:[kpiStatus('metaRoas',t.metaRoas),statusText('metaRoas',t.metaRoas)]},
+  {l:'CPA',v:money(cpa),s:[kpiStatus('cpa',cpa),statusText('cpa',cpa)]},
+  {l:'CR',v:pct(t.cr),s:['warn','priebežné']},
+  {l:'BEI',v:num.format(t.bei),s:[kpiStatus('bei',t.bei),statusText('bei',t.bei)]},
+  {l:'AOV',v:money(t.aov),s:null},
+  {l:'Objednávky',v:num.format(t.orders),s:null}
+ ];
+ document.getElementById('todayGrid').innerHTML=cells.map(c=>`<div class="kpi"><div class="kpi-l">${c.l}</div><div class="kpi-v">${c.v}</div><div class="kpi-foot">${c.s?`<span class="tag ${c.s[0]}">${c.s[1]}</span>`:''}</div></div>`).join('')}
+
+const vGrad=(ctx,from,to)=>{const ch=ctx.chart,{ctx:c,chartArea}=ch;if(!chartArea)return from;const g=c.createLinearGradient(0,chartArea.top,0,chartArea.bottom);g.addColorStop(0,from);g.addColorStop(1,to);return g};
+const hGrad=(ctx,from,to)=>{const ch=ctx.chart,{ctx:c,chartArea}=ch;if(!chartArea)return from;const g=c.createLinearGradient(chartArea.left,0,chartArea.right,0);g.addColorStop(0,from);g.addColorStop(1,to);return g};
+function baseOptions(){return{responsive:true,maintainAspectRatio:false,layout:{padding:{top:6}},animation:{duration:650,easing:'easeOutQuart'},interaction:{mode:'index',intersect:false},plugins:{legend:{labels:{color:'#3f3f46',boxWidth:8,boxHeight:8,usePointStyle:true,pointStyle:'circle',padding:15,font:{family:'Inter',size:12,weight:'500'}}},tooltip:{backgroundColor:'#09090b',titleColor:'#fff',bodyColor:'#d4d4d8',borderColor:'rgba(255,255,255,.08)',borderWidth:1,padding:12,cornerRadius:10,boxPadding:5,usePointStyle:true,titleFont:{family:'JetBrains Mono',weight:'600',size:12},bodyFont:{family:'Inter',size:12}}},scales:{x:{ticks:{color:'#a1a1aa',padding:8,font:{family:'JetBrains Mono',size:10.5}},grid:{display:false},border:{display:false}},y:{ticks:{color:'#a1a1aa',padding:10,maxTicksLimit:6,font:{family:'JetBrains Mono',size:10.5}},grid:{color:'rgba(9,9,11,.05)',drawTicks:false},border:{display:false}}}}}
+function renderCharts(list){const labels=list.map(r=>r.label);if(mainChart)mainChart.destroy();
+ const ds=selectedMetric==='revenue'?[{type:'bar',label:'Tržby',data:list.map(r=>r.revenue),backgroundColor:c=>vGrad(c,'#18181b','#52525b'),borderWidth:0,borderRadius:7,borderSkipped:false,maxBarThickness:26,order:2},{type:'line',label:'Spend',data:list.map(r=>r.spend),borderColor:'#dc2626',backgroundColor:c=>vGrad(c,'rgba(220,38,38,.15)','rgba(220,38,38,0)'),tension:.4,cubicInterpolationMode:'monotone',pointRadius:0,pointHoverRadius:5,pointHoverBackgroundColor:'#dc2626',pointHoverBorderColor:'#fff',pointHoverBorderWidth:2,borderWidth:2.5,fill:true,order:1}]:[{type:'line',label:selectedMetric==='pno'?'PNO %':selectedMetric==='spend'?'Spend':'Blended ROAS',data:list.map(r=>selectedMetric==='pno'?(r.revenue?r.spend/r.revenue*100:null):selectedMetric==='spend'?r.spend:r.revenue/r.spend),borderColor:'#09090b',backgroundColor:c=>vGrad(c,'rgba(9,9,11,.12)','rgba(9,9,11,0)'),tension:.4,cubicInterpolationMode:'monotone',pointRadius:0,pointHoverRadius:5,pointHoverBackgroundColor:'#09090b',pointHoverBorderColor:'#fff',pointHoverBorderWidth:2,borderWidth:2.5,fill:true}];
+ document.getElementById('mainChartTitle').textContent=selectedMetric==='revenue'?'Revenue vs spend':selectedMetric==='spend'?'Meta spend trend':selectedMetric==='pno'?'PNO trend':'Blended ROAS trend';
+ mainChart=new Chart(document.getElementById('mainChart'),{data:{labels,datasets:ds},options:baseOptions()});
+ if(campaignChart)campaignChart.destroy();
+ campaignChart=new Chart(document.getElementById('campaignChart'),{type:'bar',data:{labels:campaigns.map(c=>c.name),datasets:[{label:'Spend',data:campaigns.map(c=>c.spend),backgroundColor:c=>hGrad(c,'#52525b','#09090b'),borderWidth:0,borderRadius:5,borderSkipped:false,maxBarThickness:15}]},options:{...baseOptions(),indexAxis:'y',scales:{x:{ticks:{color:'#a1a1aa',padding:8,font:{family:'JetBrains Mono',size:10.5}},grid:{color:'rgba(9,9,11,.05)',drawTicks:false},border:{display:false}},y:{ticks:{color:'#52525b',font:{family:'Inter',size:11}},grid:{display:false},border:{display:false}}},plugins:{legend:{display:false},tooltip:baseOptions().plugins.tooltip}}})}
+function renderTables(list){
+ document.getElementById('dailyRows').innerHTML=list.map(r=>{const pno=r.revenue?r.spend/r.revenue*100:null,blended=r.revenue/r.spend,cpa=r.metaPurchases?r.spend/r.metaPurchases:null;
+ return `<tr><td class="lead">${r.label}${r.partial?' ·':''}</td><td class="n">${money(r.revenue)}</td><td class="n">${r.orders}</td><td class="n">${money(r.aov)}</td><td class="n">${money(r.spend)}</td><td class="n ${pno>18?'neg-c':''}">${pct(pno)}</td><td class="n ${blended<5.5?'neg-c':''}">${num.format(blended)}</td><td class="n ${r.metaRoas<3?'neg-c':''}">${num.format(r.metaRoas)}</td><td class="n ${cpa>30?'neg-c':''}">${money(cpa)}</td><td class="n ${r.ctr<1.8?'neg-c':''}">${pct(r.ctr)}</td><td class="n">${money(r.cpm)}</td><td class="n">${pct(r.cr)}</td><td class="n ${r.bei<80?'neg-c':''}">${num.format(r.bei)}</td></tr>`}).join('');
+ document.getElementById('campaignRows').innerHTML=campaigns.map(c=>`<tr><td><span class="camp-name"><span class="dotk"></span>${c.name}</span></td><td class="n">${money(c.spend)}</td><td class="n ${c.roas!=null&&c.roas<1?'neg-c':''}">${c.roas==null?'—':num.format(c.roas)}</td><td class="n ${c.ctr<1.8?'neg-c':''}">${pct(c.ctr)}</td><td class="n">${money(c.cpm)}</td></tr>`).join('');
+ const maxG=Math.max(...products.map(p=>p.gross));
+ document.getElementById('productRows').innerHTML=products.map(p=>`<tr><td class="lead">${p.name}</td><td class="n prod-bar"><span style="width:${(p.gross/maxG*100).toFixed(1)}%"></span><em>${money(p.gross)}</em></td><td class="n">${money(p.net)}</td><td class="n">${p.orders}</td></tr>`).join('')}
+
+function renderInsights(a,list){const best=[...list].sort((x,y)=>y.revenue-x.revenue)[0],worst=[...list].sort((x,y)=>(y.spend/y.revenue)-(x.spend/x.revenue))[0];
+ document.getElementById('insights').innerHTML=[
+ `<div class="ins neg"><i></i><div>PNO je <b>${pct(a.pno)}</b>. Stabilnejší režim je do ~15 %, takže ekonomika spendu je teraz rizikovejšia.</div></div>`,
+ `<div class="ins neg"><i></i><div>Blended ROAS <b>${num.format(a.blendedRoas)}</b> oproti cieľu 7,5–8,5. Pod 5,5 je slabší stav na scale.</div></div>`,
+ `<div class="ins pos"><i></i><div>Najsilnejší deň <b>${best.label}</b> — tržby <b>${money(best.revenue)}</b>, ${best.orders} obj.</div></div>`,
+ `<div class="ins warn"><i></i><div>Najťažší PNO deň <b>${worst.label}</b> — PNO <b>${pct(worst.spend/worst.revenue*100)}</b>.</div></div>`,
+ `<div class="ins"><i></i><div>Meta ROAS <b>${num.format(a.metaRoas)}</b> · CTR <b>${pct(a.ctr)}</b> za vybrané obdobie.</div></div>`
+ ].join('')}
+
+function renderBei(){const list=beiRows();if(!list.length)return;const a=aggregate(list),labels=list.map(r=>r.label);
+ const beiTxt=a.bei==null?'—':num.format(a.bei);
+ document.getElementById('beiValue').textContent=beiTxt;
+ document.getElementById('beiFill').style.width=clamp((a.bei||0)/140*100,0,100)+'%';
+ const bs=document.getElementById('beiStatus');bs.className='tag '+kpiStatus('bei',a.bei);bs.textContent=statusText('bei',a.bei)+' · '+beiTxt+' / 100';
+ const dir=list.length>1?(list[list.length-1].bei-list[0].bei):0;const tt=document.getElementById('beiTrendTag');tt.className='tag mono '+(dir>0?'pos':dir<0?'neg':'');tt.textContent=(dir>0?'▲ +':dir<0?'▼ ':'→ ')+Math.abs(dir)+' · '+labels[0]+'–'+labels[labels.length-1];
+ if(efficiencyChart)efficiencyChart.destroy();
+ efficiencyChart=new Chart(document.getElementById('efficiencyChart'),{type:'line',data:{labels,datasets:[{label:'BEI',data:list.map(r=>r.bei),borderColor:'#09090b',backgroundColor:c=>vGrad(c,'rgba(9,9,11,.13)','rgba(9,9,11,0)'),tension:.4,cubicInterpolationMode:'monotone',pointRadius:0,pointHoverRadius:5,pointHoverBackgroundColor:'#09090b',pointHoverBorderColor:'#fff',pointHoverBorderWidth:2,borderWidth:2.5,fill:true},{label:'Cieľ 100',data:list.map(()=>100),borderColor:'rgba(21,128,61,.7)',borderDash:[5,5],pointRadius:0,borderWidth:1.5},{label:'Min 80',data:list.map(()=>80),borderColor:'rgba(180,83,9,.6)',borderDash:[3,5],pointRadius:0,borderWidth:1.5}]},options:baseOptions()})}
+
+function update(){const list=rows(),a=aggregate(list);if(!list.length)return;
+ document.getElementById('rowCount').innerHTML=`<b>${list.length}</b> dní`;
+ renderToday();renderCharts(list);renderTables(list);renderInsights(a,list)}
+
+document.querySelectorAll('[data-preset]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('[data-preset]').forEach(x=>x.classList.remove('active'));b.classList.add('active');const p=b.dataset.preset;if(p==='today'){rangeEls.from.value='2026-06-26';rangeEls.to.value='2026-06-26'}if(p==='3d'){rangeEls.from.value='2026-06-24';rangeEls.to.value='2026-06-26'}if(p==='7d'){rangeEls.from.value='2026-06-20';rangeEls.to.value='2026-06-26'}update()}));
+document.querySelectorAll('[data-metric]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('[data-metric]').forEach(x=>x.classList.remove('active'));b.classList.add('active');selectedMetric=b.dataset.metric;renderCharts(rows())}));
+[rangeEls.from,rangeEls.to].forEach(i=>i.addEventListener('change',()=>{if(rangeEls.from.value>rangeEls.to.value)rangeEls.to.value=rangeEls.from.value;document.querySelectorAll('[data-preset]').forEach(b=>b.classList.remove('active'));update()}));
+document.querySelectorAll('[data-bei]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('[data-bei]').forEach(x=>x.classList.remove('active'));b.classList.add('active');const p=b.dataset.bei;if(p==='today'){beiEls.from.value='2026-06-26';beiEls.to.value='2026-06-26'}if(p==='3d'){beiEls.from.value='2026-06-24';beiEls.to.value='2026-06-26'}if(p==='7d'){beiEls.from.value='2026-06-20';beiEls.to.value='2026-06-26'}renderBei()}));
+[beiEls.from,beiEls.to].forEach(i=>i.addEventListener('change',()=>{if(beiEls.from.value>beiEls.to.value)beiEls.to.value=beiEls.from.value;document.querySelectorAll('[data-bei]').forEach(b=>b.classList.remove('active'));renderBei()}));
+document.querySelectorAll('[data-gp]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('[data-gp]').forEach(x=>x.classList.remove('active'));b.classList.add('active');const p=b.dataset.gp;if(p==='today'){gpEls.from.value='2026-06-26';gpEls.to.value='2026-06-26'}if(p==='3d'){gpEls.from.value='2026-06-24';gpEls.to.value='2026-06-26'}if(p==='7d'){gpEls.from.value='2026-06-20';gpEls.to.value='2026-06-26'}renderGuards()}));
+[gpEls.from,gpEls.to].forEach(i=>i.addEventListener('change',()=>{if(gpEls.from.value>gpEls.to.value)gpEls.to.value=gpEls.from.value;document.querySelectorAll('[data-gp]').forEach(b=>b.classList.remove('active'));renderGuards()}));
+
+update();renderBei();renderGuards();
+</script>
+</body></html>
